@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.someexp.modules.user.mapper.ParkingMapper">
+    <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Parking" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
+        insert into parking
+            (uid, name, content, longitude, latitude, status, stateUpdateDate)
+        values (#{uid}, #{name}, #{content}, #{longitude}, #{latitude}, 0, #{stateUpdateDate})
+    </insert>
+
+    <select id="getByLocation" resultType="com.someexp.modules.user.domain.entity.Parking">
+        select id
+        from parking
+        where longitude = #{longitude}
+          and latitude = #{latitude}
+        limit 1
+    </select>
+</mapper>

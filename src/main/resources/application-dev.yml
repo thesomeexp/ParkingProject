@@ -1,0 +1,47 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.153.67:3306/parking?serverTimezone=Asia/Shanghai&useSSL=false&characterEncoding=utf8
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+# i18n: https://howtodoinjava.com/spring-boot2/rest/i18n-internationalization/
+#    initial-size: 2
+#    min-idle: 1
+#    max-active: 20
+#    max-wait: 60000
+
+#Mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+# SLF4J配置
+
+
+someexp:
+  jwt:
+    header: Authorization
+    jwt-prefix: Bearer
+    secret: dGhpc0lzU2VjcmV0 # base64编码后的secret
+    expire: 10800000 # 过期时间3h(3 * 60 * 60 * 1000) * 1000
+# 自定义的多数据源, 目前还没使用到
+#  datasource:
+#    primary:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://192.168.153.67:3306/parking?serverTimezone=Asia/Shanghai&useSSL=false&characterEncoding=utf8
+#      username: root
+#      password: 123456
+#    secondary:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://192.168.1.67:3306/parking_log?useSSL=false
+#      username: root
+#      password: 123456
+
+
