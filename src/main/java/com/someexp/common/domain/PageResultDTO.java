@@ -14,22 +14,22 @@ public class PageResultDTO<T> {
     /**
      * 当前页
      */
-    private Long pageNum;
+    private int pageNum;
 
     /**
      * 每页的数量
      */
-    private Long pageSize;
+    private int pageSize;
 
     /**
      * 总记录数
      */
-    private Long total;
+    private long total;
 
     /**
      * 总页数
      */
-    private Long pages;
+    private int pages;
 
     /**
      * 结果集

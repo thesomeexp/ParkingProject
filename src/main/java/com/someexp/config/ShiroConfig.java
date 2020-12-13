@@ -1,5 +1,6 @@
 package com.someexp.config;
 
+import com.someexp.config.shiro.AdminFilter;
 import com.someexp.config.shiro.JwtFilter;
 import com.someexp.config.shiro.JwtRealm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -27,15 +28,19 @@ public class ShiroConfig {
         LinkedHashMap<String, Filter> filters = new LinkedHashMap<>();
 
         filters.put("jwt", new JwtFilter());
+        filters.put("admin", new AdminFilter());
         shiroFilterFactoryBean.setFilters(filters);
 
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
         filterChainDefinitionMap.put("/user/register", "anon");
         filterChainDefinitionMap.put("/user/login", "anon");
-        filterChainDefinitionMap.put("/admin/login", "anon");
         // 访问图片不需要验证
         filterChainDefinitionMap.put("/parking/photo/**", "anon");
+
+        filterChainDefinitionMap.put("/admin/login", "anon");
+        filterChainDefinitionMap.put("/admin/**", "jwt, admin");
+
         filterChainDefinitionMap.put("/**", "jwt");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

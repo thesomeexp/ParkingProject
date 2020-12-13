@@ -1,7 +1,7 @@
 package com.someexp.modules.admin.controller;
 
 import com.someexp.common.domain.Result;
-import com.someexp.common.utils.MsgUtil;
+import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.validator.ValidatorUtils;
 import com.someexp.common.validator.group.LoginGroup;
 import com.someexp.modules.admin.domain.dto.AdminDTO;
@@ -10,11 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * @author someexp
@@ -32,17 +29,14 @@ public class AdminController {
 
         String jwt = adminService.login(adminDTO);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(jwt, MsgUtil.get("admin.login.success")));
+                .body(Result.success(jwt, MsgUtils.get("admin.login.success")));
     }
 
-
-    @GetMapping("/admin/{pid}")
-    public ResponseEntity<?> test(@PathVariable Integer pid) {
-        System.out.println("控制器收到了" + pid);
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-//        requestAttributes.getSessionId()
-
-        return ResponseEntity.status(HttpStatus.OK).body(Result.success(null, MsgUtil.get("test.success")));
+    @GetMapping("/admin/home")
+    public ResponseEntity<?> home() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Result.success(adminService.home(), MsgUtils.get("success")));
     }
+
 
 }

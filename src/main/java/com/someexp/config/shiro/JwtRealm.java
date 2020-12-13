@@ -1,9 +1,10 @@
 package com.someexp.config.shiro;
 
-import com.someexp.common.utils.JwtUtil;
-import com.someexp.common.utils.MsgUtil;
-import com.someexp.modules.user.domain.entity.User;
-import com.someexp.modules.user.mapper.UserMapper;
+import com.someexp.common.utils.JwtUtils;
+import com.someexp.common.utils.MsgUtils;
+import com.someexp.common.utils.ShiroUtils;
+import com.someexp.modules.sys.domain.entity.User;
+import com.someexp.modules.sys.mapper.ShiroMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -15,9 +16,9 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,11 +31,8 @@ public class JwtRealm extends AuthorizingRealm {
 
     private static transient final Logger log = LoggerFactory.getLogger(JwtRealm.class);
 
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private JwtUtil jwtUtil;
+    @Resource
+    private ShiroMapper shiroMapper;
 
     @Override
     public boolean supports(AuthenticationToken token) {
@@ -49,9 +47,10 @@ public class JwtRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        System.out.println("调用了授权");
+        User user = ShiroUtils.getUser();
         Set<String> permsSet = new HashSet<>();
-        permsSet.add("user:11");
+        // 因为此时只有一个, 简单设置一下就好
+        permsSet.add(user.getRole());
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.setStringPermissions(permsSet);
@@ -71,22 +70,21 @@ public class JwtRealm extends AuthorizingRealm {
 
         Long userId;
         try {
-            userId = JwtUtil.getIdByToken(jwtToken);
+            userId = JwtUtils.getIdByToken(jwtToken);
         } catch (ExpiredJwtException expiredJwtException) {
-            throw new AuthenticationException(MsgUtil.get("user.login.expire"));
+            throw new AuthenticationException(MsgUtils.get("user.login.expire"));
         } catch (Exception e) {
-            log.error("认证失败JwtRealm.AuthenticationInfo()");
-            e.printStackTrace();
-            throw new AuthenticationException(MsgUtil.get("user.login.verify.fail"));
+            log.error("认证失败JwtRealm.AuthenticationInfo()", e);
+            throw new AuthenticationException(MsgUtils.get("user.login.verify.fail"));
         }
 
-        User user = userMapper.getById(userId);
+        User user = shiroMapper.getById(userId);
         if (user == null) {
-            throw new AuthenticationException(MsgUtil.get("user.information.expired"));
+            throw new AuthenticationException(MsgUtils.get("user.information.expired"));
         }
 
         if (user.getStatus().equals(2L)) {
-            throw new AuthenticationException(MsgUtil.get("user.account.locked"));
+            throw new AuthenticationException(MsgUtils.get("user.account.locked"));
         }
 
         return new SimpleAuthenticationInfo(user, userId, getName());

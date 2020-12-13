@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
  * @date 2020/12/2
  */
 @Component
-public class PasswordEncoderUtil {
+public class PasswordEncoderUtils {
 
     private static BCryptPasswordEncoder ENCODER;
 
     @Autowired
-    public PasswordEncoderUtil(BCryptPasswordEncoder bCryptPasswordEncoder) {
-        PasswordEncoderUtil.ENCODER = bCryptPasswordEncoder;
+    public PasswordEncoderUtils(BCryptPasswordEncoder bCryptPasswordEncoder) {
+        PasswordEncoderUtils.ENCODER = bCryptPasswordEncoder;
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.someexp;
 
-import com.someexp.common.utils.PasswordEncoderUtil;
+import com.someexp.common.utils.PasswordEncoderUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,13 +16,13 @@ public class BCrypTest {
 
     @Test
     public void generator() {
-        String result = PasswordEncoderUtil.encode("333");
+        String result = PasswordEncoderUtils.encode("333");
         System.out.println(result);
 
-        Boolean b_result = PasswordEncoderUtil.matches("1234", result);
+        Boolean b_result = PasswordEncoderUtils.matches("1234", result);
         System.out.println(b_result);
 
-        b_result = PasswordEncoderUtil.matches("123", result);
+        b_result = PasswordEncoderUtils.matches("123", result);
         System.out.println(b_result);
 
     }

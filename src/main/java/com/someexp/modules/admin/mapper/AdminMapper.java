@@ -10,4 +10,7 @@ public interface AdminMapper {
 
     User findByPhone(String phone);
 
+    Long countByStatus(Long status);
+
+    Long countAll();
 }

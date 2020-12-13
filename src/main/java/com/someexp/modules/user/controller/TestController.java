@@ -1,7 +1,7 @@
 package com.someexp.modules.user.controller;
 
 import com.someexp.common.domain.Result;
-import com.someexp.common.utils.MsgUtil;
+import com.someexp.common.utils.MsgUtils;
 import com.someexp.config.ShiroConfig;
 import com.someexp.modules.user.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -35,7 +35,7 @@ public class TestController {
     @GetMapping("/corsTest")
     public ResponseEntity<?> corsTest() {
 
-        return ResponseEntity.status(HttpStatus.OK).body(Result.success(null, MsgUtil.get("test.success")));
+        return ResponseEntity.status(HttpStatus.OK).body(Result.success(null, MsgUtils.get("test.success")));
     }
 
     @GetMapping("/test")
@@ -48,7 +48,7 @@ public class TestController {
         } else {
             System.out.println("not null");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(Result.success(null, MsgUtil.get("test.success")));
+        return ResponseEntity.status(HttpStatus.OK).body(Result.success(null, MsgUtils.get("test.success")));
     }
 
     @GetMapping("/auth")
@@ -56,7 +56,7 @@ public class TestController {
     public ResponseEntity<?> auth() {
         Subject subject = SecurityUtils.getSubject();
         System.out.println(subject.isPermitted("user:" + "11"));
-        return ResponseEntity.status(HttpStatus.OK).body(Result.success(null, MsgUtil.get("test.success")));
+        return ResponseEntity.status(HttpStatus.OK).body(Result.success(null, MsgUtils.get("test.success")));
     }
 
     @GetMapping("/red2")

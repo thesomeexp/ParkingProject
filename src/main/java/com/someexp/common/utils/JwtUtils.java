@@ -1,7 +1,10 @@
 package com.someexp.common.utils;
 
 import com.someexp.config.prop.JwtProperties;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,13 +16,13 @@ import java.util.Date;
  * @date 2020/9/23
  */
 @Component
-public class JwtUtil {
+public class JwtUtils {
 
     private static JwtProperties jwtProperties;
 
     @Autowired
-    public JwtUtil(JwtProperties jwtProperties) {
-        JwtUtil.jwtProperties = jwtProperties;
+    public JwtUtils(JwtProperties jwtProperties) {
+        JwtUtils.jwtProperties = jwtProperties;
     }
 
     /**
@@ -28,6 +31,7 @@ public class JwtUtil {
      * @param userId
      * @return
      */
+    @SneakyThrows
     public static String create(Long userId) {
         return Jwts.builder()
                 .claim("id", userId)
@@ -42,7 +46,8 @@ public class JwtUtil {
      * @param jwt
      * @return
      */
-    public static Claims decode(String jwt) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
+    @SneakyThrows
+    public static Claims decode(String jwt) {
         Claims claims;
         claims = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(jwtProperties.getSecret()))
@@ -56,7 +61,8 @@ public class JwtUtil {
      * @param jwt
      * @return
      */
-    public static Long getIdByToken(String jwt) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
+    @SneakyThrows
+    public static Long getIdByToken(String jwt) {
         Claims claims = decode(jwt);
         return claims.get("id", Long.class);
     }

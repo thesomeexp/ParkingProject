@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
  * @date 2020/10/24
  */
 @Component
-public class MsgUtil {
+public class MsgUtils {
 
     private static MessageSourceAccessor messageSourceAccessor;
 
     @Autowired
-    public MsgUtil(MessageSourceAccessor messageSourceAccessor) {
-        MsgUtil.messageSourceAccessor = messageSourceAccessor;
+    public MsgUtils(MessageSourceAccessor messageSourceAccessor) {
+        MsgUtils.messageSourceAccessor = messageSourceAccessor;
     }
 
     public static String get(String code) {

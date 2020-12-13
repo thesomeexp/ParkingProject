@@ -2,8 +2,8 @@ package com.someexp.config.shiro;
 
 import com.google.gson.Gson;
 import com.someexp.common.domain.Result;
-import com.someexp.common.utils.JwtUtil;
-import com.someexp.common.utils.MsgUtil;
+import com.someexp.common.utils.JwtUtils;
+import com.someexp.common.utils.MsgUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -110,15 +110,15 @@ public class JwtFilter extends AuthenticatingFilter {
      */
     private String getRequestJwtToken(HttpServletRequest httpRequest) throws AuthenticationException {
         String jwtToken = null;
-        String authorization = httpRequest.getHeader(JwtUtil.getJwtProperties().getHeader());
+        String authorization = httpRequest.getHeader(JwtUtils.getJwtProperties().getHeader());
         if (StringUtils.isEmpty(authorization)) {
-            throw new AuthenticationException(MsgUtil.get("user.login.jwt.is.empty"));
+            throw new AuthenticationException(MsgUtils.get("user.login.jwt.is.empty"));
         }
 
-        if (!authorization.startsWith(JwtUtil.getJwtProperties().getJwtPrefix())) {
-            throw new AuthenticationException(MsgUtil.get("user.login.jwt.format.illegal"));
+        if (!authorization.startsWith(JwtUtils.getJwtProperties().getJwtPrefix())) {
+            throw new AuthenticationException(MsgUtils.get("user.login.jwt.format.illegal"));
         } else {
-            jwtToken = authorization.substring(JwtUtil.getJwtProperties().getJwtPrefix().length() + 1).trim();
+            jwtToken = authorization.substring(JwtUtils.getJwtProperties().getJwtPrefix().length() + 1).trim();
         }
         return jwtToken;
     }

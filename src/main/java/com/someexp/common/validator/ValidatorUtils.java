@@ -1,7 +1,7 @@
 package com.someexp.common.validator;
 
 import com.someexp.common.exception.ParamsException;
-import com.someexp.common.utils.MsgUtil;
+import com.someexp.common.utils.MsgUtils;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;
@@ -41,7 +41,7 @@ public class ValidatorUtils {
         if (!constraintViolations.isEmpty()) {
             StringBuilder msg = new StringBuilder();
             for (ConstraintViolation<Object> constraint : constraintViolations) {
-                msg.append(MsgUtil.get(constraint.getMessage()) + ", ");
+                msg.append(MsgUtils.get(constraint.getMessage()) + ", ");
             }
             String result = msg.substring(0, msg.length() - 2);
             throw new ParamsException(result);

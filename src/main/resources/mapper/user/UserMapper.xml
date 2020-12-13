@@ -17,6 +17,6 @@
             keyProperty="id" keyColumn="id">
         insert into user
             (name, password, phone, role, score, status, useful, unuseful)
-        values (#{name}, #{password}, #{phone}, 'user', 0, 1, 1, 1)
+        values (#{name}, #{password}, #{phone}, 'user', 0, 1, 0, 0)
     </insert>
 </mapper>

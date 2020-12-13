@@ -1,10 +1,11 @@
 package com.someexp.modules.admin.service.impl;
 
 import com.someexp.common.exception.BusinessException;
-import com.someexp.common.utils.JwtUtil;
-import com.someexp.common.utils.MsgUtil;
-import com.someexp.common.utils.PasswordEncoderUtil;
+import com.someexp.common.utils.JwtUtils;
+import com.someexp.common.utils.MsgUtils;
+import com.someexp.common.utils.PasswordEncoderUtils;
 import com.someexp.modules.admin.domain.dto.AdminDTO;
+import com.someexp.modules.admin.domain.vo.HomeVO;
 import com.someexp.modules.admin.mapper.AdminMapper;
 import com.someexp.modules.admin.service.AdminService;
 import com.someexp.modules.user.domain.entity.User;
@@ -26,15 +27,25 @@ public class AdminServiceImpl implements AdminService {
     public String login(AdminDTO adminDTO) {
         User user = adminMapper.findByPhone(adminDTO.getPhone());
         if (user == null) {
-            throw new BusinessException(MsgUtil.get("admin.not.found"));
+            throw new BusinessException(MsgUtils.get("admin.not.found"));
         }
 
-        if (!PasswordEncoderUtil.matches(adminDTO.getPassword(), user.getPassword())) {
-            throw new BusinessException(MsgUtil.get("admin.password.dont.match"));
+        if (!PasswordEncoderUtils.matches(adminDTO.getPassword(), user.getPassword())) {
+            throw new BusinessException(MsgUtils.get("admin.password.dont.match"));
         }
 
-        String token = JwtUtil.create(user.getId());
+        String token = JwtUtils.create(user.getId());
         return token;
+    }
+
+    @Override
+    public HomeVO home() {
+        HomeVO homeVO = new HomeVO();
+        homeVO.setSum(adminMapper.countAll());
+        homeVO.setVerified(adminMapper.countByStatus(1L));
+        homeVO.setUnverified(adminMapper.countByStatus(0L));
+        homeVO.setDisabled(adminMapper.countByStatus(2L));
+        return homeVO;
     }
 
 }

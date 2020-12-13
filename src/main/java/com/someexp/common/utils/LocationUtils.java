@@ -7,7 +7,7 @@ import com.someexp.common.variable.CommonVariable;
  * @author someexp
  * @date 2020/12/3
  */
-public class LocationUtil {
+public class LocationUtils {
 
     /**
      * 解析经纬度并判断是否合法, 不合法则抛出异常
@@ -23,7 +23,7 @@ public class LocationUtil {
             }
             return xyArray;
         } catch (Exception e) {
-            throw new ParamsException(MsgUtil.get("parking.location.illegal"));
+            throw new ParamsException(MsgUtils.get("parking.location.illegal"));
         }
     }
 
@@ -45,7 +45,7 @@ public class LocationUtil {
             xyArray[1] = douY;
             return xyArray;
         } catch (Exception e) {
-            throw new ParamsException(MsgUtil.get("parking.location.illegal"));
+            throw new ParamsException(MsgUtils.get("parking.location.illegal"));
         }
     }
 

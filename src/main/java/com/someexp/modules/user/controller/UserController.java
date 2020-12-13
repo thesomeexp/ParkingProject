@@ -1,7 +1,7 @@
 package com.someexp.modules.user.controller;
 
 import com.someexp.common.domain.Result;
-import com.someexp.common.utils.MsgUtil;
+import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.validator.ValidatorUtils;
 import com.someexp.common.validator.group.LoginGroup;
 import com.someexp.common.validator.group.RegisterGroup;
@@ -39,7 +39,7 @@ public class UserController {
 
         String name = userService.register(userDTO);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(name, MsgUtil.get("user.register.success")));
+                .body(Result.success(name, MsgUtils.get("user.register.success")));
     }
 
     /**
@@ -54,7 +54,7 @@ public class UserController {
 
         String jwt = userService.login(userDTO);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(jwt, MsgUtil.get("user.login.success")));
+                .body(Result.success(jwt, MsgUtils.get("user.login.success")));
     }
 
 }

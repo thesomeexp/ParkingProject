@@ -2,7 +2,7 @@ package com.someexp.modules.user.controller;
 
 import com.someexp.common.domain.Result;
 import com.someexp.common.exception.ParamsException;
-import com.someexp.common.utils.MsgUtil;
+import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.validator.ValidatorUtils;
 import com.someexp.common.validator.group.AddGroup;
 import com.someexp.modules.user.domain.dto.ParkingDTO;
@@ -31,18 +31,18 @@ public class ParkingController {
     public ResponseEntity<?> add(ParkingDTO parkingDTO) {
         ValidatorUtils.validateEntity(parkingDTO, AddGroup.class);
         if (parkingDTO.getImage().isEmpty()) {
-            throw new ParamsException(MsgUtil.get("parking.image.cant.be.null"));
+            throw new ParamsException(MsgUtils.get("parking.image.cant.be.null"));
         }
         // 检查文件后缀
         String filename = parkingDTO.getImage().getOriginalFilename();
         if (!filename.endsWith(".png") && !filename.endsWith(".jpg")) {
-            throw new ParamsException(MsgUtil.get("parking.image.not.a.image"));
+            throw new ParamsException(MsgUtils.get("parking.image.not.a.image"));
         }
 
         String name = parkingService.add(parkingDTO);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(name, MsgUtil.get("parking.successful.application")));
+                .body(Result.success(name, MsgUtils.get("parking.successful.application")));
     }
-    
+
 
 }

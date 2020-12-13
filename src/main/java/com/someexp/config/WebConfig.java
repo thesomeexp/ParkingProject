@@ -1,7 +1,6 @@
 package com.someexp.config;
 
 import com.someexp.common.variable.CommonVariable;
-import com.someexp.interceptor.TestInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -22,7 +21,9 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new TestInterceptor()).addPathPatterns("/admin/**");
+//        registry.addInterceptor(new TestInterceptor())
+//                .addPathPatterns("/admin/**")
+//                .excludePathPatterns("/admin/login");
     }
 
     /**

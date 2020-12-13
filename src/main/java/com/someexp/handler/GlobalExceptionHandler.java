@@ -3,7 +3,7 @@ package com.someexp.handler;
 import com.someexp.common.domain.Result;
 import com.someexp.common.exception.BusinessException;
 import com.someexp.common.exception.ParamsException;
-import com.someexp.common.utils.MsgUtil;
+import com.someexp.common.utils.MsgUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
@@ -32,18 +32,18 @@ public class GlobalExceptionHandler {
         // http 请求方式错误
         if (e instanceof HttpRequestMethodNotSupportedException) {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(Result.fail(MsgUtil.get("error.method.not.allowed")));
+                    .body(Result.fail(MsgUtils.get("error.method.not.allowed")));
         }
 
         // 参数类型错误
         if (e instanceof TypeMismatchException) {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(Result.fail(MsgUtil.get("error.unsupported.media.type")));
+                    .body(Result.fail(MsgUtils.get("error.unsupported.media.type")));
         }
 
         if (e instanceof HttpMessageNotReadableException) {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(Result.fail(MsgUtil.get("error.http.message.not.readable.exception")));
+                    .body(Result.fail(MsgUtils.get("error.http.message.not.readable.exception")));
         }
 
         // 参数有误
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
 
         // 未知错误
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.fail(MsgUtil.get("error.internal.server.error")));
+                .body(Result.fail(MsgUtils.get("error.internal.server.error")));
     }
 
 }

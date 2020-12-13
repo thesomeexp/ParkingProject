@@ -1,9 +1,9 @@
 package com.someexp.modules.user.service.impl;
 
 import com.someexp.common.exception.BusinessException;
-import com.someexp.common.utils.LocationUtil;
-import com.someexp.common.utils.MsgUtil;
-import com.someexp.common.utils.ShiroUtil;
+import com.someexp.common.utils.LocationUtils;
+import com.someexp.common.utils.MsgUtils;
+import com.someexp.common.utils.ShiroUtils;
 import com.someexp.common.variable.CommonVariable;
 import com.someexp.modules.user.domain.dto.ParkingDTO;
 import com.someexp.modules.user.domain.entity.Parking;
@@ -44,15 +44,15 @@ public class ParkingServiceImpl implements ParkingService {
         Parking parking = new Parking();
         parking.setName(parkingDTO.getName());
         parking.setContent(parkingDTO.getContent());
-        parking.setUid(ShiroUtil.getUserId());
+        parking.setUid(ShiroUtils.getUserId());
 
-        double[] xyArray = LocationUtil.parseLocation(parkingDTO.getLocation());
+        double[] xyArray = LocationUtils.parseLocation(parkingDTO.getLocation());
         parking.setLongitude(xyArray[0]);
         parking.setLatitude(xyArray[1]);
         parking.setStateUpdateDate(LocalDateTime.now());
 
         if (isLocationExist(parking.getLongitude(), parking.getLatitude())) {
-            throw new BusinessException(MsgUtil.get("parking.location.exist"));
+            throw new BusinessException(MsgUtils.get("parking.location.exist"));
         }
         parkingMapper.save(parking);
 
@@ -61,7 +61,7 @@ public class ParkingServiceImpl implements ParkingService {
             parkingDTO.getImage().transferTo(new File(filePath));
         } catch (IOException e) {
             log.error("上传文件错误", e);
-            throw new BusinessException(MsgUtil.get("parking.image.error"));
+            throw new BusinessException(MsgUtils.get("parking.image.error"));
         }
 
         return parking.getName();

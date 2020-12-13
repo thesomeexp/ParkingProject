@@ -8,4 +8,16 @@
         where phone = #{phone}
           and role = 'admin';
     </select>
+
+    <select id="countByStatus" resultType="java.lang.Long">
+        select count(*)
+        from parking
+        where status = #{status};
+    </select>
+
+    <select id="countAll" resultType="java.lang.Long">
+        select count(*)
+        from parking;
+    </select>
+
 </mapper>
