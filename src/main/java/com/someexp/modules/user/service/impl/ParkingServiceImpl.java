@@ -12,6 +12,7 @@ import com.someexp.modules.user.service.ParkingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -38,11 +39,11 @@ public class ParkingServiceImpl implements ParkingService {
      * @param parkingDTO
      * @return
      */
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public String add(ParkingDTO parkingDTO) {
         Parking parking = new Parking();
-        parking.setName(parkingDTO.getName());
+        parking.setName(parkingDTO.getName().trim());
         parking.setContent(parkingDTO.getContent());
         parking.setUid(ShiroUtils.getUserId());
 

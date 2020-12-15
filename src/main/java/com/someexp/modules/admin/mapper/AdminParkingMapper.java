@@ -13,4 +13,7 @@ public interface AdminParkingMapper {
 
     List<Parking> listAll(ParkingQuery parkingQuery);
 
+    Parking get(Long id);
+
+    void update(Parking parking);
 }

@@ -2,12 +2,14 @@ package com.someexp.modules.admin.domain.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author someexp
  * @date 2020/12/7
  */
 @Data
-public class HomeVO {
+public class HomeVO implements Serializable {
 
     /**
      * 总数量

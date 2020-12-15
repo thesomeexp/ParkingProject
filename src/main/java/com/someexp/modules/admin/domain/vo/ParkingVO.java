@@ -1,4 +1,4 @@
-package com.someexp.modules.admin.domain.entity;
+package com.someexp.modules.admin.domain.vo;
 
 import lombok.Data;
 
@@ -7,10 +7,10 @@ import java.util.Date;
 
 /**
  * @author someexp
- * @date 2020/12/9
+ * @date 2020/12/13
  */
 @Data
-public class Parking implements Serializable {
+public class ParkingVO implements Serializable {
 
     private Long id;
 

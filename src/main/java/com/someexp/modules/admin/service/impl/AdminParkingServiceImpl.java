@@ -3,9 +3,13 @@ package com.someexp.modules.admin.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.someexp.common.domain.PageResultDTO;
+import com.someexp.common.exception.ParamsException;
 import com.someexp.common.utils.BeanUtils;
+import com.someexp.common.utils.LocationUtils;
+import com.someexp.modules.admin.domain.dto.ParkingUpdateDTO;
 import com.someexp.modules.admin.domain.entity.Parking;
 import com.someexp.modules.admin.domain.query.ParkingQuery;
+import com.someexp.modules.admin.domain.vo.ParkingVO;
 import com.someexp.modules.admin.mapper.AdminParkingMapper;
 import com.someexp.modules.admin.service.AdminParkingService;
 import org.springframework.stereotype.Service;
@@ -31,5 +35,35 @@ public class AdminParkingServiceImpl implements AdminParkingService {
         BeanUtils.copyProperties(page, pageResultDTO);
         pageResultDTO.setList(page.getResult());
         return pageResultDTO;
+    }
+
+    @Override
+    public ParkingVO get(Long id) {
+        Parking parking = adminParkingMapper.get(id);
+        if (parking == null) {
+            throw new ParamsException("parking.not.exist");
+        }
+        ParkingVO parkingVO = new ParkingVO();
+        BeanUtils.copyProperties(parking, parkingVO);
+        return parkingVO;
+    }
+
+    @Override
+    public String update(Long id, ParkingUpdateDTO parkingUpdateDTO) {
+        double[] xyArray = LocationUtils.parseLocation(parkingUpdateDTO.getLocation());
+
+        Parking parking = adminParkingMapper.get(id);
+        if (parking == null) {
+            throw new ParamsException("parking.not.exist");
+        }
+
+        parking.setName(parkingUpdateDTO.getName());
+        parking.setContent(parkingUpdateDTO.getContent());
+        parking.setStatus(parkingUpdateDTO.getStatus());
+        parking.setLongitude(xyArray[0]);
+        parking.setLatitude(xyArray[1]);
+
+        adminParkingMapper.update(parking);
+        return parking.getName();
     }
 }

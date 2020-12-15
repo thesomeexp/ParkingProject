@@ -16,4 +16,32 @@
         order by id desc
     </select>
 
+    <select id="get" resultType="com.someexp.modules.admin.domain.entity.Parking">
+        select *
+        from parking
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.someexp.modules.admin.domain.entity.Parking">
+        update parking
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="longitude != null and longitude != ''">
+                longitude = #{longitude},
+            </if>
+            <if test="latitude != null and latitude != ''">
+                latitude = #{latitude},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>

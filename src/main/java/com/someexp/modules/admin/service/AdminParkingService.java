@@ -1,7 +1,9 @@
 package com.someexp.modules.admin.service;
 
 import com.someexp.common.domain.PageResultDTO;
+import com.someexp.modules.admin.domain.dto.ParkingUpdateDTO;
 import com.someexp.modules.admin.domain.query.ParkingQuery;
+import com.someexp.modules.admin.domain.vo.ParkingVO;
 
 /**
  * @author someexp
@@ -9,4 +11,8 @@ import com.someexp.modules.admin.domain.query.ParkingQuery;
  */
 public interface AdminParkingService {
     PageResultDTO<?> list(ParkingQuery parkingQuery);
+
+    ParkingVO get(Long id);
+
+    String update(Long id, ParkingUpdateDTO parkingUpdateDTO);
 }

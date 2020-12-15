@@ -4,6 +4,7 @@ import com.someexp.common.validator.group.UpdateGroup;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author someexp
@@ -33,7 +34,7 @@ public class ParkingUpdateDTO {
     /**
      * 状态:0.未验证1.已验证2.已禁用
      */
-    @NotBlank(message = "parking.status.cant.be.null", groups = UpdateGroup.class)
+    @NotNull(message = "parking.status.cant.be.null", groups = UpdateGroup.class)
     private Integer status;
 
 }
