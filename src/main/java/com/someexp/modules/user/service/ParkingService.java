@@ -1,6 +1,10 @@
 package com.someexp.modules.user.service;
 
 import com.someexp.modules.user.domain.dto.ParkingDTO;
+import com.someexp.modules.user.domain.query.ParkingQuery;
+import com.someexp.modules.user.domain.vo.ParkingVO;
+
+import java.util.List;
 
 /**
  * @author someexp
@@ -9,5 +13,7 @@ import com.someexp.modules.user.domain.dto.ParkingDTO;
 public interface ParkingService {
 
     String add(ParkingDTO parkingDTO);
+
+    List<ParkingVO> list(ParkingQuery parkingQuery);
 
 }

@@ -15,4 +15,18 @@
           and latitude = #{latitude}
         limit 1
     </select>
+
+    <select id="list" resultType="com.someexp.modules.user.domain.vo.ParkingVO">
+        SELECT *,
+               TRUNCATE(SQRT(
+                                    POW(69.1 * (latitude - #{latitude}), 2) +
+                                    POW(69.1 * (#{longitude} - longitude) * COS(latitude / 57.3), 2)) * 1.675,
+                        2) AS distance
+        FROM parking force index (parking_longitude_latitude_uindex)
+        where longitude between #{longitude} - #{kilometer} * 0.575 / 69.172 / COS(RADIANS(#{latitude}))
+            and #{longitude} + #{kilometer} * 0.575 / 69.172 / COS(RADIANS(#{latitude}))
+          and latitude between #{latitude} - #{kilometer} * 0.575 / 69.172
+            and #{latitude} + #{kilometer} * 0.575 / 69.172
+        order by distance
+    </select>
 </mapper>

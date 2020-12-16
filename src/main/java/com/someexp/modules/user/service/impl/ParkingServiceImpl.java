@@ -7,6 +7,8 @@ import com.someexp.common.utils.ShiroUtils;
 import com.someexp.common.variable.CommonVariable;
 import com.someexp.modules.user.domain.dto.ParkingDTO;
 import com.someexp.modules.user.domain.entity.Parking;
+import com.someexp.modules.user.domain.query.ParkingQuery;
+import com.someexp.modules.user.domain.vo.ParkingVO;
 import com.someexp.modules.user.mapper.ParkingMapper;
 import com.someexp.modules.user.service.ParkingService;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author someexp
@@ -66,6 +69,13 @@ public class ParkingServiceImpl implements ParkingService {
         }
 
         return parking.getName();
+    }
+
+    @Override
+    public List<ParkingVO> list(ParkingQuery parkingQuery) {
+        double[] xyArray = LocationUtils.parseLocation(parkingQuery.getLocation());
+        List<ParkingVO> list = parkingMapper.list(xyArray[0], xyArray[1], CommonVariable.NEARBY_RANGE);
+        return list;
     }
 
     private Boolean isLocationExist(Double longitude, Double latitude) {

@@ -6,6 +6,7 @@ import com.someexp.common.domain.PageResultDTO;
 import com.someexp.common.exception.ParamsException;
 import com.someexp.common.utils.BeanUtils;
 import com.someexp.common.utils.LocationUtils;
+import com.someexp.common.utils.MsgUtils;
 import com.someexp.modules.admin.domain.dto.ParkingUpdateDTO;
 import com.someexp.modules.admin.domain.entity.Parking;
 import com.someexp.modules.admin.domain.query.ParkingQuery;
@@ -41,7 +42,7 @@ public class AdminParkingServiceImpl implements AdminParkingService {
     public ParkingVO get(Long id) {
         Parking parking = adminParkingMapper.get(id);
         if (parking == null) {
-            throw new ParamsException("parking.not.exist");
+            throw new ParamsException(MsgUtils.get("parking.not.exist"));
         }
         ParkingVO parkingVO = new ParkingVO();
         BeanUtils.copyProperties(parking, parkingVO);
@@ -54,7 +55,7 @@ public class AdminParkingServiceImpl implements AdminParkingService {
 
         Parking parking = adminParkingMapper.get(id);
         if (parking == null) {
-            throw new ParamsException("parking.not.exist");
+            throw new ParamsException(MsgUtils.get("parking.not.exist"));
         }
 
         parking.setName(parkingUpdateDTO.getName());

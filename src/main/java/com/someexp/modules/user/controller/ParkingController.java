@@ -5,13 +5,16 @@ import com.someexp.common.exception.ParamsException;
 import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.validator.ValidatorUtils;
 import com.someexp.common.validator.group.AddGroup;
+import com.someexp.common.validator.group.QueryGroup;
 import com.someexp.modules.user.domain.dto.ParkingDTO;
+import com.someexp.modules.user.domain.query.ParkingQuery;
 import com.someexp.modules.user.service.ParkingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,5 +47,11 @@ public class ParkingController {
                 .body(Result.success(name, MsgUtils.get("parking.successful.application")));
     }
 
+    @GetMapping("/parking")
+    public ResponseEntity<?> list(ParkingQuery parkingQuery) {
+        ValidatorUtils.validateEntity(parkingQuery, QueryGroup.class);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Result.success(parkingService.list(parkingQuery), MsgUtils.get("success")));
+    }
 
 }
