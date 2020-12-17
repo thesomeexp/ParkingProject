@@ -16,4 +16,6 @@ public interface ParkingService {
 
     List<ParkingVO> list(ParkingQuery parkingQuery);
 
+    ParkingVO get(Long id);
+
 }

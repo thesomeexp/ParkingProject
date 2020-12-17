@@ -19,4 +19,6 @@ public interface ParkingMapper {
     List<ParkingVO> list(@Param("longitude") Double longitude,
                          @Param("latitude") Double latitude,
                          @Param("kilometer") Double kilometer);
+
+    ParkingVO get(Long id);
 }

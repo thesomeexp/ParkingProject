@@ -40,6 +40,11 @@ public class ParkingVO implements Serializable {
     private Double latitude;
 
     /**
+     * 坐标
+     */
+    private String location;
+
+    /**
      * 图片链接
      */
     private String firstUrl;

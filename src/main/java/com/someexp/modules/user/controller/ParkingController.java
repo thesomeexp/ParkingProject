@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,6 +53,12 @@ public class ParkingController {
         ValidatorUtils.validateEntity(parkingQuery, QueryGroup.class);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Result.success(parkingService.list(parkingQuery), MsgUtils.get("success")));
+    }
+
+    @GetMapping("/parking/{id}")
+    public ResponseEntity<?> get(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Result.success(parkingService.get(id), MsgUtils.get("success")));
     }
 
 }

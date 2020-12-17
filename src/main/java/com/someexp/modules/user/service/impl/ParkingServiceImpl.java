@@ -78,6 +78,11 @@ public class ParkingServiceImpl implements ParkingService {
         return list;
     }
 
+    @Override
+    public ParkingVO get(Long id) {
+        return parkingMapper.get(id);
+    }
+
     private Boolean isLocationExist(Double longitude, Double latitude) {
         Parking parking = parkingMapper.getByLocation(longitude, latitude);
         if (parking == null) {

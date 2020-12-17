@@ -13,7 +13,6 @@
         from parking
         where longitude = #{longitude}
           and latitude = #{latitude}
-        limit 1
     </select>
 
     <select id="list" resultType="com.someexp.modules.user.domain.vo.ParkingVO">
@@ -29,5 +28,11 @@
             and #{latitude} + #{kilometer} * 0.575 / 69.172
           and status = 1
         order by distance
+    </select>
+
+    <select id="get" resultType="com.someexp.modules.user.domain.vo.ParkingVO">
+        select *, concat(longitude, concat(',', latitude)) as location
+        from parking
+        where id = #{id}
     </select>
 </mapper>
