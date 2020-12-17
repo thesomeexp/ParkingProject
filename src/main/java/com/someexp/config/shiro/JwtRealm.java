@@ -74,7 +74,7 @@ public class JwtRealm extends AuthorizingRealm {
         } catch (ExpiredJwtException expiredJwtException) {
             throw new AuthenticationException(MsgUtils.get("user.login.expire"));
         } catch (Exception e) {
-            log.error("认证失败JwtRealm.AuthenticationInfo()", e);
+//            log.error("认证失败JwtRealm.AuthenticationInfo()", e);
             throw new AuthenticationException(MsgUtils.get("user.login.verify.fail"));
         }
 

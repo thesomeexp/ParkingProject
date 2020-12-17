@@ -27,6 +27,7 @@
             and #{longitude} + #{kilometer} * 0.575 / 69.172 / COS(RADIANS(#{latitude}))
           and latitude between #{latitude} - #{kilometer} * 0.575 / 69.172
             and #{latitude} + #{kilometer} * 0.575 / 69.172
+          and status = 1
         order by distance
     </select>
 </mapper>
