@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -34,7 +35,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/register")
-    public ResponseEntity<?> register(UserDTO userDTO) {
+    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
         ValidatorUtils.validateEntity(userDTO, RegisterGroup.class);
 
         String name = userService.register(userDTO);
@@ -49,7 +50,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/login")
-    public ResponseEntity<?> login(UserDTO userDTO) {
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
         ValidatorUtils.validateEntity(userDTO, LoginGroup.class);
 
         String jwt = userService.login(userDTO);

@@ -21,4 +21,9 @@ public interface ParkingMapper {
                          @Param("kilometer") Double kilometer);
 
     ParkingVO get(Long id);
+
+    Parking getEntity(Long id, Integer status);
+
+    void updateGraph(@Param("colName") String colName, @Param("state") Integer state,
+                     @Param("pid") Long pid);
 }

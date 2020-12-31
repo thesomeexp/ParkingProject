@@ -7,10 +7,12 @@ import com.someexp.common.utils.ShiroUtils;
 import com.someexp.common.variable.CommonVariable;
 import com.someexp.modules.user.domain.dto.ParkingDTO;
 import com.someexp.modules.user.domain.entity.Parking;
+import com.someexp.modules.user.domain.entity.Temp;
 import com.someexp.modules.user.domain.query.ParkingQuery;
 import com.someexp.modules.user.domain.vo.ParkingVO;
 import com.someexp.modules.user.mapper.ParkingMapper;
 import com.someexp.modules.user.service.ParkingService;
+import com.someexp.modules.user.service.TempService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,9 @@ public class ParkingServiceImpl implements ParkingService {
 
     @Resource
     private ParkingMapper parkingMapper;
+
+    @Resource
+    private TempService tempService;
 
     /**
      * 检查是否存在
@@ -81,6 +86,25 @@ public class ParkingServiceImpl implements ParkingService {
     @Override
     public ParkingVO get(Long id) {
         return parkingMapper.get(id);
+    }
+
+    @Override
+    public Parking getEntity(Long id) {
+        return getEntity(id, 1);
+    }
+
+    @Override
+    public Parking getEntity(Long id, Integer status) {
+        return parkingMapper.getEntity(id, status);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateGraph(Long tid) {
+        Temp temp = tempService.getEntity(tid);
+        int hours = temp.getStateUpdateDate().getHours();
+        String colName = 't' + String.valueOf(hours);
+        parkingMapper.updateGraph(colName, temp.getState(), temp.getPid());
     }
 
     private Boolean isLocationExist(Double longitude, Double latitude) {

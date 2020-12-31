@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.someexp.modules.user.mapper.TempMapper">
+
+    <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Temp" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
+        insert into temp
+            (pid, uid, state, useful, unuseful, stateUpdateDate)
+        values (#{pid}, #{uid}, #{state}, 0, 0, now())
+    </insert>
+    <select id="getByUidAndPidInterval" resultType="com.someexp.modules.user.domain.entity.Temp">
+        select *
+        from temp
+        where stateUpdateDate > date_sub(now(), interval '0 00:30:00' day_second)
+          and pid = #{pid}
+          and uid = #{uid}
+        limit 1
+    </select>
+    <select id="get" resultType="com.someexp.modules.user.domain.entity.Temp">
+        select *
+        from temp
+        where id = #{id}
+    </select>
+    <select id="list" resultType="com.someexp.modules.user.domain.entity.Temp">
+        select *
+        from temp
+        where stateUpdateDate > date_sub(now(), interval '0 00:30:00' day_second)
+          and pid = #{pid}
+        limit 5
+    </select>
+
+</mapper>

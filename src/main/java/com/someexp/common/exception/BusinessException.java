@@ -2,6 +2,7 @@ package com.someexp.common.exception;
 
 /**
  * 业务异常类
+ *
  * @author someexp
  * @date 2020/9/21
  */

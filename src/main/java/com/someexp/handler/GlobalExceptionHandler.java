@@ -9,6 +9,7 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -44,6 +45,11 @@ public class GlobalExceptionHandler {
         if (e instanceof HttpMessageNotReadableException) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(Result.fail(MsgUtils.get("error.http.message.not.readable.exception")));
+        }
+
+        if (e instanceof HttpMediaTypeNotSupportedException) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Result.fail(MsgUtils.get("error.http.media.type.not.supported")));
         }
 
         // 参数有误

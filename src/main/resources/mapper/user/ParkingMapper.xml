@@ -35,4 +35,17 @@
         from parking
         where id = #{id}
     </select>
+
+    <select id="getEntity" resultType="com.someexp.modules.user.domain.entity.Parking">
+        select *
+        from parking
+        where id = #{id}
+          and status = #{status}
+    </select>
+
+    <update id="updateGraph">
+        update parking
+        set ${colName} = (#{state} + ${colName}) / 2
+        where id = #{pid}
+    </update>
 </mapper>
