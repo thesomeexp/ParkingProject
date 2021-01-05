@@ -65,6 +65,9 @@ public class TempServiceImpl implements TempService {
         if (useful == null) {
             throw new BusinessException(MsgUtils.get("parameter.cant.be.null", new String[]{"useful"}));
         }
+        if (useful == 0) {
+            throw new BusinessException(MsgUtils.get("parameter.cant.be", new String[]{"useful", "0"}));
+        }
         if (useful == 1) {
             tempMapper.increaseUseful(tid);
         } else if (useful == -1) {
