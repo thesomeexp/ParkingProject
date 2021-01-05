@@ -2,6 +2,7 @@ package com.someexp.modules.user.service;
 
 import com.someexp.modules.user.domain.dto.TempDTO;
 import com.someexp.modules.user.domain.entity.Temp;
+import com.someexp.modules.user.domain.vo.TempVO;
 
 import java.util.List;
 
@@ -25,5 +26,5 @@ public interface TempService {
     /**
      * @return 最新5条Temp数据
      */
-    List<Temp> list(Long pid);
+    List<TempVO> list(Long pid);
 }

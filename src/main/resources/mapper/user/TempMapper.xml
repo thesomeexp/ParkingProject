@@ -21,12 +21,16 @@
         from temp
         where id = #{id}
     </select>
-    <select id="list" resultType="com.someexp.modules.user.domain.entity.Temp">
-        select *
-        from temp
-        where stateUpdateDate > date_sub(now(), interval '0 00:30:00' day_second)
-          and pid = #{pid}
-        limit 5
+    <select id="list" resultType="com.someexp.modules.user.domain.vo.TempVO">
+        select tmp.*, coalesce(tU.useful, 0) as myOpt
+        from tempUser tU
+                 right join (select *
+                             from temp
+                             where stateUpdateDate > date_sub(now(), interval '0 00:30:00' day_second)
+                               and pid = #{pid}
+                             limit 5) tmp
+                            on tU.tid = tmp.id and tU.uid = #{uid}
+        order by tmp.id desc
     </select>
 
 </mapper>

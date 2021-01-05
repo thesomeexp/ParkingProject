@@ -1,6 +1,7 @@
 package com.someexp.modules.user.mapper;
 
 import com.someexp.modules.user.domain.entity.Temp;
+import com.someexp.modules.user.domain.vo.TempVO;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface TempMapper {
 
     Temp get(Long id);
 
-    List<Temp> list(Long pid);
+    List<TempVO> list(Long pid, Long uid);
 }

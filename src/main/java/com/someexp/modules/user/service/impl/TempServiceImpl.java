@@ -6,6 +6,7 @@ import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.utils.ShiroUtils;
 import com.someexp.modules.user.domain.dto.TempDTO;
 import com.someexp.modules.user.domain.entity.Temp;
+import com.someexp.modules.user.domain.vo.TempVO;
 import com.someexp.modules.user.mapper.TempMapper;
 import com.someexp.modules.user.service.ParkingService;
 import com.someexp.modules.user.service.TempService;
@@ -52,7 +53,11 @@ public class TempServiceImpl implements TempService {
     }
 
     @Override
-    public List<Temp> list(Long pid) {
-        return tempMapper.list(pid);
+    public List<TempVO> list(Long pid) {
+        if (parkingService.getEntity(pid) == null) {
+            throw new BusinessException(MsgUtils.get("parking.not.exist"));
+        }
+        return tempMapper.list(pid, ShiroUtils.getUserId());
     }
+
 }
