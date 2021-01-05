@@ -27,4 +27,12 @@ public interface TempService {
      * @return 最新5条Temp数据
      */
     List<TempVO> list(Long pid);
+
+    /**
+     * 给对应的temp添加数量
+     *
+     * @param tid
+     * @param useful 添加有用还是无用的?
+     */
+    void increase(Long tid, Integer useful);
 }

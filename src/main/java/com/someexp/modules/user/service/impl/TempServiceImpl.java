@@ -60,4 +60,19 @@ public class TempServiceImpl implements TempService {
         return tempMapper.list(pid, ShiroUtils.getUserId());
     }
 
+    @Override
+    public void increase(Long tid, Integer useful) {
+        if (useful == null) {
+            throw new BusinessException(MsgUtils.get("parameter.cant.be.null", new String[]{"useful"}));
+        }
+        if (useful == 1) {
+            tempMapper.increaseUseful(tid);
+        } else if (useful == -1) {
+            tempMapper.increaseUnuseful(tid);
+        } else {
+            // do nothing...
+            throw new BusinessException(MsgUtils.get("parameter.illegal", new String[]{"useful"}));
+        }
+    }
+
 }

@@ -17,4 +17,8 @@ public interface TempMapper {
     Temp get(Long id);
 
     List<TempVO> list(Long pid, Long uid);
+
+    void increaseUseful(Long tid);
+
+    void increaseUnuseful(Long tid);
 }

@@ -32,5 +32,14 @@
                             on tU.tid = tmp.id and tU.uid = #{uid}
         order by tmp.id desc
     </select>
-
+    <update id="increaseUseful">
+        update temp
+        set useful = useful + 1
+        where id = #{tid};
+    </update>
+    <update id="increaseUnuseful">
+        update temp
+        set unuseful = unuseful + 1
+        where id = #{tid};
+    </update>
 </mapper>

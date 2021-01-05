@@ -2,4 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.someexp.modules.user.mapper.TempUserMapper">
 
+    <select id="getByTidAndUid" resultType="com.someexp.modules.user.domain.entity.TempUser">
+        select *
+        from tempUser
+        where tid = #{tid}
+          and uid = #{uid}
+    </select>
+    <insert id="save" parameterType="com.someexp.modules.user.domain.entity.TempUser" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
+        insert into tempUser
+            (uid, tid, useful, createdDate)
+        values (#{uid}, #{tid}, #{useful}, now())
+    </insert>
 </mapper>
