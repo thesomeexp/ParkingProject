@@ -35,4 +35,12 @@ public interface TempService {
      * @param useful 添加有用还是无用的?
      */
     void increase(Long tid, Integer useful);
+
+    /**
+     * 获取30分钟内的拥挤度, 如果没有结果返回-1
+     *
+     * @param pid
+     * @return
+     */
+    Double interval(Long pid);
 }

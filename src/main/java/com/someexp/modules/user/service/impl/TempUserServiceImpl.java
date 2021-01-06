@@ -31,9 +31,12 @@ public class TempUserServiceImpl implements TempUserService {
     @Transactional(rollbackFor = Exception.class)
     public Integer add(TempUserDTO tempUserDTO) {
         if (tempUserDTO.getUseful() == 0) {
-            throw new BusinessException(MsgUtils.get("parameter.cant.be", new String[]{"useful", "0"}));
+            throw new BusinessException(MsgUtils.get("parameter.illegal", new String[]{"useful", String.valueOf(tempUserDTO.getUseful())}));
         }
-        // 查询之前是否投票过, 有则不操作, 无则插入并更新
+        if (tempService.getEntity(tempUserDTO.getTid()) == null) {
+            throw new BusinessException(MsgUtils.get("common.not.found", new String[]{"temp"}));
+        }
+        // 查询之前是否投票过, 有则不操作, 无则插入
         Long userId = ShiroUtils.getUserId();
         TempUser tempUser = tempUserMapper.getByTidAndUid(tempUserDTO.getTid(), userId);
         if (tempUser != null) {
@@ -43,7 +46,7 @@ public class TempUserServiceImpl implements TempUserService {
         BeanUtils.copyProperties(tempUserDTO, newTempUser);
         newTempUser.setUid(userId);
         tempUserMapper.save(newTempUser);
-        // 添加对应temp的useful
+        // 增加对应temp的useful数量
         tempService.increase(newTempUser.getTid(), newTempUser.getUseful());
         return newTempUser.getUseful();
     }

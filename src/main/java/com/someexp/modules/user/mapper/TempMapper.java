@@ -16,6 +16,8 @@ public interface TempMapper {
 
     Temp get(Long id);
 
+    List<Temp> listEntity(Long pid);
+
     List<TempVO> list(Long pid, Long uid);
 
     void increaseUseful(Long tid);

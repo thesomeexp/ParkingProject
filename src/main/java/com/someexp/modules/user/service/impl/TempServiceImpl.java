@@ -73,9 +73,22 @@ public class TempServiceImpl implements TempService {
         } else if (useful == -1) {
             tempMapper.increaseUnuseful(tid);
         } else {
-            // do nothing...
-            throw new BusinessException(MsgUtils.get("parameter.illegal", new String[]{"useful"}));
+            throw new BusinessException(MsgUtils.get("parameter.illegal", new String[]{"useful", String.valueOf(useful)}));
         }
+    }
+
+    @Override
+    public Double interval(Long pid) {
+        List<Temp> temps = tempMapper.listEntity(pid);
+        if (temps.isEmpty()) {
+            return -1D;
+        }
+        double sum = 0;
+        for (Temp t : temps) {
+            sum += t.getState();
+        }
+        double result = sum / temps.size();
+        return result;
     }
 
 }

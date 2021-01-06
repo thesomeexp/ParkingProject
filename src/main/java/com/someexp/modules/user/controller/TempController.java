@@ -40,4 +40,11 @@ public class TempController {
                 .body(Result.success(tempService.list(tempQuery.getPid()), MsgUtils.get("success")));
     }
 
+    @GetMapping("/temp/interval")
+    public ResponseEntity<?> tempInterval(TempQuery tempQuery) {
+        ValidatorUtils.validateEntity(tempQuery, QueryGroup.class);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Result.success(tempService.interval(tempQuery.getPid()), MsgUtils.get("success")));
+    }
+
 }
