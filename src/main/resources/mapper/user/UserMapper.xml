@@ -16,7 +16,7 @@
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.User" useGeneratedKeys="true"
             keyProperty="id" keyColumn="id">
         insert into user
-            (name, password, phone, role, score, status, useful, unuseful)
-        values (#{name}, #{password}, #{phone}, 'user', 0, 1, 0, 0)
+            (name, password, phone, role, status)
+        values (#{name}, #{password}, #{phone}, 'user', 1)
     </insert>
 </mapper>

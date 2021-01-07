@@ -33,23 +33,8 @@ public class User implements Serializable {
     private String role;
 
     /**
-     * 积分
-     */
-    private Long score;
-
-    /**
      * 状态0未验证1已验证2已锁定
      */
     private Long status;
-
-    /**
-     * 有价值数量
-     */
-    private Long useful;
-
-    /**
-     * 无价值数量
-     */
-    private Long unuseful;
 
 }
