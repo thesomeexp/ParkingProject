@@ -16,5 +16,6 @@
         select *
         from review
         where pid = #{pid}
+        order by id desc
     </select>
 </mapper>
