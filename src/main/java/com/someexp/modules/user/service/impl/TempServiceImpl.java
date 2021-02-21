@@ -32,12 +32,13 @@ public class TempServiceImpl implements TempService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Integer add(TempDTO tempDTO) {
-        if (parkingService.getEntity(tempDTO.getPid()) == null) {
+        if (parkingService.getEntity(tempDTO.getPid(), 1) == null) {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
         }
         Temp temp = new Temp();
         BeanUtils.copyProperties(tempDTO, temp);
         temp.setUid(ShiroUtils.getUserId());
+
         if (tempMapper.getByUidAndPidInterval(temp.getUid(), temp.getPid()) != null) {
             throw new BusinessException(MsgUtils.get("temp.submit.later"));
         }
@@ -54,11 +55,13 @@ public class TempServiceImpl implements TempService {
 
     @Override
     public List<TempVO> list(Long pid) {
-        if (parkingService.getEntity(pid) == null) {
+        if (parkingService.getEntity(pid, 1) == null) {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
         }
         return tempMapper.list(pid, ShiroUtils.getUserId());
     }
+
+    // todo
 
     @Override
     public void increase(Long tid, Integer useful) {

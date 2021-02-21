@@ -102,5 +102,4 @@ public class ParkingVO implements Serializable {
 
     private Integer t23;
 
-    private Double distance;
 }

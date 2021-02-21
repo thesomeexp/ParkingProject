@@ -32,7 +32,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Integer add(ReviewDTO reviewDTO) {
-        if (parkingService.getEntity(reviewDTO.getPid()) == null) {
+        if (parkingService.getEntity(reviewDTO.getPid(), 1) == null) {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
         }
         Long userId = ShiroUtils.getUserId();

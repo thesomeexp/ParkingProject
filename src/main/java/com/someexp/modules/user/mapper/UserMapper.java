@@ -11,8 +11,6 @@ public interface UserMapper {
 
     User getByPhone(@Param("areaCode") Integer areaCode, @Param("phone") String phone);
 
-    User getById(Long id);
-
     void save(User user);
 
 }

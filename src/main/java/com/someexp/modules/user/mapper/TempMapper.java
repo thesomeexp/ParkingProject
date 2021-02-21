@@ -2,6 +2,7 @@ package com.someexp.modules.user.mapper;
 
 import com.someexp.modules.user.domain.entity.Temp;
 import com.someexp.modules.user.domain.vo.TempVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,17 +11,21 @@ import java.util.List;
  * @date 2020/12/31
  */
 public interface TempMapper {
-    void save(Temp temp);
 
     Temp getByUidAndPidInterval(Long uid, Long pid);
 
+    void save(Temp temp);
+
     Temp get(Long id);
 
-    List<Temp> listEntity(Long pid);
+    List<TempVO> list(@Param("pid") Long pid, @Param("uid") Long uid);
 
-    List<TempVO> list(Long pid, Long uid);
+    // todo
+
+    List<Temp> listEntity(Long pid);
 
     void increaseUseful(Long tid);
 
     void increaseUnuseful(Long tid);
+
 }

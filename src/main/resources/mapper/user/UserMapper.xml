@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.someexp.modules.user.mapper.UserMapper">
 
-    <resultMap id="RES_USER" type="com.someexp.modules.user.domain.entity.User">
+    <resultMap id="USER_ENTITY" type="com.someexp.modules.user.domain.entity.User">
         <id column="usr_id" property="id"/>
         <result column="usr_name" property="name"/>
         <result column="usr_password" property="password"/>
@@ -11,23 +11,18 @@
         <result column="usr_status" property="status"/>
     </resultMap>
 
-    <select id="getByPhone" resultMap="RES_USER">
-        select *
-        from user
-        where usr_area_code = #{areaCode}
-        and usr_phone = #{phone};
-    </select>
-
-    <select id="getById" resultMap="RES_USER">
-        select *
-        from user
-        where usr_id = #{id};
+    <select id="getByPhone" resultMap="USER_ENTITY">
+        SELECT *
+        FROM user
+        WHERE usr_area_code = #{areaCode}
+        AND usr_phone = #{phone};
     </select>
 
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.User" useGeneratedKeys="true"
             keyProperty="id" keyColumn="usr_id">
-        insert into user
+        INSERT INTO user
             (usr_name, usr_password, usr_area_code, usr_phone, usr_status)
-        values (#{name}, #{password}, #{areaCode}, #{phone}, 0);
+        VALUES (#{name}, #{password}, #{areaCode}, #{phone}, 0);
     </insert>
+
 </mapper>

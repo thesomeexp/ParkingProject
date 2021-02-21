@@ -11,6 +11,7 @@ import java.util.List;
  * @date 2020/12/31
  */
 public interface TempService {
+
     /**
      * @param tempDTO 拥挤度信息
      * @return 拥挤度
@@ -43,4 +44,5 @@ public interface TempService {
      * @return
      */
     Double interval(Long pid);
+    
 }

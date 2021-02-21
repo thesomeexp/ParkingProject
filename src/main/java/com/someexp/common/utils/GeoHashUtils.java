@@ -4,6 +4,11 @@ import ch.hsr.geohash.GeoHash;
 
 public class GeoHashUtils {
 
+
+    public static String getGeoHash(Double longitude, Double latitude) {
+        return getGeoHash(longitude, latitude, 6);
+    }
+
     /**
      * location --> hash
      *

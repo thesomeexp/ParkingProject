@@ -12,6 +12,7 @@
         <result column="usr_status" property="status"/>
     </resultMap>
 
+    <!--todo-->
     <select id="findByPhone" resultType="com.someexp.modules.user.domain.entity.User">
         select *
         from user

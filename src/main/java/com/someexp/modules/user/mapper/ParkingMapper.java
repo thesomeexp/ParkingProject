@@ -11,14 +11,13 @@ import java.util.List;
  * @date 2020/12/3
  */
 public interface ParkingMapper {
+
+    List<Parking> list(String[] geohashs);
+
     void save(Parking parking);
 
     Parking getByLocation(@Param("longitude") Double longitude,
                           @Param("latitude") Double latitude);
-
-    List<ParkingVO> list(@Param("longitude") Double longitude,
-                         @Param("latitude") Double latitude,
-                         @Param("kilometer") Double kilometer);
 
     ParkingVO get(Long id);
 
@@ -27,6 +26,9 @@ public interface ParkingMapper {
     void updateGraph(@Param("colName") String colName, @Param("state") Integer state,
                      @Param("pid") Long pid);
 
+    // todo
+
     void updateGeoHash(@Param("geohash") String geohash,
                        @Param("pid") Long pid);
+
 }

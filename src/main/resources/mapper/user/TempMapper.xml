@@ -2,50 +2,79 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.someexp.modules.user.mapper.TempMapper">
 
+    <resultMap id="TEMP_ENTITY" type="com.someexp.modules.user.domain.entity.Temp">
+        <id column="tmp_id" property="id"/>
+        <result column="tmp_pid" property="pid"/>
+        <result column="tmp_uid" property="uid"/>
+        <result column="tmp_state" property="state"/>
+        <result column="tmp_useful" property="useful"/>
+        <result column="tmp_unuseful" property="unuseful"/>
+        <result column="tmp_update_date" property="stateUpdateDate"/>
+    </resultMap>
+
+    <resultMap id="TEMP_VO" type="com.someexp.modules.user.domain.vo.TempVO">
+        <id column="tmp_id" property="id"/>
+        <result column="tmp_pid" property="pid"/>
+        <result column="tmp_uid" property="uid"/>
+        <result column="tmp_state" property="state"/>
+        <result column="tmp_useful" property="useful"/>
+        <result column="tmp_unuseful" property="unuseful"/>
+        <result column="tmp_update_date" property="stateUpdateDate"/>
+        <result column="my_opt" property="myOpt"/>
+    </resultMap>
+
+    <select id="getByUidAndPidInterval" resultMap="TEMP_ENTITY">
+        SELECT *
+        FROM temp
+        WHERE tmp_uid = #{uid}
+          AND tmp_pid = #{pid}
+          AND tmp_update_date > date_sub(now(), interval '0 00:30:00' day_second)
+        LIMIT 1
+    </select>
+
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Temp" useGeneratedKeys="true"
-            keyProperty="id" keyColumn="id">
-        insert into temp
-            (pid, uid, state, useful, unuseful, stateUpdateDate)
-        values (#{pid}, #{uid}, #{state}, 0, 0, now())
+            keyProperty="id" keyColumn="tmp_id">
+        INSERT INTO temp
+            (tmp_pid, tmp_uid, tmp_state, tmp_useful, tmp_unuseful, tmp_update_date)
+        VALUES (#{pid}, #{uid}, #{state}, 0, 0, now())
     </insert>
-    <select id="getByUidAndPidInterval" resultType="com.someexp.modules.user.domain.entity.Temp">
-        select *
-        from temp
-        where stateUpdateDate > date_sub(now(), interval '0 00:30:00' day_second)
-          and pid = #{pid}
-          and uid = #{uid}
-        limit 1
+
+    <select id="get" resultMap="TEMP_ENTITY">
+        SELECT *
+        FROM temp
+        WHERE tmp_id = #{id}
     </select>
-    <select id="get" resultType="com.someexp.modules.user.domain.entity.Temp">
-        select *
-        from temp
-        where id = #{id}
-    </select>
-    <select id="listEntity" resultType="com.someexp.modules.user.domain.entity.Temp">
-        select *
-        from temp
-        where stateUpdateDate > date_sub(now(), interval '0 00:30:00' day_second)
-          and pid = #{pid}
-    </select>
-    <select id="list" resultType="com.someexp.modules.user.domain.vo.TempVO">
-        select tmp.*, coalesce(tU.useful, 0) as myOpt
-        from tempUser tU
+
+    <select id="list" resultMap="TEMP_VO">
+        SELECT tmp.*, coalesce(tu.tu_useful, 0) as my_opt
+        FROM tempUser tu
                  right join (select *
-                             from temp
-                             where stateUpdateDate > date_sub(now(), interval '0 00:30:00' day_second)
-                               and pid = #{pid}
-                             limit 5) tmp
-                            on tU.tid = tmp.id and tU.uid = #{uid}
-        order by tmp.id desc
+                             FROM temp
+                             WHERE tmp_pid = #{pid}
+                               AND tmp_update_date > date_sub(now(), interval '0 00:30:00' day_second)
+                             ORDER BY tmp_update_date DESC
+                             LIMIT 5) tmp
+                            on tu.tu_uid = #{uid} AND tu.tu_tid = tmp.tmp_id
+                            ORDER BY tmp_update_date DESC
     </select>
+
+    <!--    todo-->
+
+    <select id="listEntity" resultType="com.someexp.modules.user.domain.entity.Temp">
+        SELECT *
+        FROM temp
+        WHERE stateUpdateDate > date_sub(now(), interval '0 00:30:00' day_second)
+          AND pid = #{pid}
+    </select>
+
     <update id="increaseUseful">
         update temp
         set useful = useful + 1
-        where id = #{tid};
+        WHERE id = #{tid};
     </update>
     <update id="increaseUnuseful">
         update temp
         set unuseful = unuseful + 1
-        where id = #{tid};
+        WHERE id = #{tid};
     </update>
 </mapper>

@@ -26,6 +26,12 @@ public class TempController {
     @Autowired
     private TempService tempService;
 
+    /**
+     * 用户给停车场添加拥挤度状态信息
+     *
+     * @param tempDTO
+     * @return
+     */
     @PostMapping("/temp")
     public ResponseEntity<?> add(@RequestBody TempDTO tempDTO) {
         ValidatorUtils.validateEntity(tempDTO, AddGroup.class);
@@ -33,12 +39,20 @@ public class TempController {
                 .body(Result.success(tempService.add(tempDTO), MsgUtils.get("temp.successful.added")));
     }
 
+    /**
+     * 用户列出停车场近30分钟的状态信息, 最新5条Temp数据
+     *
+     * @param tempQuery
+     * @return
+     */
     @GetMapping("/temp")
     public ResponseEntity<?> list(TempQuery tempQuery) {
         ValidatorUtils.validateEntity(tempQuery, QueryGroup.class);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Result.success(tempService.list(tempQuery.getPid()), MsgUtils.get("success")));
     }
+
+    //todo
 
     @GetMapping("/temp/interval")
     public ResponseEntity<?> tempInterval(TempQuery tempQuery) {

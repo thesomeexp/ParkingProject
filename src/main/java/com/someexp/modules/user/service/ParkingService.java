@@ -15,7 +15,7 @@ public interface ParkingService {
 
     String add(ParkingDTO parkingDTO);
 
-    List<ParkingVO> list(ParkingQuery parkingQuery);
+    List<Parking> list(ParkingQuery parkingQuery);
 
     /**
      * 用户查询
@@ -24,14 +24,6 @@ public interface ParkingService {
      * @return
      */
     ParkingVO get(Long id);
-
-    /**
-     * 其他服务调用, 查询是否存在停车场, 默认状态为1
-     *
-     * @param id
-     * @return
-     */
-    Parking getEntity(Long id);
 
     /**
      * 查询实体
@@ -48,4 +40,5 @@ public interface ParkingService {
      * @param tid
      */
     void updateGraph(Long tid);
+
 }

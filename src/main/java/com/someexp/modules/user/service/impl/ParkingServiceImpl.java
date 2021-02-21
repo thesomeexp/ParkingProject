@@ -1,6 +1,7 @@
 package com.someexp.modules.user.service.impl;
 
 import com.someexp.common.exception.BusinessException;
+import com.someexp.common.utils.GeoHashUtils;
 import com.someexp.common.utils.LocationUtils;
 import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.utils.ShiroUtils;
@@ -51,13 +52,17 @@ public class ParkingServiceImpl implements ParkingService {
     public String add(ParkingDTO parkingDTO) {
         Parking parking = new Parking();
         parking.setName(parkingDTO.getName().trim());
-        parking.setContent(parkingDTO.getContent());
+        parking.setContent(parkingDTO.getContent().trim());
         parking.setUid(ShiroUtils.getUserId());
 
         double[] xyArray = LocationUtils.parseLocation(parkingDTO.getLocation());
-        parking.setLongitude(xyArray[0]);
-        parking.setLatitude(xyArray[1]);
-//        parking.setStateUpdateDate(LocalDateTime.now());
+        // 高德地图的经纬度顺序
+        double longitude = xyArray[0];
+        double latitude = xyArray[1];
+
+        parking.setLongitude(longitude);
+        parking.setLatitude(latitude);
+        parking.setGeohash(GeoHashUtils.getGeoHash(longitude, latitude));
 
         if (isLocationExist(parking.getLongitude(), parking.getLatitude())) {
             throw new BusinessException(MsgUtils.get("parking.location.exist"));
@@ -76,20 +81,26 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
-    public List<ParkingVO> list(ParkingQuery parkingQuery) {
+    public List<Parking> list(ParkingQuery parkingQuery) {
         double[] xyArray = LocationUtils.parseLocation(parkingQuery.getLocation());
-        List<ParkingVO> list = parkingMapper.list(xyArray[0], xyArray[1], CommonVariable.NEARBY_RANGE);
+        // 高德地图的坐标
+        double longitude = xyArray[0];
+        double latitude = xyArray[1];
+
+        String geohash = GeoHashUtils.getGeoHash(longitude, latitude);
+        String[] geohashs = GeoHashUtils.getAdjacent(geohash);
+
+        List<Parking> list = parkingMapper.list(geohashs);
         return list;
     }
 
     @Override
     public ParkingVO get(Long id) {
-        return parkingMapper.get(id);
-    }
-
-    @Override
-    public Parking getEntity(Long id) {
-        return getEntity(id, 1);
+        ParkingVO parkingVO = parkingMapper.get(id);
+        if (parkingVO == null) {
+            throw new BusinessException(MsgUtils.get("parking.not.exist"));
+        }
+        return parkingVO;
     }
 
     @Override
@@ -105,6 +116,8 @@ public class ParkingServiceImpl implements ParkingService {
         String colName = 't' + String.valueOf(hours);
         parkingMapper.updateGraph(colName, temp.getState(), temp.getPid());
     }
+
+    // todo
 
     private Boolean isLocationExist(Double longitude, Double latitude) {
         Parking parking = parkingMapper.getByLocation(longitude, latitude);
