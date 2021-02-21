@@ -30,7 +30,7 @@ import java.io.IOException;
  */
 public class JwtFilter extends AuthenticatingFilter {
 
-    private static transient final Logger log = LoggerFactory.getLogger(JwtFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(JwtFilter.class);
 
     /**
      * 执行顺序: 1

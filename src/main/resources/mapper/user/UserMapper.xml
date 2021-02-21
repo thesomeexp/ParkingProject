@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.someexp.modules.user.mapper.UserMapper">
-    <select id="getByPhone" resultType="com.someexp.modules.user.domain.entity.User">
+
+    <resultMap id="RES_USER" type="com.someexp.modules.user.domain.entity.User">
+        <id column="usr_id" property="id"/>
+        <result column="usr_name" property="name"/>
+        <result column="usr_password" property="password"/>
+        <result column="usr_area_code" property="areaCode"/>
+        <result column="usr_phone" property="phone"/>
+        <result column="usr_status" property="status"/>
+    </resultMap>
+
+    <select id="getByPhone" resultMap="RES_USER">
         select *
         from user
-        where phone = #{phone};
+        where usr_area_code = #{areaCode}
+        and usr_phone = #{phone};
     </select>
 
-    <select id="getById" resultType="com.someexp.modules.user.domain.entity.User">
+    <select id="getById" resultMap="RES_USER">
         select *
         from user
-        where id = #{id};
+        where usr_id = #{id};
     </select>
 
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.User" useGeneratedKeys="true"
-            keyProperty="id" keyColumn="id">
+            keyProperty="id" keyColumn="usr_id">
         insert into user
-            (name, password, phone, role, status)
-        values (#{name}, #{password}, #{phone}, 'user', 1)
+            (usr_name, usr_password, usr_area_code, usr_phone, usr_status)
+        values (#{name}, #{password}, #{areaCode}, #{phone}, 0);
     </insert>
 </mapper>

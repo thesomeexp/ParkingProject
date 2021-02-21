@@ -1,6 +1,7 @@
 package com.someexp.modules.sys.mapper;
 
-import com.someexp.modules.sys.domain.entity.User;
+import com.someexp.modules.admin.domain.entity.Admin;
+import com.someexp.modules.user.domain.entity.User;
 
 /**
  * @author someexp
@@ -8,6 +9,8 @@ import com.someexp.modules.sys.domain.entity.User;
  */
 public interface ShiroMapper {
 
-    User getById(Long id);
+    User getUserById(Long id);
+
+    Admin getAdminById(Long userId);
 
 }

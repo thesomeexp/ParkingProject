@@ -34,7 +34,7 @@ public class AdminServiceImpl implements AdminService {
             throw new BusinessException(MsgUtils.get("admin.password.dont.match"));
         }
 
-        String token = JwtUtils.create(user.getId());
+        String token = JwtUtils.create(user.getId(), "admin");
         return token;
     }
 

@@ -146,6 +146,13 @@
             <version>1.3.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/ch.hsr/geohash -->
+        <dependency>
+            <groupId>ch.hsr</groupId>
+            <artifactId>geohash</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
 
     </dependencies>
 

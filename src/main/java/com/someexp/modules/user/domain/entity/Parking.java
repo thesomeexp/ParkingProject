@@ -3,7 +3,7 @@ package com.someexp.modules.user.domain.entity;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * parking
@@ -41,6 +41,11 @@ public class Parking implements Serializable {
     private Double latitude;
 
     /**
+     * GeoHash
+     */
+    private String geohash;
+
+    /**
      * 图片链接
      */
     private String firstUrl;
@@ -53,7 +58,7 @@ public class Parking implements Serializable {
     /**
      * 拥挤度数据更新时间
      */
-    private LocalDateTime stateUpdateDate;
+    private Date stateUpdateDate;
 
     private Integer t0;
 

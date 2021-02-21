@@ -32,15 +32,16 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String register(UserDTO userDTO) {
-        User dbUser = userMapper.getByPhone(userDTO.getPhone());
+        User dbUser = userMapper.getByPhone(userDTO.getAreaCode(), userDTO.getPhone());
         if (dbUser != null) {
             throw new BusinessException(MsgUtils.get("user.phone.exist"));
         }
 
         User user = new User();
         user.setName(HtmlUtils.htmlEscape(userDTO.getName()));
-        user.setPhone(userDTO.getPhone());
         user.setPassword(PasswordEncoderUtils.encode(userDTO.getPassword()));
+        user.setAreaCode(userDTO.getAreaCode());
+        user.setPhone(userDTO.getPhone());
 
         userMapper.save(user);
         return user.getName();
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String login(UserDTO userDTO) {
-        User user = userMapper.getByPhone(userDTO.getPhone());
+        User user = userMapper.getByPhone(userDTO.getAreaCode(), userDTO.getPhone());
         if (user == null) {
             throw new BusinessException(MsgUtils.get("user.not.found"));
         }
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(MsgUtils.get("user.password.dont.match"));
         }
 
-        String token = JwtUtils.create(user.getId());
+        String token = JwtUtils.create(user.getId(), "user");
         return token;
     }
 

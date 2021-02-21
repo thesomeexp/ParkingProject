@@ -25,6 +25,10 @@ public class JwtUtils {
         JwtUtils.jwtProperties = jwtProperties;
     }
 
+    public static JwtProperties getJwtProperties() {
+        return jwtProperties;
+    }
+
     /**
      * 根据用户id创建JWT
      *
@@ -32,9 +36,10 @@ public class JwtUtils {
      * @return
      */
     @SneakyThrows
-    public static String create(Long userId) {
+    public static String create(Long userId, String role) {
         return Jwts.builder()
                 .claim("id", userId)
+                .claim("role", role)
                 .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpire()))
                 .signWith(SignatureAlgorithm.HS512, DatatypeConverter.parseBase64Binary(jwtProperties.getSecret()))
                 .compact();
@@ -67,8 +72,15 @@ public class JwtUtils {
         return claims.get("id", Long.class);
     }
 
-    public static JwtProperties getJwtProperties() {
-        return jwtProperties;
+    /**
+     * 获取角色
+     *
+     * @param jwt
+     * @return
+     */
+    @SneakyThrows
+    public static String getRoleByToken(String jwt) {
+        Claims claims = decode(jwt);
+        return claims.get("role", String.class);
     }
-
 }

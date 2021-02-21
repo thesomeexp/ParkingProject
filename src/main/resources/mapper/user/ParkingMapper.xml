@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.someexp.modules.user.mapper.ParkingMapper">
+    <resultMap id="PARKING_ENTITY" type="com.someexp.modules.user.domain.entity.Parking">
+        <id column="prk_id" property="id"/>
+        <result column="prk_uid" property="uid"/>
+        <result column="prk_name" property="name"/>
+        <result column="prk_content" property="content"/>
+        <result column="prk_longitude" property="longitude"/>
+        <result column="prk_latitude" property="latitude"/>
+        <result column="prk_geohash" property="geohash"/>
+        <result column="prk_first_url" property="firstUrl"/>
+        <result column="prk_status" property="status"/>
+        <result column="prk_update_date" property="stateUpdateDate"/>
+        <result column="prk_t0" property="t0"/>
+        <result column="prk_t1" property="t1"/>
+        <result column="prk_t2" property="t2"/>
+        <result column="prk_t3" property="t3"/>
+        <result column="prk_t4" property="t4"/>
+        <result column="prk_t5" property="t5"/>
+        <result column="prk_t6" property="t6"/>
+        <result column="prk_t7" property="t7"/>
+        <result column="prk_t8" property="t8"/>
+        <result column="prk_t9" property="t9"/>
+        <result column="prk_t10" property="t10"/>
+        <result column="prk_t11" property="t11"/>
+        <result column="prk_t12" property="t12"/>
+        <result column="prk_t13" property="t13"/>
+        <result column="prk_t14" property="t14"/>
+        <result column="prk_t15" property="t15"/>
+        <result column="prk_t16" property="t16"/>
+        <result column="prk_t19" property="t19"/>
+        <result column="prk_t18" property="t18"/>
+        <result column="prk_t17" property="t17"/>
+        <result column="prk_t20" property="t20"/>
+        <result column="prk_t21" property="t21"/>
+        <result column="prk_t22" property="t22"/>
+        <result column="prk_t23" property="t23"/>
+    </resultMap>
+
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Parking" useGeneratedKeys="true"
-            keyProperty="id" keyColumn="id">
+            keyProperty="id" keyColumn="prk_id">
         insert into parking
-            (uid, name, content, longitude, latitude, status, stateUpdateDate)
-        values (#{uid}, #{name}, #{content}, #{longitude}, #{latitude}, 0, #{stateUpdateDate})
+            (prk_uid, prk_name, prk_content, prk_longitude, prk_latitude, prk_geohash, prk_status, prk_update_date)
+        values (#{uid}, #{name}, #{content}, #{longitude}, #{latitude}, #{geohash}, -1, #{stateUpdateDate})
     </insert>
 
-    <select id="getByLocation" resultType="com.someexp.modules.user.domain.entity.Parking">
+    <select id="getByLocation" resultMap="PARKING_ENTITY">
         select id
         from parking
         where longitude = #{longitude}
@@ -36,16 +73,21 @@
         where id = #{id}
     </select>
 
-    <select id="getEntity" resultType="com.someexp.modules.user.domain.entity.Parking">
+    <select id="getEntity" resultMap="PARKING_ENTITY">
         select *
         from parking
-        where id = #{id}
-          and status = #{status}
+        where prk_id = #{id}
+          and prk_status = #{status}
     </select>
 
     <update id="updateGraph">
         update parking
         set ${colName} = (#{state} + ${colName}) / 2
         where id = #{pid}
+    </update>
+    <update id="updateGeoHash">
+        update parking
+        set prk_geohash = #{geohash}
+        where prk_id = #{pid}
     </update>
 </mapper>

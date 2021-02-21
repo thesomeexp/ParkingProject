@@ -31,6 +31,13 @@ public class ParkingController {
     @Autowired
     private ParkingService parkingService;
 
+    @GetMapping("/parking")
+    public ResponseEntity<?> list(ParkingQuery parkingQuery) {
+        ValidatorUtils.validateEntity(parkingQuery, QueryGroup.class);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Result.success(parkingService.list(parkingQuery), MsgUtils.get("success")));
+    }
+
     @PostMapping("/parking")
     public ResponseEntity<?> add(ParkingDTO parkingDTO) {
         ValidatorUtils.validateEntity(parkingDTO, AddGroup.class);
@@ -46,13 +53,6 @@ public class ParkingController {
         String name = parkingService.add(parkingDTO);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Result.success(name, MsgUtils.get("parking.successful.application")));
-    }
-
-    @GetMapping("/parking")
-    public ResponseEntity<?> list(ParkingQuery parkingQuery) {
-        ValidatorUtils.validateEntity(parkingQuery, QueryGroup.class);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(parkingService.list(parkingQuery), MsgUtils.get("success")));
     }
 
     @GetMapping("/parking/{id}")

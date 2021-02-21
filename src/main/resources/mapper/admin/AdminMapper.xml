@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.someexp.modules.admin.mapper.AdminMapper">
 
+    <resultMap id="RES_ADMIN" type="com.someexp.modules.admin.domain.entity.Admin">
+        <id column="adm_id" property="id"/>
+        <result column="adm_parent" property="parent"/>
+        <result column="adm_name" property="name"/>
+        <result column="usr_password" property="password"/>
+        <result column="usr_area_code" property="areaCode"/>
+        <result column="usr_phone" property="phone"/>
+        <result column="usr_status" property="status"/>
+    </resultMap>
+
     <select id="findByPhone" resultType="com.someexp.modules.user.domain.entity.User">
         select *
         from user

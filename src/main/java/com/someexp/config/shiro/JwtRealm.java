@@ -1,10 +1,13 @@
 package com.someexp.config.shiro;
 
+import com.someexp.common.utils.BeanUtils;
 import com.someexp.common.utils.JwtUtils;
 import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.utils.ShiroUtils;
-import com.someexp.modules.sys.domain.entity.User;
+import com.someexp.modules.admin.domain.entity.Admin;
+import com.someexp.modules.sys.domain.entity.ShiroUser;
 import com.someexp.modules.sys.mapper.ShiroMapper;
+import com.someexp.modules.user.domain.entity.User;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -47,10 +50,10 @@ public class JwtRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        User user = ShiroUtils.getUser();
+        ShiroUser shiroUser = ShiroUtils.getShiroUser();
         Set<String> permsSet = new HashSet<>();
-        // 因为此时只有一个, 简单设置一下就好
-        permsSet.add(user.getRole());
+        // 用角色做权限, 懒得区分了, 这个role在登陆时设定了
+        permsSet.add(shiroUser.getRole());
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.setStringPermissions(permsSet);
@@ -58,7 +61,7 @@ public class JwtRealm extends AuthorizingRealm {
     }
 
     /**
-     * 登录的合法性认证, 其实已经登陆, 这里验证jwt的合法性
+     * 登录的合法性认证, 其实已经登陆, 这里验证jwt是否过期, 用户账号是否锁定
      *
      * @param token
      * @return
@@ -66,28 +69,64 @@ public class JwtRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        String jwtToken = (String) token.getPrincipal();
+        String jwt = (String) token.getPrincipal();
 
         Long userId;
+        String role;
         try {
-            userId = JwtUtils.getIdByToken(jwtToken);
+            userId = JwtUtils.getIdByToken(jwt);
+            role = JwtUtils.getRoleByToken(jwt);
         } catch (ExpiredJwtException expiredJwtException) {
             throw new AuthenticationException(MsgUtils.get("user.login.expire"));
         } catch (Exception e) {
-//            log.error("认证失败JwtRealm.AuthenticationInfo()", e);
             throw new AuthenticationException(MsgUtils.get("user.login.verify.fail"));
         }
 
-        User user = shiroMapper.getById(userId);
+        if (userId == null) {
+            throw new AuthenticationException(MsgUtils.get("jwt.parameter.is.null", new String[]{"id"}));
+        }
+        if (role == null) {
+            throw new AuthenticationException(MsgUtils.get("jwt.parameter.is.null", new String[]{"role"}));
+        }
+
+        ShiroUser shiroUser = new ShiroUser();
+        switch (role) {
+            case "user":
+                BeanUtils.copyProperties(getUser(userId), shiroUser);
+                break;
+            case "admin":
+                BeanUtils.copyProperties(getAdmin(userId), shiroUser);
+                break;
+            default:
+                throw new AuthenticationException(MsgUtils.get("jwt.role.verify.fail"));
+        }
+
+        return new SimpleAuthenticationInfo(shiroUser, userId, getName());
+    }
+
+    private User getUser(Long userId) {
+        User user = shiroMapper.getUserById(userId);
         if (user == null) {
             throw new AuthenticationException(MsgUtils.get("user.information.expired"));
         }
 
-        if (user.getStatus().equals(2L)) {
+        // 锁定的状态为2
+        if (user.getStatus() == 2) {
             throw new AuthenticationException(MsgUtils.get("user.account.locked"));
         }
+        return user;
+    }
 
-        return new SimpleAuthenticationInfo(user, userId, getName());
+    private Admin getAdmin(Long userId) {
+        Admin admin = shiroMapper.getAdminById(userId);
+        if (admin == null) {
+            throw new AuthenticationException(MsgUtils.get("user.information.expired"));
+        }
+
+        if (admin.getStatus() == 2) {
+            throw new AuthenticationException(MsgUtils.get("user.account.locked"));
+        }
+        return admin;
     }
 
     /**

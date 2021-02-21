@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -58,7 +57,7 @@ public class ParkingServiceImpl implements ParkingService {
         double[] xyArray = LocationUtils.parseLocation(parkingDTO.getLocation());
         parking.setLongitude(xyArray[0]);
         parking.setLatitude(xyArray[1]);
-        parking.setStateUpdateDate(LocalDateTime.now());
+//        parking.setStateUpdateDate(LocalDateTime.now());
 
         if (isLocationExist(parking.getLongitude(), parking.getLatitude())) {
             throw new BusinessException(MsgUtils.get("parking.location.exist"));

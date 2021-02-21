@@ -1,18 +1,17 @@
-package com.someexp.modules.sys.domain.entity;
+package com.someexp.modules.admin.domain.entity;
 
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * 只作为Shiro权限验证时使用
- *
- * @author someexp
- * @date 2020/12/9
- */
 @Data
-public class User implements Serializable {
+public class Admin implements Serializable {
     private Long id;
+
+    /**
+     * 父级账号id
+     */
+    private Long parent;
 
     /**
      * 用户名
@@ -25,18 +24,18 @@ public class User implements Serializable {
     private String password;
 
     /**
+     * 手机区号
+     */
+    private Integer areaCode;
+
+    /**
      * 手机号
      */
     private String phone;
 
     /**
-     * 角色
-     */
-    private String role;
-
-    /**
      * 状态0未验证1已验证2已锁定
      */
-    private Long status;
+    private Integer status;
 
 }

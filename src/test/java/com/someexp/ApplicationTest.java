@@ -29,7 +29,7 @@ public class ApplicationTest {
 
     @Test
     public void generateJWT() {
-        String token = JwtUtils.create(1L);
+        String token = JwtUtils.create(1L, "user");
         System.out.println(token);
         System.out.println(JwtUtils.decode(token));
         System.out.println(JwtUtils.getIdByToken(token));

@@ -27,9 +27,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> exceptionHandler(Exception e) {
 
-        // 开发配置
-//        log.error("error: ", e);
-
         // http 请求方式错误
         if (e instanceof HttpRequestMethodNotSupportedException) {
             return ResponseEntity.status(HttpStatus.OK)
@@ -64,7 +61,7 @@ public class GlobalExceptionHandler {
                     .body(Result.fail(e.getMessage()));
         }
 
-        log.error("未捕获错误error: ", e);
+        log.error("未知误error: ", e);
 
         // 未知错误
         return ResponseEntity.status(HttpStatus.OK)

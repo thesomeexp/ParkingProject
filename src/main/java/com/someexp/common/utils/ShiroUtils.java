@@ -1,6 +1,6 @@
 package com.someexp.common.utils;
 
-import com.someexp.modules.sys.domain.entity.User;
+import com.someexp.modules.sys.domain.entity.ShiroUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
@@ -10,12 +10,12 @@ import org.apache.shiro.subject.Subject;
  */
 public class ShiroUtils {
 
-    public static User getUser() {
-        return (User) SecurityUtils.getSubject().getPrincipal();
+    public static ShiroUser getShiroUser() {
+        return (ShiroUser) SecurityUtils.getSubject().getPrincipal();
     }
 
     public static Long getUserId() {
-        return getUser().getId();
+        return getShiroUser().getId();
     }
 
     public static Subject getSubject() {

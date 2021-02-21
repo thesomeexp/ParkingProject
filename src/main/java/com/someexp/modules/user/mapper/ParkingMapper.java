@@ -26,4 +26,7 @@ public interface ParkingMapper {
 
     void updateGraph(@Param("colName") String colName, @Param("state") Integer state,
                      @Param("pid") Long pid);
+
+    void updateGeoHash(@Param("geohash") String geohash,
+                       @Param("pid") Long pid);
 }

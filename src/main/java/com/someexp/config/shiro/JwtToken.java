@@ -4,24 +4,25 @@ import org.apache.shiro.authc.AuthenticationToken;
 
 /**
  * 自定义jwtToken
+ *
  * @author someexp
  * @date 2020/9/23
  */
 public class JwtToken implements AuthenticationToken {
 
-    private String jwtToken;
+    private String jwt;
 
-    public JwtToken(String jwtToken) {
-        this.jwtToken = jwtToken;
+    public JwtToken(String jwt) {
+        this.jwt = jwt;
     }
 
     @Override
     public Object getPrincipal() {
-        return this.jwtToken;
+        return this.jwt;
     }
 
     @Override
     public Object getCredentials() {
-        return this.jwtToken;
+        return this.jwt;
     }
 }

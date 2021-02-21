@@ -5,6 +5,7 @@ import com.someexp.common.validator.group.RegisterGroup;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author someexp
@@ -18,6 +19,13 @@ public class UserDTO {
      */
     @NotBlank(message = "user.name.cant.be.null", groups = RegisterGroup.class)
     private String name;
+
+    /**
+     * 手机区号
+     */
+    @NotNull(message = "user.area.code.cant.be.null", groups = RegisterGroup.class)
+    @NotNull(message = "user.area.code.cant.be.null", groups = LoginGroup.class)
+    private Integer areaCode;
 
     /**
      * 手机号
