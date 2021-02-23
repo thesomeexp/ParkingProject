@@ -26,7 +26,7 @@ public class ParkingTest {
             Parking parking = parkingMapper.getEntity(i, 0);
             if (parking == null)
                 continue;
-            parkingMapper.updateGeoHash(GeoHashUtils.getGeoHash(parking.getLongitude(), parking.getLatitude(), 6), parking.getId());
+//            parkingMapper.updateGeoHash(GeoHashUtils.getGeoHash(parking.getLongitude(), parking.getLatitude(), 6), parking.getId());
 
         }
     }

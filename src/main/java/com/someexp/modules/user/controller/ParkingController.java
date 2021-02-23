@@ -46,7 +46,7 @@ public class ParkingController {
         }
         // 检查文件后缀
         String filename = parkingDTO.getImage().getOriginalFilename();
-        if (!filename.endsWith(".png") && !filename.endsWith(".jpg")) {
+        if (filename == null || (!filename.endsWith(".png") && !filename.endsWith(".jpg"))) {
             throw new ParamsException(MsgUtils.get("parking.image.not.a.image"));
         }
 

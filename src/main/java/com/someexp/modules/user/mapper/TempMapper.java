@@ -12,20 +12,20 @@ import java.util.List;
  */
 public interface TempMapper {
 
-    Temp getByUidAndPidInterval(Long uid, Long pid);
+    boolean checkTempExists30Min(Long uid, Long pid);
+
+    boolean checkTempExists(Long id);
 
     void save(Temp temp);
 
-    Temp get(Long id);
+    Temp getEntity(Long id);
 
     List<TempVO> list(@Param("pid") Long pid, @Param("uid") Long uid);
-
-    // todo
-
-    List<Temp> listEntity(Long pid);
 
     void increaseUseful(Long tid);
 
     void increaseUnuseful(Long tid);
+
+    List<Temp> listEntity(Long pid);
 
 }

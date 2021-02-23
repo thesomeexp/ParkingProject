@@ -7,6 +7,7 @@ import com.someexp.modules.user.domain.dto.TempUserDTO;
  * @date 2021/1/5
  */
 public interface TempUserService {
+
     /**
      * 添加 有用/无用
      *
@@ -14,4 +15,5 @@ public interface TempUserService {
      * @return 状态
      */
     Integer add(TempUserDTO tempUserDTO);
+
 }

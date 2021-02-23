@@ -32,8 +32,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String register(UserDTO userDTO) {
-        User dbUser = userMapper.getByPhone(userDTO.getAreaCode(), userDTO.getPhone());
-        if (dbUser != null) {
+        if (userMapper.checkUserExists(userDTO.getAreaCode(), userDTO.getPhone())) {
             throw new BusinessException(MsgUtils.get("user.phone.exist"));
         }
 
@@ -56,7 +55,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String login(UserDTO userDTO) {
-        User user = userMapper.getByPhone(userDTO.getAreaCode(), userDTO.getPhone());
+        User user = userMapper.getEntityByPhone(userDTO.getAreaCode(), userDTO.getPhone());
         if (user == null) {
             throw new BusinessException(MsgUtils.get("user.not.found"));
         }

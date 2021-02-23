@@ -5,8 +5,8 @@ import ch.hsr.geohash.GeoHash;
 public class GeoHashUtils {
 
 
-    public static String getGeoHash(Double longitude, Double latitude) {
-        return getGeoHash(longitude, latitude, 6);
+    public static String getGeoHash(Location location) {
+        return getGeoHash(location.getLongitude(), location.getLatitude(), 6);
     }
 
     /**

@@ -9,6 +9,7 @@ import com.someexp.modules.user.domain.query.ReviewQuery;
  * @date 2021/1/7
  */
 public interface ReviewService {
+
     /**
      * @param reviewDTO
      * @return 提交的评分
@@ -16,4 +17,5 @@ public interface ReviewService {
     Integer add(ReviewDTO reviewDTO);
 
     PageResultDTO<?> list(ReviewQuery reviewQuery);
+
 }

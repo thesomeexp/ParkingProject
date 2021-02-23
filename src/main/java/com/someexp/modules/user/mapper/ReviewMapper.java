@@ -9,9 +9,11 @@ import java.util.List;
  * @date 2021/1/7
  */
 public interface ReviewMapper {
+
     void save(Review review);
 
     Review getByPidAndUid(Long pid, Long uid);
 
     List<Review> listAll(Long pid);
+
 }

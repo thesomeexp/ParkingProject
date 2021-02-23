@@ -14,10 +14,10 @@ public class CommonVariable {
     /**
      * 经纬度边界值
      */
-    public static final double MINIMUM_X = 73;
-    public static final double MAXIMUM_X = 136;
-    public static final double MINIMUM_Y = 1;
-    public static final double MAXIMUM_Y = 54;
+    public static final double MINIMUM_LONGITUDE = 73;
+    public static final double MAXIMUM_LONGITUDE = 136;
+    public static final double MINIMUM_LATITUDE = 1;
+    public static final double MAXIMUM_LATITUDE = 54;
 
     /**
      * 图片url访问地址

@@ -10,7 +10,6 @@
         <result column="prk_longitude" property="longitude"/>
         <result column="prk_latitude" property="latitude"/>
         <result column="prk_geohash" property="geohash"/>
-        <result column="prk_first_url" property="firstUrl"/>
         <result column="prk_status" property="status"/>
         <result column="prk_update_date" property="stateUpdateDate"/>
         <result column="prk_t0" property="t0"/>
@@ -47,7 +46,6 @@
         <result column="prk_longitude" property="longitude"/>
         <result column="prk_latitude" property="latitude"/>
         <result column="location" property="location"/>
-        <result column="prk_first_url" property="firstUrl"/>
         <result column="prk_update_date" property="stateUpdateDate"/>
         <result column="prk_t0" property="t0"/>
         <result column="prk_t1" property="t1"/>
@@ -92,11 +90,24 @@
         VALUES (#{uid}, #{name}, #{content}, #{longitude}, #{latitude}, #{geohash}, 0, now())
     </insert>
 
-    <select id="getByLocation" resultMap="PARKING_ENTITY">
-        SELECT prk_id
-        FROM parking
-        WHERE prk_longitude = #{longitude}
-        AND prk_latitude = #{latitude}
+    <select id="checkParkingExists" resultType="java.lang.Boolean">
+        SELECT EXISTS(
+            SELECT 1
+            FROM parking
+            WHERE prk_longitude = #{longitude}
+            AND prk_latitude = #{latitude}
+            LIMIT 1
+            ) AS result;
+    </select>
+
+    <select id="checkParkingExistsByStatus" resultType="java.lang.Boolean">
+        SELECT EXISTS(
+            SELECT 1
+            FROM parking
+            WHERE prk_id = #{id}
+            AND prk_status = #{status}
+            LIMIT 1
+            ) AS result;
     </select>
 
     <select id="get" resultMap="PARKING_VO">
@@ -110,7 +121,7 @@
         SELECT *
         FROM parking
         WHERE prk_id = #{id}
-          and prk_status = #{status}
+        AND prk_status = #{status}
     </select>
 
     <update id="updateGraph">
@@ -119,12 +130,4 @@
         WHERE prk_id = #{pid}
     </update>
 
-    <!--    todo-->
-
-
-    <update id="updateGeoHash">
-        UPDATE parking
-        SET prk_geohash = #{geohash}
-        WHERE prk_id = #{pid}
-    </update>
 </mapper>

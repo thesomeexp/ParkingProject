@@ -41,4 +41,12 @@ public interface ParkingService {
      */
     void updateGraph(Long tid);
 
+    /**
+     * 检查停车场是否存在, 并通过审核
+     *
+     * @param id
+     * @return
+     */
+    boolean checkParkingExists(Long id);
+
 }

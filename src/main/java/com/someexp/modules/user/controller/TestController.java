@@ -42,7 +42,15 @@ public class TestController {
     public ResponseEntity<?> test() {
 
         Subject subject = SecurityUtils.getSubject();
-        subject.isPermitted("hero");
+        if (subject.isPermitted("hero")) {
+            System.out.println("hello");
+        }
+        if (subject.isPermitted("user")) {
+            System.out.println("user");
+        }
+        if (subject.isPermitted("admin")) {
+            System.out.println("admin");
+        }
         if (shiroConfig == null) {
             System.out.println("null");
         } else {

@@ -16,19 +16,16 @@ public interface ParkingMapper {
 
     void save(Parking parking);
 
-    Parking getByLocation(@Param("longitude") Double longitude,
-                          @Param("latitude") Double latitude);
+    boolean checkParkingExists(@Param("longitude") Double longitude,
+                               @Param("latitude") Double latitude);
 
     ParkingVO get(Long id);
 
-    Parking getEntity(Long id, Integer status);
+    Parking getEntity(@Param("id") Long id, @Param("status") Integer status);
 
     void updateGraph(@Param("colName") String colName, @Param("state") Integer state,
                      @Param("pid") Long pid);
 
-    // todo
-
-    void updateGeoHash(@Param("geohash") String geohash,
-                       @Param("pid") Long pid);
+    boolean checkParkingExistsByStatus(@Param("id") Long id, @Param("status") Integer status);
 
 }

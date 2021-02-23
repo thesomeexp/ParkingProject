@@ -44,5 +44,7 @@ public interface TempService {
      * @return
      */
     Double interval(Long pid);
-    
+
+    boolean checkTempExists(Long id);
+
 }

@@ -42,12 +42,16 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = new Review();
         BeanUtils.copyProperties(reviewDTO, review);
         review.setUid(userId);
+
         reviewMapper.save(review);
         return review.getScore();
     }
 
     @Override
     public PageResultDTO<?> list(ReviewQuery reviewQuery) {
+        if (parkingService.getEntity(reviewQuery.getPid(), 1) == null) {
+            throw new BusinessException(MsgUtils.get("parking.not.exist"));
+        }
         PageHelper.startPage(reviewQuery.getPageNum(), reviewQuery.getPageSize());
         Page<Review> page = (Page<Review>) reviewMapper.listAll(reviewQuery.getPid());
 
@@ -56,4 +60,5 @@ public class ReviewServiceImpl implements ReviewService {
         pageResultDTO.setList(page.getResult());
         return pageResultDTO;
     }
+
 }

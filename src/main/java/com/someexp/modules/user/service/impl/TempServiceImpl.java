@@ -32,14 +32,14 @@ public class TempServiceImpl implements TempService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Integer add(TempDTO tempDTO) {
-        if (parkingService.getEntity(tempDTO.getPid(), 1) == null) {
+        if (!parkingService.checkParkingExists(tempDTO.getPid())) {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
         }
         Temp temp = new Temp();
         BeanUtils.copyProperties(tempDTO, temp);
         temp.setUid(ShiroUtils.getUserId());
 
-        if (tempMapper.getByUidAndPidInterval(temp.getUid(), temp.getPid()) != null) {
+        if (tempMapper.checkTempExists30Min(temp.getUid(), temp.getPid())) {
             throw new BusinessException(MsgUtils.get("temp.submit.later"));
         }
         tempMapper.save(temp);
@@ -50,27 +50,19 @@ public class TempServiceImpl implements TempService {
 
     @Override
     public Temp getEntity(Long id) {
-        return tempMapper.get(id);
+        return tempMapper.getEntity(id);
     }
 
     @Override
     public List<TempVO> list(Long pid) {
-        if (parkingService.getEntity(pid, 1) == null) {
+        if (!parkingService.checkParkingExists(pid)) {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
         }
         return tempMapper.list(pid, ShiroUtils.getUserId());
     }
 
-    // todo
-
     @Override
     public void increase(Long tid, Integer useful) {
-        if (useful == null) {
-            throw new BusinessException(MsgUtils.get("parameter.cant.be.null", new String[]{"useful"}));
-        }
-        if (useful == 0) {
-            throw new BusinessException(MsgUtils.get("parameter.cant.be", new String[]{"useful", "0"}));
-        }
         if (useful == 1) {
             tempMapper.increaseUseful(tid);
         } else if (useful == -1) {
@@ -90,8 +82,12 @@ public class TempServiceImpl implements TempService {
         for (Temp t : temps) {
             sum += t.getState();
         }
-        double result = sum / temps.size();
-        return result;
+        return sum / temps.size();
+    }
+
+    @Override
+    public boolean checkTempExists(Long id) {
+        return tempMapper.checkTempExists(id);
     }
 
 }

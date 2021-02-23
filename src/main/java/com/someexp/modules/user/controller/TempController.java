@@ -52,8 +52,12 @@ public class TempController {
                 .body(Result.success(tempService.list(tempQuery.getPid()), MsgUtils.get("success")));
     }
 
-    //todo
-
+    /**
+     * 用户获取30分钟内的拥挤度, 如果没有结果返回-1
+     *
+     * @param tempQuery
+     * @return
+     */
     @GetMapping("/temp/interval")
     public ResponseEntity<?> tempInterval(TempQuery tempQuery) {
         ValidatorUtils.validateEntity(tempQuery, QueryGroup.class);

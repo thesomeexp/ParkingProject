@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.someexp.common.domain.PageResultDTO;
 import com.someexp.common.exception.ParamsException;
 import com.someexp.common.utils.BeanUtils;
+import com.someexp.common.utils.Location;
 import com.someexp.common.utils.LocationUtils;
 import com.someexp.common.utils.MsgUtils;
 import com.someexp.modules.admin.domain.dto.ParkingUpdateDTO;
@@ -51,7 +52,7 @@ public class AdminParkingServiceImpl implements AdminParkingService {
 
     @Override
     public String update(Long id, ParkingUpdateDTO parkingUpdateDTO) {
-        double[] xyArray = LocationUtils.parseLocation(parkingUpdateDTO.getLocation());
+        Location location = LocationUtils.parseLocation(parkingUpdateDTO.getLocation());
 
         Parking parking = adminParkingMapper.get(id);
         if (parking == null) {
@@ -61,8 +62,8 @@ public class AdminParkingServiceImpl implements AdminParkingService {
         parking.setName(parkingUpdateDTO.getName());
         parking.setContent(parkingUpdateDTO.getContent());
         parking.setStatus(parkingUpdateDTO.getStatus());
-        parking.setLongitude(xyArray[0]);
-        parking.setLatitude(xyArray[1]);
+        parking.setLongitude(location.getLongitude());
+        parking.setLatitude(location.getLatitude());
 
         adminParkingMapper.update(parking);
         return parking.getName();

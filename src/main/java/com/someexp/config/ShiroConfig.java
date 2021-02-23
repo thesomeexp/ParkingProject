@@ -1,8 +1,8 @@
 package com.someexp.config;
 
 import com.someexp.config.shiro.AdminFilter;
-import com.someexp.config.shiro.JwtFilter;
 import com.someexp.config.shiro.JwtRealm;
+import com.someexp.config.shiro.ParkingJwtFilter;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +27,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         LinkedHashMap<String, Filter> filters = new LinkedHashMap<>();
 
-        filters.put("jwt", new JwtFilter());
+        filters.put("jwt", new ParkingJwtFilter());
         filters.put("admin", new AdminFilter());
         shiroFilterFactoryBean.setFilters(filters);
 

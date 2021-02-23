@@ -10,18 +10,20 @@ import com.someexp.common.variable.CommonVariable;
 public class LocationUtils {
 
     /**
-     * 解析经纬度并判断是否合法, 不合法则抛出异常
+     * 解析高德地图的坐标并判断是否合法, 不合法则抛出异常
+     * xyArray[0]是longitude
+     * xyArray[1]是latitude
      *
      * @param location
      * @return
      */
-    public static double[] parseLocation(String location) {
+    public static Location parseLocation(String location) {
         try {
-            double[] xyArray = parse(location);
-            if (!isLocationLegal(xyArray[0], xyArray[1])) {
+            Location amapLocation = parse(location);
+            if (!checkLocation(amapLocation.getLongitude(), amapLocation.getLatitude())) {
                 throw new ParamsException("location illegal");
             }
-            return xyArray;
+            return amapLocation;
         } catch (Exception e) {
             throw new ParamsException(MsgUtils.get("parking.location.illegal"));
         }
@@ -29,39 +31,59 @@ public class LocationUtils {
 
     /**
      * 解析传入的location 返回数组
+     * xyArray[0]是longitude
+     * xyArray[1]是latitude
      *
      * @param location
      * @return
      */
-    private static double[] parse(String location) {
+    private static Location parse(String location) {
         try {
             String[] locationArray = location.split(",");
-            String x = locationArray[0];
-            String y = locationArray[1];
-            double douX = Double.parseDouble(x);
-            double douY = Double.parseDouble(y);
-            double[] xyArray = new double[2];
-            xyArray[0] = douX;
-            xyArray[1] = douY;
-            return xyArray;
+            String first = locationArray[0];
+            String last = locationArray[1];
+            return new AMapLocation(Double.parseDouble(first), Double.parseDouble(last));
         } catch (Exception e) {
             throw new ParamsException(MsgUtils.get("parking.location.illegal"));
         }
     }
 
     /**
-     * 判断定位是否在规定的范围内
+     * 检查定位是否在规定的范围内, false不合法, true合法
      *
-     * @param x
-     * @param y
+     * @param longitude
+     * @param latitude
      * @return
      */
-    private static boolean isLocationLegal(double x, double y) {
-        if (x < CommonVariable.MINIMUM_X || x > CommonVariable.MAXIMUM_X ||
-                y < CommonVariable.MINIMUM_Y || y > CommonVariable.MAXIMUM_Y) {
+    private static boolean checkLocation(double longitude, double latitude) {
+        if (longitude < CommonVariable.MINIMUM_LONGITUDE || longitude > CommonVariable.MAXIMUM_LONGITUDE ||
+                latitude < CommonVariable.MINIMUM_LATITUDE || latitude > CommonVariable.MAXIMUM_LATITUDE) {
             return false;
         } else {
             return true;
         }
     }
+
+    private static class AMapLocation implements Location {
+
+        private final double longitude;
+
+        private final double latitude;
+
+        public AMapLocation(double longitude, double latitude) {
+            this.longitude = longitude;
+            this.latitude = latitude;
+        }
+
+        @Override
+        public double getLongitude() {
+            return this.longitude;
+        }
+
+        @Override
+        public double getLatitude() {
+            return this.latitude;
+        }
+    }
+
 }

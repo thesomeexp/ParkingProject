@@ -1,6 +1,5 @@
 package com.someexp.config.shiro;
 
-import com.someexp.common.utils.BeanUtils;
 import com.someexp.common.utils.JwtUtils;
 import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.utils.ShiroUtils;
@@ -90,16 +89,8 @@ public class JwtRealm extends AuthorizingRealm {
         }
 
         ShiroUser shiroUser = new ShiroUser();
-        switch (role) {
-            case "user":
-                BeanUtils.copyProperties(getUser(userId), shiroUser);
-                break;
-            case "admin":
-                BeanUtils.copyProperties(getAdmin(userId), shiroUser);
-                break;
-            default:
-                throw new AuthenticationException(MsgUtils.get("jwt.role.verify.fail"));
-        }
+        shiroUser.setId(userId);
+        shiroUser.setRole(role);
 
         return new SimpleAuthenticationInfo(shiroUser, userId, getName());
     }

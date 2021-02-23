@@ -10,6 +10,7 @@ import com.someexp.modules.user.mapper.TempUserMapper;
 import com.someexp.modules.user.service.TempService;
 import com.someexp.modules.user.service.TempUserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -28,23 +29,23 @@ public class TempUserServiceImpl implements TempUserService {
     private TempService tempService;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Integer add(TempUserDTO tempUserDTO) {
         if (tempUserDTO.getUseful() == 0) {
             throw new BusinessException(MsgUtils.get("parameter.illegal", new String[]{"useful", String.valueOf(tempUserDTO.getUseful())}));
         }
-        if (tempService.getEntity(tempUserDTO.getTid()) == null) {
+        if (!tempService.checkTempExists(tempUserDTO.getTid())) {
             throw new BusinessException(MsgUtils.get("common.not.found", new String[]{"temp"}));
         }
-        // 查询之前是否投票过, 有则不操作, 无则插入
+        // 查询之前是否投票过, 有则异常, 无则插入
         Long userId = ShiroUtils.getUserId();
-        TempUser tempUser = tempUserMapper.getByTidAndUid(tempUserDTO.getTid(), userId);
-        if (tempUser != null) {
+        if (tempUserMapper.checkTempUserExists(userId, tempUserDTO.getTid())) {
             throw new BusinessException(MsgUtils.get("tempUser.already.exist"));
         }
         TempUser newTempUser = new TempUser();
         BeanUtils.copyProperties(tempUserDTO, newTempUser);
         newTempUser.setUid(userId);
+
         tempUserMapper.save(newTempUser);
         // 增加对应temp的useful数量
         tempService.increase(newTempUser.getTid(), newTempUser.getUseful());

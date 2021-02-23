@@ -1,6 +1,7 @@
 package com.someexp.modules.user.mapper;
 
 import com.someexp.modules.user.domain.entity.TempUser;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author someexp
@@ -8,7 +9,10 @@ import com.someexp.modules.user.domain.entity.TempUser;
  */
 public interface TempUserMapper {
 
-    TempUser getByTidAndUid(Long tid, Long uid);
+    TempUser getEntity(@Param("tid") Long tid, @Param("uid") Long uid);
+
+    boolean checkTempUserExists(@Param("uid") Long uid, @Param("tid") Long tid);
 
     void save(TempUser newTempUser);
+
 }

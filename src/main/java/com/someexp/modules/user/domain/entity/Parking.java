@@ -46,11 +46,6 @@ public class Parking implements Serializable {
     private String geohash;
 
     /**
-     * 图片链接
-     */
-    private String firstUrl;
-
-    /**
      * 状态:0.未验证1.已验证2.已禁用
      */
     private Integer status;

@@ -33,10 +33,17 @@ public class ReviewController {
                 .body(Result.success(reviewService.add(reviewDTO), MsgUtils.get("success")));
     }
 
+    /**
+     * 列出一个停车场的评论
+     *
+     * @param reviewQuery
+     * @return
+     */
     @GetMapping("/review")
     public ResponseEntity<?> list(ReviewQuery reviewQuery) {
         ValidatorUtils.validateEntity(reviewQuery, QueryGroup.class);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Result.success(reviewService.list(reviewQuery), MsgUtils.get("success")));
     }
+
 }

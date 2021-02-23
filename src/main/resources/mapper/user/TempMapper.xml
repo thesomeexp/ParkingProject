@@ -23,13 +23,24 @@
         <result column="my_opt" property="myOpt"/>
     </resultMap>
 
-    <select id="getByUidAndPidInterval" resultMap="TEMP_ENTITY">
-        SELECT *
-        FROM temp
-        WHERE tmp_uid = #{uid}
-          AND tmp_pid = #{pid}
-          AND tmp_update_date > date_sub(now(), interval '0 00:30:00' day_second)
-        LIMIT 1
+    <select id="checkTempExists30Min" resultType="java.lang.Boolean">
+        SELECT EXISTS(
+            SELECT 1
+            FROM temp
+            WHERE tmp_uid = #{uid}
+            AND tmp_pid = #{pid}
+            AND tmp_update_date > date_sub(now(), INTERVAL '0 00:30:00' DAY_SECOND)
+            LIMIT 1
+            ) AS result;
+    </select>
+
+    <select id="checkTempExists" resultType="java.lang.Boolean">
+        SELECT EXISTS(
+            SELECT 1
+            FROM temp
+            WHERE tmp_id = #{id}
+            LIMIT 1
+            ) AS result;
     </select>
 
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Temp" useGeneratedKeys="true"
@@ -39,7 +50,7 @@
         VALUES (#{pid}, #{uid}, #{state}, 0, 0, now())
     </insert>
 
-    <select id="get" resultMap="TEMP_ENTITY">
+    <select id="getEntity" resultMap="TEMP_ENTITY">
         SELECT *
         FROM temp
         WHERE tmp_id = #{id}
@@ -48,33 +59,33 @@
     <select id="list" resultMap="TEMP_VO">
         SELECT tmp.*, coalesce(tu.tu_useful, 0) as my_opt
         FROM tempUser tu
-                 right join (select *
+                 RIGHT JOIN (SELECT *
                              FROM temp
                              WHERE tmp_pid = #{pid}
-                               AND tmp_update_date > date_sub(now(), interval '0 00:30:00' day_second)
+                               AND tmp_update_date > date_sub(now(), INTERVAL '0 00:30:00' DAY_SECOND)
                              ORDER BY tmp_update_date DESC
                              LIMIT 5) tmp
-                            on tu.tu_uid = #{uid} AND tu.tu_tid = tmp.tmp_id
-                            ORDER BY tmp_update_date DESC
-    </select>
-
-    <!--    todo-->
-
-    <select id="listEntity" resultType="com.someexp.modules.user.domain.entity.Temp">
-        SELECT *
-        FROM temp
-        WHERE stateUpdateDate > date_sub(now(), interval '0 00:30:00' day_second)
-          AND pid = #{pid}
+                            ON tu.tu_uid = #{uid} AND tu.tu_tid = tmp.tmp_id
     </select>
 
     <update id="increaseUseful">
-        update temp
-        set useful = useful + 1
-        WHERE id = #{tid};
+        UPDATE temp
+        SET tmp_useful = tmp_useful + 1
+        WHERE tmp_id = #{tid};
     </update>
+
     <update id="increaseUnuseful">
-        update temp
-        set unuseful = unuseful + 1
-        WHERE id = #{tid};
+        UPDATE temp
+        SET tmp_unuseful = tmp_unuseful + 1
+        WHERE tmp_id = #{tid};
     </update>
+
+    <select id="listEntity" resultMap="TEMP_ENTITY">
+        -- 统计30分钟内的拥挤度 --
+        SELECT *
+        FROM temp
+        WHERE tmp_pid = #{pid}
+          AND tmp_update_date > date_sub(now(), INTERVAL '0 00:30:00' DAY_SECOND)
+    </select>
+
 </mapper>

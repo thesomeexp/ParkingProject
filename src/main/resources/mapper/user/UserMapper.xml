@@ -11,7 +11,17 @@
         <result column="usr_status" property="status"/>
     </resultMap>
 
-    <select id="getByPhone" resultMap="USER_ENTITY">
+    <select id="checkUserExists" resultType="java.lang.Boolean">
+        SELECT EXISTS(
+            SELECT 1
+            FROM user
+            WHERE usr_area_code = #{areaCode}
+            AND usr_phone = #{phone}
+            LIMIT 1
+            ) AS result;
+    </select>
+
+    <select id="getEntityByPhone" resultMap="USER_ENTITY">
         SELECT *
         FROM user
         WHERE usr_area_code = #{areaCode}

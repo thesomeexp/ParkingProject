@@ -9,7 +9,9 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface UserMapper {
 
-    User getByPhone(@Param("areaCode") Integer areaCode, @Param("phone") String phone);
+    boolean checkUserExists(@Param("areaCode") Integer areaCode, @Param("phone") String phone);
+
+    User getEntityByPhone(@Param("areaCode") Integer areaCode, @Param("phone") String phone);
 
     void save(User user);
 
