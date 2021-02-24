@@ -1,6 +1,7 @@
 package com.someexp.modules.user.mapper;
 
 import com.someexp.modules.user.domain.entity.Review;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,8 +13,8 @@ public interface ReviewMapper {
 
     void save(Review review);
 
-    Review getByPidAndUid(Long pid, Long uid);
+    List<Review> pageByPid(@Param("pid") Long pid, @Param("offset") Integer offset, @Param("rowCount") Integer rowCount);
 
-    List<Review> listAll(Long pid);
+    boolean checkReviewExists(@Param("pid") Long pid, @Param("uid") Long uid);
 
 }

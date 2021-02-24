@@ -2,6 +2,7 @@ package com.someexp.modules.user.domain.dto;
 
 import com.someexp.common.validator.group.AddGroup;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -24,6 +25,7 @@ public class ReviewDTO {
     private Integer score;
 
     @NotBlank(message = "review.content.cant.be.null", groups = AddGroup.class)
+    @Length(min = 1, max = 100, message = "review.content.out.of.length", groups = AddGroup.class)
     private String content;
 
 }

@@ -29,12 +29,12 @@ public class ParkingJwtFilter extends AccessControlFilter {
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-        return isAuthzHeaderLegal(request, response);
+        return checkAuthzHeader(request, response);
     }
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        return onLoginFailure(request, response);
+        return false;
     }
 
     private String getAuthzHeader(ServletRequest request) {
@@ -43,7 +43,7 @@ public class ParkingJwtFilter extends AccessControlFilter {
         return httpRequest.getHeader(AUTHORIZATION_HEADER);
     }
 
-    private boolean isAuthzHeaderLegal(ServletRequest request, ServletResponse response) {
+    private boolean checkAuthzHeader(ServletRequest request, ServletResponse response) {
         String authorizationHeader = getAuthzHeader(request);
 
         try {

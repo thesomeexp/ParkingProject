@@ -11,18 +11,12 @@
         <result column="rew_create_date" property="createdDate"/>
     </resultMap>
 
-    <select id="getByPidAndUid" resultMap="REVIEW_ENTITY">
-        SELECT rew_pid
-        FROM review
-        WHERE rew_pid = #{pid}
-        AND rew_uid = #{uid}
-    </select>
-
-    <select id="listAll" resultType="com.someexp.modules.user.domain.entity.Review">
+    <select id="pageByPid" resultMap="REVIEW_ENTITY">
         SELECT *
         FROM review
         WHERE rew_pid = #{pid}
         ORDER BY rew_id desc
+        LIMIT #{offset}, #{rowCount}
     </select>
 
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Review" useGeneratedKeys="true"
@@ -30,5 +24,15 @@
         insert into review (rew_pid, rew_uid, rew_score, rew_content, rew_create_date)
         values (#{pid}, #{uid}, #{score}, #{content}, now())
     </insert>
+
+    <select id="checkReviewExists" resultType="java.lang.Boolean">
+        SELECT EXISTS(
+            SELECT 1
+            FROM review
+            WHERE rew_uid = #{uid}
+            AND rew_pid = #{pid}
+            LIMIT 1
+            ) AS result;
+    </select>
 
 </mapper>

@@ -22,16 +22,6 @@ public class PageResultDTO<T> {
     private int pageSize;
 
     /**
-     * 总记录数
-     */
-    private long total;
-
-    /**
-     * 总页数
-     */
-    private int pages;
-
-    /**
      * 结果集
      */
     private List<T> list;

@@ -1,8 +1,7 @@
 package com.someexp.modules.user.service.impl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.someexp.common.domain.PageResultDTO;
+import com.someexp.common.domain.UserPageResultDTO;
 import com.someexp.common.exception.BusinessException;
 import com.someexp.common.utils.BeanUtils;
 import com.someexp.common.utils.MsgUtils;
@@ -32,11 +31,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Integer add(ReviewDTO reviewDTO) {
-        if (parkingService.getEntity(reviewDTO.getPid(), 1) == null) {
+        if (!parkingService.checkParkingExists(reviewDTO.getPid())) {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
         }
         Long userId = ShiroUtils.getUserId();
-        if (reviewMapper.getByPidAndUid(reviewDTO.getPid(), userId) != null) {
+        if (reviewMapper.checkReviewExists(reviewDTO.getPid(), userId)) {
             throw new BusinessException((MsgUtils.get("review.already.exist")));
         }
         Review review = new Review();
@@ -49,16 +48,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public PageResultDTO<?> list(ReviewQuery reviewQuery) {
-        if (parkingService.getEntity(reviewQuery.getPid(), 1) == null) {
+        if (!parkingService.checkParkingExists(reviewQuery.getPid())) {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
         }
-        PageHelper.startPage(reviewQuery.getPageNum(), reviewQuery.getPageSize());
-        Page<Review> page = (Page<Review>) reviewMapper.listAll(reviewQuery.getPid());
 
-        PageResultDTO<Review> pageResultDTO = new PageResultDTO<>();
-        BeanUtils.copyProperties(page, pageResultDTO);
-        pageResultDTO.setList(page.getResult());
-        return pageResultDTO;
+        return new UserPageResultDTO<>(reviewQuery,
+                reviewMapper.pageByPid(reviewQuery.getPid(), reviewQuery.getOffset(), reviewQuery.getRowCount())
+        );
     }
 
 }
