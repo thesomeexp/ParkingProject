@@ -3,12 +3,14 @@ package com.someexp.config.shiro;
 import com.google.gson.Gson;
 import com.someexp.common.domain.Result;
 import com.someexp.common.utils.MsgUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -29,6 +31,16 @@ public class ParkingJwtFilter extends AccessControlFilter {
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+        // OPTIONS 预请求不带token
+        if (StringUtils.equals(((HttpServletRequest) request).getMethod(), RequestMethod.OPTIONS.name())) {
+            HttpServletRequest httpRequest = (HttpServletRequest) request;
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            httpResponse.setHeader("Access-control-Allow-Origin", httpRequest.getHeader("Origin"));
+            httpResponse.setHeader("Access-Control-Allow-Methods", httpRequest.getMethod());
+            httpResponse.setHeader("Access-Control-Allow-Headers", httpRequest.getHeader("Access-Control-Request-Headers"));
+            httpResponse.setStatus(HttpStatus.OK.value());
+            return false;
+        }
         return checkAuthzHeader(request, response);
     }
 

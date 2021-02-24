@@ -49,52 +49,52 @@ public class ParkingVO implements Serializable {
      */
     private LocalDateTime stateUpdateDate;
 
-    private Integer t0;
+    private Double t0;
 
-    private Integer t1;
+    private Double t1;
 
-    private Integer t2;
+    private Double t2;
 
-    private Integer t3;
+    private Double t3;
 
-    private Integer t4;
+    private Double t4;
 
-    private Integer t5;
+    private Double t5;
 
-    private Integer t6;
+    private Double t6;
 
-    private Integer t7;
+    private Double t7;
 
-    private Integer t8;
+    private Double t8;
 
-    private Integer t9;
+    private Double t9;
 
-    private Integer t10;
+    private Double t10;
 
-    private Integer t11;
+    private Double t11;
 
-    private Integer t12;
+    private Double t12;
 
-    private Integer t13;
+    private Double t13;
 
-    private Integer t14;
+    private Double t14;
 
-    private Integer t15;
+    private Double t15;
 
-    private Integer t16;
+    private Double t16;
 
-    private Integer t17;
+    private Double t17;
 
-    private Integer t18;
+    private Double t18;
 
-    private Integer t19;
+    private Double t19;
 
-    private Integer t20;
+    private Double t20;
 
-    private Integer t21;
+    private Double t21;
 
-    private Integer t22;
+    private Double t22;
 
-    private Integer t23;
+    private Double t23;
 
 }
