@@ -59,6 +59,12 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new BusinessException(MsgUtils.get("user.not.found"));
         }
+        if (user.getStatus() == 0) {
+            throw new BusinessException(MsgUtils.get("user.not.verify"));
+        }
+        if (user.getStatus() == 2) {
+            throw new BusinessException(MsgUtils.get("user.has.been.lock"));
+        }
 
         if (!PasswordEncoderUtils.matches(userDTO.getPassword(), user.getPassword())) {
             throw new BusinessException(MsgUtils.get("user.password.dont.match"));

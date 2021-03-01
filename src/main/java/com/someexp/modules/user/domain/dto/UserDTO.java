@@ -3,6 +3,7 @@ package com.someexp.modules.user.domain.dto;
 import com.someexp.common.validator.group.LoginGroup;
 import com.someexp.common.validator.group.RegisterGroup;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ public class UserDTO {
      * 用户名
      */
     @NotBlank(message = "user.name.cant.be.null", groups = RegisterGroup.class)
+    @Length(min = 1, max = 10, message = "user.name.out.of.length", groups = RegisterGroup.class)
     private String name;
 
     /**

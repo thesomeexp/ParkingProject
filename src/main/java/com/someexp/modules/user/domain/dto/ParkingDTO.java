@@ -2,6 +2,7 @@ package com.someexp.modules.user.domain.dto;
 
 import com.someexp.common.validator.group.AddGroup;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class ParkingDTO {
 
     @NotBlank(message = "parking.name.cant.be.null", groups = AddGroup.class)
+    @Length(min = 1, max = 20, message = "parking.name.out.of.length", groups = AddGroup.class)
     private String name;
 
     @NotBlank(message = "parking.location.cant.be.null", groups = AddGroup.class)
@@ -22,6 +24,7 @@ public class ParkingDTO {
     private MultipartFile image;
 
     @NotBlank(message = "parking.content.cant.be.null", groups = AddGroup.class)
+    @Length(min = 1, max = 100, message = "parking.content.out.of.length", groups = AddGroup.class)
     private String content;
 
 }

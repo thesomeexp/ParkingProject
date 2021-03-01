@@ -1,6 +1,3 @@
-关于jwt与Shiro整合
+# 基于众包的"共享停车服务＂后台
 
-jwt是一段服务端认证用户后颁发的一个凭证, 只需要认证一下签名和过期时间一般就表示这个请求来自这个用户
-
-而shiro和jwt整合, 因为jwt是放在请求header里的, 所以整合时只shiro的过滤器只需要验证一下jwt签名以及有没有过期就可以了.
-
+[一键看代码](https://github1s.com/thesomeexp/ParkingCloud)

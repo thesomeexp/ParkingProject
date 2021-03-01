@@ -51,7 +51,6 @@ public class ParkingJwtFilter extends AccessControlFilter {
 
     private String getAuthzHeader(ServletRequest request) {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-
         return httpRequest.getHeader(AUTHORIZATION_HEADER);
     }
 
@@ -79,10 +78,6 @@ public class ParkingJwtFilter extends AccessControlFilter {
             log.error("未知错误JwtFilter.executeLogin(): ", e);
             return false;
         }
-    }
-
-    private boolean onLoginFailure(ServletRequest request, ServletResponse response) {
-        return onLoginFailure(new AuthenticationException(MsgUtils.get("user.login.fail")), request, response);
     }
 
     private boolean onLoginFailure(AuthenticationException authenticationException, ServletRequest request, ServletResponse response) {
