@@ -1,5 +1,7 @@
 package com.someexp.modules.user.service;
 
+import com.someexp.common.domain.PageParamQuery;
+import com.someexp.common.domain.PageResultDTO;
 import com.someexp.modules.user.domain.dto.ParkingDTO;
 import com.someexp.modules.user.domain.entity.Parking;
 import com.someexp.modules.user.domain.query.ParkingQuery;
@@ -48,5 +50,12 @@ public interface ParkingService {
      * @return
      */
     boolean checkParkingExists(Long id);
+
+    /**
+     * 列出用户自己提交的停车场
+     *
+     * @return
+     */
+    PageResultDTO<?> listMyParking(PageParamQuery pageParamQuery);
 
 }

@@ -4,8 +4,10 @@ import com.someexp.common.exception.BusinessException;
 import com.someexp.common.utils.JwtUtils;
 import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.utils.PasswordEncoderUtils;
+import com.someexp.common.utils.ShiroUtils;
 import com.someexp.modules.user.domain.dto.UserDTO;
 import com.someexp.modules.user.domain.entity.User;
+import com.someexp.modules.user.domain.vo.UserVO;
 import com.someexp.modules.user.mapper.UserMapper;
 import com.someexp.modules.user.service.UserService;
 import org.springframework.stereotype.Service;
@@ -72,6 +74,11 @@ public class UserServiceImpl implements UserService {
 
         String token = JwtUtils.create(user.getId(), "user");
         return token;
+    }
+
+    @Override
+    public UserVO getProfile() {
+        return userMapper.getById(ShiroUtils.getUserId());
     }
 
 

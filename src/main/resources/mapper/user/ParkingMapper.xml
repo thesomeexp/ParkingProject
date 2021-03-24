@@ -46,6 +46,7 @@
         <result column="prk_longitude" property="longitude"/>
         <result column="prk_latitude" property="latitude"/>
         <result column="location" property="location"/>
+        <result column="prk_status" property="status"/>
         <result column="prk_update_date" property="stateUpdateDate"/>
         <result column="prk_t0" property="t0"/>
         <result column="prk_t1" property="t1"/>
@@ -129,5 +130,13 @@
         SET prk_${colName} = (#{state} + prk_${colName}) / 2
         WHERE prk_id = #{pid}
     </update>
+
+    <select id="pageByUid" resultMap="PARKING_VO">
+        SELECT *, concat(prk_longitude, concat(',', prk_latitude)) as location
+        FROM parking
+        WHERE prk_uid = #{uid}
+        ORDER BY prk_id desc
+        LIMIT #{offset}, #{rowCount}
+    </select>
 
 </mapper>

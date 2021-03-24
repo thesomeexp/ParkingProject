@@ -1,6 +1,7 @@
 package com.someexp.modules.user.service;
 
 import com.someexp.modules.user.domain.dto.UserDTO;
+import com.someexp.modules.user.domain.vo.UserVO;
 
 /**
  * @author someexp
@@ -24,4 +25,5 @@ public interface UserService {
      */
     String login(UserDTO userDTO);
 
+    UserVO getProfile();
 }

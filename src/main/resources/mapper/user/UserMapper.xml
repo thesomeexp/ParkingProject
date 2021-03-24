@@ -11,6 +11,14 @@
         <result column="usr_status" property="status"/>
     </resultMap>
 
+    <resultMap id="USER_VO" type="com.someexp.modules.user.domain.vo.UserVO">
+        <id column="usr_id" property="id"/>
+        <result column="usr_name" property="name"/>
+        <result column="usr_area_code" property="areaCode"/>
+        <result column="usr_phone" property="phone"/>
+        <result column="usr_status" property="status"/>
+    </resultMap>
+
     <select id="checkUserExists" resultType="java.lang.Boolean">
         SELECT EXISTS(
             SELECT 1
@@ -32,7 +40,13 @@
             keyProperty="id" keyColumn="usr_id">
         INSERT INTO user
             (usr_name, usr_password, usr_area_code, usr_phone, usr_status)
-        VALUES (#{name}, #{password}, #{areaCode}, #{phone}, 0);
+        VALUES (#{name}, #{password}, #{areaCode}, #{phone}, 1);
     </insert>
+
+    <select id="getById" resultMap="USER_VO">
+        SELECT *
+        FROM user
+        WHERE usr_id = #{uid}
+    </select>
 
 </mapper>

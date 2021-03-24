@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +38,10 @@ public class UserController {
     @PostMapping("/user/register")
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
         ValidatorUtils.validateEntity(userDTO, RegisterGroup.class);
-
+        if (userDTO.getAreaCode() != 86) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Result.fail(MsgUtils.get("user.register.only.86")));
+        }
         String name = userService.register(userDTO);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Result.success(name, MsgUtils.get("user.register.success")));
@@ -56,6 +60,12 @@ public class UserController {
         String jwt = userService.login(userDTO);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Result.success(jwt, MsgUtils.get("user.login.success")));
+    }
+
+    @GetMapping("/user/profile")
+    public ResponseEntity<?> getProfile() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Result.success(userService.getProfile(), MsgUtils.get("success")));
     }
 
 }

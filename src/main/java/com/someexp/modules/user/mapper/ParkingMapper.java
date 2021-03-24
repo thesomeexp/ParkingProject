@@ -28,4 +28,5 @@ public interface ParkingMapper {
 
     boolean checkParkingExistsByStatus(@Param("id") Long id, @Param("status") Integer status);
 
+    List<ParkingVO> pageByUid(@Param("uid") Long uid, @Param("offset") Integer offset, @Param("rowCount") Integer rowCount);
 }

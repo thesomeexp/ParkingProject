@@ -1,5 +1,6 @@
 package com.someexp.modules.user.controller;
 
+import com.someexp.common.domain.PageParamQuery;
 import com.someexp.common.domain.Result;
 import com.someexp.common.exception.ParamsException;
 import com.someexp.common.utils.MsgUtils;
@@ -59,6 +60,13 @@ public class ParkingController {
     public ResponseEntity<?> get(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Result.success(parkingService.get(id), MsgUtils.get("success")));
+    }
+
+    @GetMapping("/parking/my")
+    public ResponseEntity<?> listMyParking(PageParamQuery pageParamQuery) {
+        ValidatorUtils.validateEntity(pageParamQuery, QueryGroup.class);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Result.success(parkingService.listMyParking(pageParamQuery), MsgUtils.get("success")));
     }
 
 }

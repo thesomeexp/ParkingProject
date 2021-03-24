@@ -45,6 +45,11 @@ public class ParkingVO implements Serializable {
     private String location;
 
     /**
+     * 状态:0.未验证1.已验证2.已禁用
+     */
+    private Integer status;
+
+    /**
      * 拥挤度数据更新时间
      */
     private LocalDateTime stateUpdateDate;

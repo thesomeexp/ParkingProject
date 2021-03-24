@@ -1,5 +1,8 @@
 package com.someexp.modules.user.service.impl;
 
+import com.someexp.common.domain.PageParamQuery;
+import com.someexp.common.domain.PageResultDTO;
+import com.someexp.common.domain.UserPageResultDTO;
 import com.someexp.common.exception.BusinessException;
 import com.someexp.common.utils.*;
 import com.someexp.common.variable.CommonVariable;
@@ -109,6 +112,12 @@ public class ParkingServiceImpl implements ParkingService {
     @Override
     public boolean checkParkingExists(Long id) {
         return parkingMapper.checkParkingExistsByStatus(id, 1);
+    }
+
+    @Override
+    public PageResultDTO<?> listMyParking(PageParamQuery pageParamQuery) {
+        return new UserPageResultDTO<>(pageParamQuery,
+                parkingMapper.pageByUid(ShiroUtils.getUserId(), pageParamQuery.getOffset(), pageParamQuery.getRowCount()));
     }
 
 }

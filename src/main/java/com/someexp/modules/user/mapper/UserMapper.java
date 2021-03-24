@@ -1,6 +1,7 @@
 package com.someexp.modules.user.mapper;
 
 import com.someexp.modules.user.domain.entity.User;
+import com.someexp.modules.user.domain.vo.UserVO;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -15,4 +16,5 @@ public interface UserMapper {
 
     void save(User user);
 
+    UserVO getById(@Param("uid") Long uid);
 }
