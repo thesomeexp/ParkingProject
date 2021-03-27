@@ -28,4 +28,5 @@ public interface TempMapper {
 
     List<Temp> listEntity(Long pid);
 
+    List<TempVO> pageByUid(@Param("uid") Long uid, @Param("offset") Integer offset, @Param("rowCount") Integer rowCount);
 }

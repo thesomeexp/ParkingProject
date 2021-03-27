@@ -21,32 +21,31 @@
         <result column="tmp_unuseful" property="unuseful"/>
         <result column="tmp_update_date" property="stateUpdateDate"/>
         <result column="my_opt" property="myOpt"/>
+        <result column="prk_name" property="parkingName"/>
     </resultMap>
 
     <select id="checkTempExists30Min" resultType="java.lang.Boolean">
         SELECT EXISTS(
-            SELECT 1
-            FROM temp
-            WHERE tmp_uid = #{uid}
-            AND tmp_pid = #{pid}
-            AND tmp_update_date > date_sub(now(), INTERVAL '0 00:30:00' DAY_SECOND)
-            LIMIT 1
-            ) AS result;
+                       SELECT 1
+                       FROM temp
+                       WHERE tmp_uid = #{uid}
+                         AND tmp_pid = #{pid}
+                         AND tmp_update_date > date_sub(now(), INTERVAL '0 00:30:00' DAY_SECOND)
+                   ) AS result;
     </select>
 
     <select id="checkTempExists" resultType="java.lang.Boolean">
         SELECT EXISTS(
-            SELECT 1
-            FROM temp
-            WHERE tmp_id = #{id}
-            LIMIT 1
-            ) AS result;
+                       SELECT 1
+                       FROM temp
+                       WHERE tmp_id = #{id}
+                   ) AS result;
     </select>
 
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Temp" useGeneratedKeys="true"
             keyProperty="id" keyColumn="tmp_id">
         INSERT INTO temp
-            (tmp_pid, tmp_uid, tmp_state, tmp_useful, tmp_unuseful, tmp_update_date)
+        (tmp_pid, tmp_uid, tmp_state, tmp_useful, tmp_unuseful, tmp_update_date)
         VALUES (#{pid}, #{uid}, #{state}, 0, 0, now())
     </insert>
 
@@ -86,6 +85,16 @@
         FROM temp
         WHERE tmp_pid = #{pid}
           AND tmp_update_date > date_sub(now(), INTERVAL '0 00:30:00' DAY_SECOND)
+    </select>
+
+    <select id="pageByUid" resultMap="TEMP_VO">
+        -- 根据uid分页查询拥挤度状态 --
+        SELECT tt.*, tp.prk_name
+        FROM temp AS tt
+                 INNER JOIN parking AS tp ON tt.tmp_pid = prk_id
+        WHERE tt.tmp_uid = #{uid}
+        ORDER BY tt.tmp_update_date DESC
+        LIMIT #{offset}, #{rowCount}
     </select>
 
 </mapper>

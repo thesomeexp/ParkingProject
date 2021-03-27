@@ -1,5 +1,6 @@
 package com.someexp.modules.user.service.impl;
 
+import com.someexp.common.domain.PageParamQuery;
 import com.someexp.common.domain.PageResultDTO;
 import com.someexp.common.domain.UserPageResultDTO;
 import com.someexp.common.exception.BusinessException;
@@ -55,6 +56,12 @@ public class ReviewServiceImpl implements ReviewService {
         return new UserPageResultDTO<>(reviewQuery,
                 reviewMapper.pageByPid(reviewQuery.getPid(), reviewQuery.getOffset(), reviewQuery.getRowCount())
         );
+    }
+
+    @Override
+    public PageResultDTO<?> listMyReview(PageParamQuery pageParamQuery) {
+        return new UserPageResultDTO<>(pageParamQuery,
+                reviewMapper.pageByUid(ShiroUtils.getUserId(), pageParamQuery.getOffset(), pageParamQuery.getRowCount()));
     }
 
 }

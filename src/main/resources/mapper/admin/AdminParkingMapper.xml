@@ -19,7 +19,7 @@
     <select id="get" resultType="com.someexp.modules.admin.domain.entity.Parking">
         select *
         from parking
-        where id = #{id}
+        where prk_id = #{id}
     </select>
 
     <update id="update" parameterType="com.someexp.modules.admin.domain.entity.Parking">

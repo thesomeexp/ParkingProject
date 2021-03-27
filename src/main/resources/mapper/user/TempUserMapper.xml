@@ -14,17 +14,16 @@
         SELECT *
         FROM tempUser
         WHERE tu_uid = #{uid}
-        AND tu_tid = #{tid}
+          AND tu_tid = #{tid}
     </select>
 
     <select id="checkTempUserExists" resultType="java.lang.Boolean">
         SELECT EXISTS(
-            SELECT 1
-            FROM tempUser
-            WHERE tu_uid = #{uid}
-            AND tu_tid = #{tid}
-            LIMIT 1
-            ) AS result;
+                       SELECT 1
+                       FROM tempUser
+                       WHERE tu_uid = #{uid}
+                         AND tu_tid = #{tid}
+                   ) AS result;
     </select>
 
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.TempUser" useGeneratedKeys="true"

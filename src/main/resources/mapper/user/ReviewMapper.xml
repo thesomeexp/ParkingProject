@@ -11,6 +11,16 @@
         <result column="rew_create_date" property="createdDate"/>
     </resultMap>
 
+    <resultMap id="REVIEW_VO" type="com.someexp.modules.user.domain.vo.ReviewVO">
+        <id column="rew_id" property="id"/>
+        <result column="rew_pid" property="pid"/>
+        <result column="rew_uid" property="uid"/>
+        <result column="rew_score" property="score"/>
+        <result column="rew_content" property="content"/>
+        <result column="rew_create_date" property="createdDate"/>
+        <result column="prk_name" property="parkingName"/>
+    </resultMap>
+
     <select id="pageByPid" resultMap="REVIEW_ENTITY">
         SELECT *
         FROM review
@@ -27,12 +37,21 @@
 
     <select id="checkReviewExists" resultType="java.lang.Boolean">
         SELECT EXISTS(
-            SELECT 1
-            FROM review
-            WHERE rew_uid = #{uid}
-            AND rew_pid = #{pid}
-            LIMIT 1
-            ) AS result;
+                       SELECT 1
+                       FROM review
+                       WHERE rew_uid = #{uid}
+                         AND rew_pid = #{pid}
+                   ) AS result;
+    </select>
+
+    <select id="pageByUid" resultMap="REVIEW_VO">
+        -- 根据uid分页列出评论 --
+        SELECT rew.*, prk.prk_name
+        FROM review AS rew FORCE INDEX (review_rew_uid_index)
+                 INNER JOIN parking AS prk ON rew.rew_pid = prk.prk_id
+        WHERE rew.rew_uid = #{uid}
+        ORDER BY rew.rew_id DESC
+        LIMIT #{offset}, #{rowCount}
     </select>
 
 </mapper>

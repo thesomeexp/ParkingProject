@@ -1,5 +1,8 @@
 package com.someexp.modules.user.service.impl;
 
+import com.someexp.common.domain.PageParamQuery;
+import com.someexp.common.domain.PageResultDTO;
+import com.someexp.common.domain.UserPageResultDTO;
 import com.someexp.common.exception.BusinessException;
 import com.someexp.common.utils.BeanUtils;
 import com.someexp.common.utils.MsgUtils;
@@ -88,6 +91,12 @@ public class TempServiceImpl implements TempService {
     @Override
     public boolean checkTempExists(Long id) {
         return tempMapper.checkTempExists(id);
+    }
+
+    @Override
+    public PageResultDTO<?> listMyTemp(PageParamQuery pageParamQuery) {
+        return new UserPageResultDTO<>(pageParamQuery,
+                tempMapper.pageByUid(ShiroUtils.getUserId(), pageParamQuery.getOffset(), pageParamQuery.getRowCount()));
     }
 
 }

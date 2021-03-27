@@ -1,5 +1,6 @@
 package com.someexp.modules.user.controller;
 
+import com.someexp.common.domain.PageParamQuery;
 import com.someexp.common.domain.Result;
 import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.validator.ValidatorUtils;
@@ -63,6 +64,13 @@ public class TempController {
         ValidatorUtils.validateEntity(tempQuery, QueryGroup.class);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Result.success(tempService.interval(tempQuery.getPid()), MsgUtils.get("success")));
+    }
+
+    @GetMapping("/temp/my")
+    public ResponseEntity<?> listMyTemp(PageParamQuery pageParamQuery) {
+        ValidatorUtils.validateEntity(pageParamQuery, QueryGroup.class);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Result.success(tempService.listMyTemp(pageParamQuery), MsgUtils.get("success")));
     }
 
 }

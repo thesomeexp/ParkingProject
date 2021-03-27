@@ -21,19 +21,18 @@
 
     <select id="checkUserExists" resultType="java.lang.Boolean">
         SELECT EXISTS(
-            SELECT 1
-            FROM user
-            WHERE usr_area_code = #{areaCode}
-            AND usr_phone = #{phone}
-            LIMIT 1
-            ) AS result;
+                       SELECT 1
+                       FROM user
+                       WHERE usr_area_code = #{areaCode}
+                         AND usr_phone = #{phone}
+                   ) AS result;
     </select>
 
     <select id="getEntityByPhone" resultMap="USER_ENTITY">
         SELECT *
         FROM user
         WHERE usr_area_code = #{areaCode}
-        AND usr_phone = #{phone};
+          AND usr_phone = #{phone};
     </select>
 
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.User" useGeneratedKeys="true"

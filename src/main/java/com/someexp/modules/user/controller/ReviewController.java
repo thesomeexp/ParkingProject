@@ -1,5 +1,6 @@
 package com.someexp.modules.user.controller;
 
+import com.someexp.common.domain.PageParamQuery;
 import com.someexp.common.domain.Result;
 import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.validator.ValidatorUtils;
@@ -46,4 +47,10 @@ public class ReviewController {
                 .body(Result.success(reviewService.list(reviewQuery), MsgUtils.get("success")));
     }
 
+    @GetMapping("/review/my")
+    public ResponseEntity<?> listMyReview(PageParamQuery pageParamQuery) {
+        ValidatorUtils.validateEntity(pageParamQuery, QueryGroup.class);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Result.success(reviewService.listMyReview(pageParamQuery), MsgUtils.get("success")));
+    }
 }

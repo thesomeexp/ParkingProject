@@ -1,6 +1,7 @@
 package com.someexp.modules.user.mapper;
 
 import com.someexp.modules.user.domain.entity.Review;
+import com.someexp.modules.user.domain.vo.ReviewVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,4 +18,5 @@ public interface ReviewMapper {
 
     boolean checkReviewExists(@Param("pid") Long pid, @Param("uid") Long uid);
 
+    List<ReviewVO> pageByUid(@Param("uid") Long uid, @Param("offset") Integer offset, @Param("rowCount") Integer rowCount);
 }

@@ -87,42 +87,40 @@
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Parking" useGeneratedKeys="true"
             keyProperty="id" keyColumn="prk_id">
         INSERT INTO parking
-            (prk_uid, prk_name, prk_content, prk_longitude, prk_latitude, prk_geohash, prk_status, prk_update_date)
+        (prk_uid, prk_name, prk_content, prk_longitude, prk_latitude, prk_geohash, prk_status, prk_update_date)
         VALUES (#{uid}, #{name}, #{content}, #{longitude}, #{latitude}, #{geohash}, 0, now())
     </insert>
 
     <select id="checkParkingExists" resultType="java.lang.Boolean">
         SELECT EXISTS(
-            SELECT 1
-            FROM parking
-            WHERE prk_longitude = #{longitude}
-            AND prk_latitude = #{latitude}
-            LIMIT 1
-            ) AS result;
+                       SELECT 1
+                       FROM parking
+                       WHERE prk_longitude = #{longitude}
+                         AND prk_latitude = #{latitude}
+                   ) AS result;
     </select>
 
     <select id="checkParkingExistsByStatus" resultType="java.lang.Boolean">
         SELECT EXISTS(
-            SELECT 1
-            FROM parking
-            WHERE prk_id = #{id}
-            AND prk_status = #{status}
-            LIMIT 1
-            ) AS result;
+                       SELECT 1
+                       FROM parking
+                       WHERE prk_id = #{id}
+                         AND prk_status = #{status}
+                   ) AS result;
     </select>
 
     <select id="get" resultMap="PARKING_VO">
         SELECT *, concat(prk_longitude, concat(',', prk_latitude)) as location
         FROM parking
         WHERE prk_id = #{id}
-        AND prk_status = 1
+          AND prk_status = 1
     </select>
 
     <select id="getEntity" resultMap="PARKING_ENTITY">
         SELECT *
         FROM parking
         WHERE prk_id = #{id}
-        AND prk_status = #{status}
+          AND prk_status = #{status}
     </select>
 
     <update id="updateGraph">
@@ -132,10 +130,10 @@
     </update>
 
     <select id="pageByUid" resultMap="PARKING_VO">
-        SELECT *, concat(prk_longitude, concat(',', prk_latitude)) as location
+        SELECT *, concat(prk_longitude, concat(',', prk_latitude)) AS location
         FROM parking
         WHERE prk_uid = #{uid}
-        ORDER BY prk_id desc
+        ORDER BY prk_id DESC
         LIMIT #{offset}, #{rowCount}
     </select>
 

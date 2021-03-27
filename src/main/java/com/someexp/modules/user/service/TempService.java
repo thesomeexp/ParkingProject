@@ -1,5 +1,7 @@
 package com.someexp.modules.user.service;
 
+import com.someexp.common.domain.PageParamQuery;
+import com.someexp.common.domain.PageResultDTO;
 import com.someexp.modules.user.domain.dto.TempDTO;
 import com.someexp.modules.user.domain.entity.Temp;
 import com.someexp.modules.user.domain.vo.TempVO;
@@ -47,4 +49,5 @@ public interface TempService {
 
     boolean checkTempExists(Long id);
 
+    PageResultDTO<?> listMyTemp(PageParamQuery pageParamQuery);
 }

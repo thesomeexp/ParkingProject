@@ -1,5 +1,6 @@
 package com.someexp.modules.user.service;
 
+import com.someexp.common.domain.PageParamQuery;
 import com.someexp.common.domain.PageResultDTO;
 import com.someexp.modules.user.domain.dto.ReviewDTO;
 import com.someexp.modules.user.domain.query.ReviewQuery;
@@ -18,4 +19,5 @@ public interface ReviewService {
 
     PageResultDTO<?> list(ReviewQuery reviewQuery);
 
+    PageResultDTO<?> listMyReview(PageParamQuery pageParamQuery);
 }

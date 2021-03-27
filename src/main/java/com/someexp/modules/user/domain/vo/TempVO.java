@@ -28,4 +28,6 @@ public class TempVO implements Serializable {
 
     private Integer myOpt;
 
+    private String parkingName;
+
 }

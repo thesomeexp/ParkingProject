@@ -12,23 +12,22 @@
         <result column="usr_status" property="status"/>
     </resultMap>
 
-    <!--todo-->
     <select id="findByPhone" resultType="com.someexp.modules.user.domain.entity.User">
-        select *
-        from user
-        where phone = #{phone}
-          and role = 'admin';
+        SELECT *
+        FROM user
+        WHERE phone = #{phone}
+          AND role = 'admin';
     </select>
 
     <select id="countByStatus" resultType="java.lang.Long">
-        select count(*)
-        from parking
-        where status = #{status};
+        SELECT count(*)
+        FROM parking
+        WHERE status = #{status};
     </select>
 
     <select id="countAll" resultType="java.lang.Long">
-        select count(*)
-        from parking;
+        SELECT count(*)
+        FROM parking;
     </select>
 
 </mapper>
