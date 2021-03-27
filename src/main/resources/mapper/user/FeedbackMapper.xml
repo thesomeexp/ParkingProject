@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.someexp.modules.user.mapper.FeedbackMapper">
+
+    <resultMap id="FEEDBACK_ENTITY" type="com.someexp.modules.user.domain.entity.Feedback">
+        <id column="fbk_id" property="id"/>
+        <result column="fbk_pid" property="pid"/>
+        <result column="fbk_uid" property="uid"/>
+        <result column="fbk_create_date" property="createdDate"/>
+        <result column="fbk_content" property="content"/>
+        <result column="fbk_status" property="status"/>
+        <result column="fbk_contact" property="contact"/>
+    </resultMap>
+
+    <resultMap id="FEEDBACK_VO" type="com.someexp.modules.user.domain.vo.FeedbackVO">
+        <id column="fbk_id" property="id"/>
+        <result column="fbk_pid" property="pid"/>
+        <result column="fbk_uid" property="uid"/>
+        <result column="fbk_create_date" property="createdDate"/>
+        <result column="fbk_content" property="content"/>
+        <result column="fbk_status" property="status"/>
+        <result column="fbk_contact" property="contact"/>
+        <result column="prk_name" property="parkingName"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Feedback" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="fbk_id">
+        insert into feedback (fbk_pid, fbk_uid, fbk_create_date, fbk_content, fbk_status, fbk_contact)
+        values (#{pid}, #{uid}, now(), #{content}, 0, #{contact})
+    </insert>
+
+    <select id="pageByUid" resultMap="FEEDBACK_VO">
+        -- 根据uid分页列出反馈 --
+        SELECT fbk.*, prk.prk_name
+        FROM feedback AS fbk
+                 INNER JOIN parking AS prk ON fbk.fbk_pid = prk.prk_id
+        WHERE fbk.fbk_uid = #{uid}
+        ORDER BY fbk.fbk_id DESC
+        LIMIT #{offset}, #{rowCount}
+    </select>
+
+</mapper>
