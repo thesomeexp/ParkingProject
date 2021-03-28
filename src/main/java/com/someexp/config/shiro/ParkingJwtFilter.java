@@ -66,8 +66,8 @@ public class ParkingJwtFilter extends AccessControlFilter {
                 throw new AuthenticationException(MsgUtils.get("user.login.jwt.format.illegal"));
             }
 
-            String jwt = authorizationHeader.substring(JWT_PREFIX.length() + 1).trim();
-            JwtToken jwtToken = new JwtToken(jwt);
+            JwtToken jwtToken = new JwtToken(authorizationHeader.length() > JWT_PREFIX.length() ?
+                    authorizationHeader.substring(JWT_PREFIX.length() + 1).trim() : null);
 
             Subject subject = getSubject(request, response);
             subject.login(jwtToken);
@@ -76,11 +76,11 @@ public class ParkingJwtFilter extends AccessControlFilter {
             return onLoginFailure(authenticationException, request, response);
         } catch (Exception e) {
             log.error("未知错误JwtFilter.executeLogin(): ", e);
-            return false;
+            return onLoginFailure(e, request, response);
         }
     }
 
-    private boolean onLoginFailure(AuthenticationException authenticationException, ServletRequest request, ServletResponse response) {
+    private boolean onLoginFailure(Exception e, ServletRequest request, ServletResponse response) {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         httpResponse.setContentType("application/json;charset=utf-8");
@@ -89,7 +89,7 @@ public class ParkingJwtFilter extends AccessControlFilter {
         // 这里嘛, 先200一把梭
         httpResponse.setStatus(HttpStatus.OK.value());
         try {
-            httpResponse.getWriter().print(new Gson().toJson(Result.fail(authenticationException.getMessage())));
+            httpResponse.getWriter().print(new Gson().toJson(Result.fail(e.getMessage())));
         } catch (IOException ioException) {
             log.error("登录错误IO异常: JwtFilter.onLoginFailure(): ", ioException);
         }

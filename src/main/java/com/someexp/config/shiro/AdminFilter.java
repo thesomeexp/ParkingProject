@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 管理员过滤器, 主要用来判断
+ * 管理员过滤器, 主要用来判断jwt中角色是否包含admin
  *
  * @author someexp
  * @date 2020/10/28

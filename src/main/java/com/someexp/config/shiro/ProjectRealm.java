@@ -29,9 +29,9 @@ import java.util.Set;
  * @date 2020/9/23
  */
 @Component
-public class JwtRealm extends AuthorizingRealm {
+public class ProjectRealm extends AuthorizingRealm {
 
-    private static transient final Logger log = LoggerFactory.getLogger(JwtRealm.class);
+    private static transient final Logger log = LoggerFactory.getLogger(ProjectRealm.class);
 
     @Resource
     private ShiroMapper shiroMapper;
@@ -42,7 +42,7 @@ public class JwtRealm extends AuthorizingRealm {
     }
 
     /**
-     * 检测权限时调用
+     * 对于一些能更改资源状态的管理员接口, 必须认证该账号的状态是否正常
      *
      * @param principals
      * @return
@@ -60,7 +60,7 @@ public class JwtRealm extends AuthorizingRealm {
     }
 
     /**
-     * 登录的合法性认证, 其实已经登陆, 这里验证jwt是否过期, 用户账号是否锁定
+     * 登录的合法性认证, 登录是在登录接口完成的, 这里只是验证jwt是否过期
      *
      * @param token
      * @return

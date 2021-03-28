@@ -17,26 +17,6 @@ public class ShiroUser {
     private String role;
 
     /**
-     * 用户名
-     */
-    private String name;
-
-    /**
-     * 密码
-     */
-    private String password;
-
-    /**
-     * 手机区号
-     */
-    private Integer areaCode;
-
-    /**
-     * 手机号
-     */
-    private String phone;
-
-    /**
      * 状态0未验证1已验证2已锁定
      */
     private Integer status;
