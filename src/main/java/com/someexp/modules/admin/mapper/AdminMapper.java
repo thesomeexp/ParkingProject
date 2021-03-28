@@ -1,6 +1,9 @@
 package com.someexp.modules.admin.mapper;
 
-import com.someexp.modules.user.domain.entity.User;
+import com.someexp.modules.admin.domain.entity.Admin;
+import com.someexp.modules.admin.domain.mapper.StatusCount;
+
+import java.util.List;
 
 /**
  * @author someexp
@@ -8,9 +11,10 @@ import com.someexp.modules.user.domain.entity.User;
  */
 public interface AdminMapper {
 
-    User findByPhone(String phone);
+    Admin findByAreaCodeAndPhone(Integer areaCode, String phone);
 
-    Long countByStatus(Long status);
+    List<StatusCount> countParkingByStatus();
 
-    Long countAll();
+    List<StatusCount> countFeedbackByStatus();
+
 }

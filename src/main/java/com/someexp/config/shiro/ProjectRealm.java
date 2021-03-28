@@ -2,7 +2,6 @@ package com.someexp.config.shiro;
 
 import com.someexp.common.utils.JwtUtils;
 import com.someexp.common.utils.MsgUtils;
-import com.someexp.common.utils.ShiroUtils;
 import com.someexp.modules.admin.domain.entity.Admin;
 import com.someexp.modules.sys.domain.entity.ShiroUser;
 import com.someexp.modules.sys.mapper.ShiroMapper;
@@ -21,8 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author someexp
@@ -42,20 +39,20 @@ public class ProjectRealm extends AuthorizingRealm {
     }
 
     /**
-     * 对于一些能更改资源状态的管理员接口, 必须认证该账号的状态是否正常
+     * 操作管理员账号相关时, 验证是否有权限, 必须认证该账号的状态是否正常(用Aop吧, 不用Shiro了)
      *
      * @param principals
      * @return
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        ShiroUser shiroUser = ShiroUtils.getShiroUser();
-        Set<String> permsSet = new HashSet<>();
-        // 用角色做权限, 懒得区分了, 这个role在登陆时设定了
-        permsSet.add(shiroUser.getRole());
+//        ShiroUser shiroUser = ShiroUtils.getShiroUser();
+//        Set<String> permsSet = new HashSet<>();
+//        // 用角色做权限, 懒得区分了, 这个role在登陆时设定了
+//        permsSet.add(shiroUser.getRole());
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.setStringPermissions(permsSet);
+//        info.setStringPermissions(permsSet);
         return info;
     }
 

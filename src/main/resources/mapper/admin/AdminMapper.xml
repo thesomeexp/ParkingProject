@@ -2,32 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.someexp.modules.admin.mapper.AdminMapper">
 
-    <resultMap id="RES_ADMIN" type="com.someexp.modules.admin.domain.entity.Admin">
+    <resultMap id="ADMIN_ENTITY" type="com.someexp.modules.admin.domain.entity.Admin">
         <id column="adm_id" property="id"/>
         <result column="adm_parent" property="parent"/>
         <result column="adm_name" property="name"/>
-        <result column="usr_password" property="password"/>
-        <result column="usr_area_code" property="areaCode"/>
-        <result column="usr_phone" property="phone"/>
-        <result column="usr_status" property="status"/>
+        <result column="adm_password" property="password"/>
+        <result column="adm_area_code" property="areaCode"/>
+        <result column="adm_phone" property="phone"/>
+        <result column="adm_status" property="status"/>
     </resultMap>
 
-    <select id="findByPhone" resultType="com.someexp.modules.user.domain.entity.User">
+    <resultMap id="STATUS_COUNT" type="com.someexp.modules.admin.domain.mapper.StatusCount">
+        <result column="status" property="status"/>
+        <result column="sum" property="sum"/>
+    </resultMap>
+
+    <select id="findByAreaCodeAndPhone" resultMap="ADMIN_ENTITY">
         SELECT *
-        FROM user
-        WHERE phone = #{phone}
-          AND role = 'admin';
+        FROM admin
+        WHERE adm_area_code = #{areaCode}
+        AND adm_phone = #{phone}
     </select>
 
-    <select id="countByStatus" resultType="java.lang.Long">
-        SELECT count(*)
+    <select id="countParkingByStatus" resultMap="STATUS_COUNT">
+        SELECT prk_status AS status, count(*) AS sum
         FROM parking
-        WHERE status = #{status};
+        GROUP BY prk_status
     </select>
 
-    <select id="countAll" resultType="java.lang.Long">
-        SELECT count(*)
-        FROM parking;
+    <select id="countFeedbackByStatus" resultMap="STATUS_COUNT">
+        SELECT fbk_status AS status, count(*) AS sum
+        FROM feedback
+        GROUP BY fbk_status
     </select>
 
 </mapper>

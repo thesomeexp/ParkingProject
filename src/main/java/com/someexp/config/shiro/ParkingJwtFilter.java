@@ -49,26 +49,29 @@ public class ParkingJwtFilter extends AccessControlFilter {
         return false;
     }
 
-    private String getAuthzHeader(ServletRequest request) {
+    protected String getAuthzHeader(ServletRequest request) {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         return httpRequest.getHeader(AUTHORIZATION_HEADER);
     }
 
-    private boolean checkAuthzHeader(ServletRequest request, ServletResponse response) {
+    protected String getJwtToken(String authorizationHeader) throws Exception {
+
+        if (authorizationHeader == null || authorizationHeader.length() == 0) {
+            throw new AuthenticationException(MsgUtils.get("user.login.jwt.is.empty"));
+        }
+
+        if (!authorizationHeader.startsWith(JWT_PREFIX)) {
+            throw new AuthenticationException(MsgUtils.get("user.login.jwt.format.illegal"));
+        }
+
+        return authorizationHeader.length() > JWT_PREFIX.length() ?
+                authorizationHeader.substring(JWT_PREFIX.length() + 1).trim() : null;
+    }
+
+    protected boolean checkAuthzHeader(ServletRequest request, ServletResponse response) {
         String authorizationHeader = getAuthzHeader(request);
-
         try {
-            if (authorizationHeader == null || authorizationHeader.length() == 0) {
-                throw new AuthenticationException(MsgUtils.get("user.login.jwt.is.empty"));
-            }
-
-            if (!authorizationHeader.startsWith(JWT_PREFIX)) {
-                throw new AuthenticationException(MsgUtils.get("user.login.jwt.format.illegal"));
-            }
-
-            JwtToken jwtToken = new JwtToken(authorizationHeader.length() > JWT_PREFIX.length() ?
-                    authorizationHeader.substring(JWT_PREFIX.length() + 1).trim() : null);
-
+            JwtToken jwtToken = new JwtToken(getJwtToken(authorizationHeader));
             Subject subject = getSubject(request, response);
             subject.login(jwtToken);
             return true;
@@ -80,7 +83,7 @@ public class ParkingJwtFilter extends AccessControlFilter {
         }
     }
 
-    private boolean onLoginFailure(Exception e, ServletRequest request, ServletResponse response) {
+    protected boolean onLoginFailure(Exception e, ServletRequest request, ServletResponse response) {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         httpResponse.setContentType("application/json;charset=utf-8");

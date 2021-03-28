@@ -12,23 +12,28 @@ import java.io.Serializable;
 public class HomeVO implements Serializable {
 
     /**
-     * 总数量
+     * 已验证停车场
      */
-    private Long sum;
+    private Integer parkingVerified = 0;
 
     /**
-     * 已验证数量
+     * 未验证停车场
      */
-    private Long verified;
+    private Integer parkingUnverified = 0;
 
     /**
-     * 未验证数量
+     * 已禁用停车场
      */
-    private Long unverified;
+    private Integer parkingDisabled = 0;
 
     /**
-     * 已禁用
+     * 未处理反馈
      */
-    private Long disabled;
+    private Integer feedbackUntreated = 0;
+
+    /**
+     * 已处理反馈
+     */
+    private Integer feedbackFinished = 0;
 
 }

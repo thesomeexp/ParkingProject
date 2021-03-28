@@ -4,6 +4,7 @@ import com.someexp.common.validator.group.LoginGroup;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author someexp
@@ -13,15 +14,21 @@ import javax.validation.constraints.NotBlank;
 public class AdminDTO {
 
     /**
+     * 手机区号
+     */
+    @NotNull(message = "admin.area.code.cant.be.null", groups = LoginGroup.class)
+    private Integer areaCode;
+
+    /**
      * 手机号
      */
-    @NotBlank(message = "user.phone.cant.be.null", groups = LoginGroup.class)
+    @NotBlank(message = "admin.phone.cant.be.null", groups = LoginGroup.class)
     private String phone;
 
     /**
      * 密码
      */
-    @NotBlank(message = "user.password.cant.be.null", groups = LoginGroup.class)
+    @NotBlank(message = "admin.password.cant.be.null", groups = LoginGroup.class)
     private String password;
 
 }
