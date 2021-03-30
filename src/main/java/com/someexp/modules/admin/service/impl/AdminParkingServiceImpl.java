@@ -1,5 +1,6 @@
 package com.someexp.modules.admin.service.impl;
 
+import com.someexp.common.domain.AdminPageResultDTO;
 import com.someexp.common.domain.PageResultDTO;
 import com.someexp.common.exception.ParamsException;
 import com.someexp.common.utils.BeanUtils;
@@ -28,13 +29,9 @@ public class AdminParkingServiceImpl implements AdminParkingService {
 
     @Override
     public PageResultDTO<?> list(ParkingQuery parkingQuery) {
-//        PageHelper.startPage(parkingQuery.getPageNum(), parkingQuery.getPageSize());
-//        Page<Parking> page = (Page<Parking>) adminParkingMapper.listAll(parkingQuery);
-//
-//        PageResultDTO<Parking> pageResultDTO = new PageResultDTO<>();
-//        BeanUtils.copyProperties(page, pageResultDTO);
-//        pageResultDTO.setList(page.getResult());
-        return null;
+        return new AdminPageResultDTO<>(parkingQuery,
+                adminParkingMapper.listByPage(parkingQuery),
+                adminParkingMapper.CountByPage(parkingQuery));
     }
 
     @Override

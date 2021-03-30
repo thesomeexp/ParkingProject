@@ -4,7 +4,6 @@ import com.someexp.common.validator.group.LoginGroup;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author someexp
@@ -12,12 +11,6 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 public class AdminDTO {
-
-    /**
-     * 手机区号
-     */
-    @NotNull(message = "admin.area.code.cant.be.null", groups = LoginGroup.class)
-    private Integer areaCode;
 
     /**
      * 手机号

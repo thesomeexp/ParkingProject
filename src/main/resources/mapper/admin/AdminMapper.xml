@@ -7,7 +7,6 @@
         <result column="adm_parent" property="parent"/>
         <result column="adm_name" property="name"/>
         <result column="adm_password" property="password"/>
-        <result column="adm_area_code" property="areaCode"/>
         <result column="adm_phone" property="phone"/>
         <result column="adm_status" property="status"/>
     </resultMap>
@@ -17,11 +16,10 @@
         <result column="sum" property="sum"/>
     </resultMap>
 
-    <select id="findByAreaCodeAndPhone" resultMap="ADMIN_ENTITY">
+    <select id="findByPhone" resultMap="ADMIN_ENTITY">
         SELECT *
         FROM admin
-        WHERE adm_area_code = #{areaCode}
-        AND adm_phone = #{phone}
+        WHERE adm_phone = #{phone}
     </select>
 
     <select id="countParkingByStatus" resultMap="STATUS_COUNT">

@@ -27,7 +27,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String login(AdminDTO adminDTO) {
-        Admin admin = adminMapper.findByAreaCodeAndPhone(adminDTO.getAreaCode(), adminDTO.getPhone());
+        Admin admin = adminMapper.findByPhone(adminDTO.getPhone());
         if (admin == null) {
             throw new BusinessException(MsgUtils.get("admin.not.found"));
         }

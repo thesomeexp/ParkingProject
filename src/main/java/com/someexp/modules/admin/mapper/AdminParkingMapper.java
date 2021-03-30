@@ -11,9 +11,12 @@ import java.util.List;
  */
 public interface AdminParkingMapper {
 
-    List<Parking> listAll(ParkingQuery parkingQuery);
+    List<Parking> listByPage(ParkingQuery parkingQuery);
+
+    int CountByPage(ParkingQuery parkingQuery);
 
     Parking get(Long id);
 
     void update(Parking parking);
+
 }

@@ -24,11 +24,6 @@ public class Admin implements Serializable {
     private String password;
 
     /**
-     * 手机区号
-     */
-    private Integer areaCode;
-
-    /**
      * 手机号
      */
     private String phone;

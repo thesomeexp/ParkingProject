@@ -30,7 +30,7 @@ public class AdminFilter extends ParkingJwtFilter {
             }
             return true;
         } catch (Exception e) {
-            log.error("Admin过滤器授权异常", e);
+//            log.error("Admin过滤器授权异常", e);
             return onLoginFailure(e, request, response);
         }
     }
