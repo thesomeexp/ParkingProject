@@ -50,7 +50,7 @@
         LIMIT #{offset}, #{rowCount}
     </select>
 
-    <select id="CountByPage" resultType="int">
+    <select id="countByPage" resultType="int">
         SELECT COUNT(*) FROM parking
         <where>
             prk_status = #{status}

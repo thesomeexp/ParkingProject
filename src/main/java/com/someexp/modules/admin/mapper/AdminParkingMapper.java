@@ -13,7 +13,7 @@ public interface AdminParkingMapper {
 
     List<Parking> listByPage(ParkingQuery parkingQuery);
 
-    int CountByPage(ParkingQuery parkingQuery);
+    int countByPage(ParkingQuery parkingQuery);
 
     Parking get(Long id);
 

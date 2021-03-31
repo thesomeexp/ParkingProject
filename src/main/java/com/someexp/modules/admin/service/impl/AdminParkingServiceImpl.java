@@ -3,14 +3,12 @@ package com.someexp.modules.admin.service.impl;
 import com.someexp.common.domain.AdminPageResultDTO;
 import com.someexp.common.domain.PageResultDTO;
 import com.someexp.common.exception.ParamsException;
-import com.someexp.common.utils.BeanUtils;
 import com.someexp.common.utils.Location;
 import com.someexp.common.utils.LocationUtils;
 import com.someexp.common.utils.MsgUtils;
 import com.someexp.modules.admin.domain.dto.ParkingUpdateDTO;
 import com.someexp.modules.admin.domain.entity.Parking;
 import com.someexp.modules.admin.domain.query.ParkingQuery;
-import com.someexp.modules.admin.domain.vo.ParkingVO;
 import com.someexp.modules.admin.mapper.AdminParkingMapper;
 import com.someexp.modules.admin.service.AdminParkingService;
 import org.springframework.stereotype.Service;
@@ -31,18 +29,16 @@ public class AdminParkingServiceImpl implements AdminParkingService {
     public PageResultDTO<?> list(ParkingQuery parkingQuery) {
         return new AdminPageResultDTO<>(parkingQuery,
                 adminParkingMapper.listByPage(parkingQuery),
-                adminParkingMapper.CountByPage(parkingQuery));
+                adminParkingMapper.countByPage(parkingQuery));
     }
 
     @Override
-    public ParkingVO get(Long id) {
+    public Parking get(Long id) {
         Parking parking = adminParkingMapper.get(id);
         if (parking == null) {
             throw new ParamsException(MsgUtils.get("parking.not.exist"));
         }
-        ParkingVO parkingVO = new ParkingVO();
-        BeanUtils.copyProperties(parking, parkingVO);
-        return parkingVO;
+        return parking;
     }
 
     @Override

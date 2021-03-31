@@ -39,7 +39,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/parking/photo/**", "anon");
 
         filterChainDefinitionMap.put("/admin/login", "anon");
-        filterChainDefinitionMap.put("/admin/**", "jwt, admin");
+        filterChainDefinitionMap.put("/admin/**", "admin");
 
         filterChainDefinitionMap.put("/**", "jwt");
 

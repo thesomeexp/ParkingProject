@@ -2,6 +2,8 @@ package com.someexp.config.shiro;
 
 import com.google.gson.Gson;
 import com.someexp.common.domain.Result;
+import com.someexp.common.exception.BusinessException;
+import com.someexp.common.utils.JwtUtils;
 import com.someexp.common.utils.MsgUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -54,6 +56,13 @@ public class ParkingJwtFilter extends AccessControlFilter {
         return httpRequest.getHeader(AUTHORIZATION_HEADER);
     }
 
+    /**
+     * 返回真正的jwt
+     *
+     * @param authorizationHeader
+     * @return
+     * @throws Exception
+     */
     protected String getJwtToken(String authorizationHeader) throws Exception {
 
         if (authorizationHeader == null || authorizationHeader.length() == 0) {
@@ -71,11 +80,17 @@ public class ParkingJwtFilter extends AccessControlFilter {
     protected boolean checkAuthzHeader(ServletRequest request, ServletResponse response) {
         String authorizationHeader = getAuthzHeader(request);
         try {
-            JwtToken jwtToken = new JwtToken(getJwtToken(authorizationHeader));
+            String jwt = getJwtToken(authorizationHeader);
+            JwtToken jwtToken = new JwtToken(jwt);
             Subject subject = getSubject(request, response);
             subject.login(jwtToken);
+            // 禁止管理员的token使用用户的接口
+            String role = JwtUtils.getRoleByToken(jwt);
+            if (!"user".equals(role)) {
+                throw new BusinessException("请使用用户token");
+            }
             return true;
-        } catch (AuthenticationException authenticationException) {
+        } catch (AuthenticationException | BusinessException authenticationException) {
             return onLoginFailure(authenticationException, request, response);
         } catch (Exception e) {
             log.error("未知错误JwtFilter.executeLogin(): ", e);
