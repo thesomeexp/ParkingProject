@@ -3,6 +3,7 @@ package com.someexp.config.shiro;
 import com.someexp.common.utils.JwtUtils;
 import com.someexp.common.utils.MsgUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,8 +24,11 @@ public class AdminFilter extends ParkingJwtFilter {
     protected boolean checkAuthzHeader(ServletRequest request, ServletResponse response) {
         String role;
         try {
-            String token = getJwtToken(getAuthzHeader(request));
-            role = JwtUtils.getRoleByToken(token);
+            String jwt = getJwtToken(getAuthzHeader(request));
+            JwtToken jwtToken = new JwtToken(jwt);
+            Subject subject = getSubject(request, response);
+            subject.login(jwtToken);
+            role = JwtUtils.getRoleByToken(jwt);
             if (!"admin".equals(role)) {
                 throw new AuthenticationException(MsgUtils.get("admin.filter.not.allow"));
             }

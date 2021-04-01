@@ -36,6 +36,10 @@ public class AdminServiceImpl implements AdminService {
             throw new BusinessException(MsgUtils.get("admin.password.dont.match"));
         }
 
+        if (admin.getStatus() != 1) {
+            throw new BusinessException(MsgUtils.get("admin.account.exception"));
+        }
+
         return JwtUtils.create(admin.getId(), "admin");
     }
 

@@ -8,16 +8,14 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author someexp
- * @date 2020/12/13
+ * @Author someexp
+ * @Date 2021/4/1
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ParkingQuery extends PageParamQuery {
+public class FeedbackQuery extends PageParamQuery {
 
-    private String name;
-
-    @NotNull(message = "parking.status.cant.be.null", groups = QueryGroup.class)
+    @NotNull(message = "feedback.status.cant.be.null", groups = QueryGroup.class)
     private Integer status;
 
 }

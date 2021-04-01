@@ -19,7 +19,7 @@ public class PasswordEncoderUtils {
     }
 
     /**
-     * 加密
+     * 返回密码哈希
      *
      * @param rawPassword
      * @return
@@ -29,7 +29,7 @@ public class PasswordEncoderUtils {
     }
 
     /**
-     * 解密
+     * 匹配密码
      *
      * @param rawPassword
      * @param encodedPassword

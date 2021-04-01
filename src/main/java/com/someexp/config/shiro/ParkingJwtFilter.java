@@ -37,8 +37,8 @@ public class ParkingJwtFilter extends AccessControlFilter {
         if (StringUtils.equals(((HttpServletRequest) request).getMethod(), RequestMethod.OPTIONS.name())) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.setHeader("Access-control-Allow-Origin", httpRequest.getHeader("Origin"));
-            httpResponse.setHeader("Access-Control-Allow-Methods", httpRequest.getMethod() + ",PUT");
+            httpResponse.setHeader("Access-Control-Allow-Origin", httpRequest.getHeader("Origin"));
+            httpResponse.setHeader("Access-Control-Allow-Methods", httpRequest.getMethod() + ",PUT,PATCH");
             httpResponse.setHeader("Access-Control-Allow-Headers", httpRequest.getHeader("Access-Control-Request-Headers"));
             httpResponse.setStatus(HttpStatus.OK.value());
             return false;

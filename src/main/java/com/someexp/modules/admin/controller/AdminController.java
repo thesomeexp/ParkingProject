@@ -38,6 +38,5 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Result.success(adminService.home(), MsgUtils.get("success")));
     }
-
-
+    
 }
