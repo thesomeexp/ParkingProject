@@ -102,4 +102,8 @@ public class ParkingVO implements Serializable {
 
     private Double t23;
 
+    private Integer capacity;
+
+    private Integer free;
+
 }

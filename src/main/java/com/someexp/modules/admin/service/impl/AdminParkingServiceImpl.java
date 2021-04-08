@@ -55,6 +55,7 @@ public class AdminParkingServiceImpl implements AdminParkingService {
         parking.setStatus(parkingUpdateDTO.getStatus());
         parking.setLongitude(location.getLongitude());
         parking.setLatitude(location.getLatitude());
+        parking.setCapacity(parkingUpdateDTO.getCapacity());
 
         adminParkingMapper.update(parking);
         return parking.getName();

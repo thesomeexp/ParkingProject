@@ -8,6 +8,7 @@ import com.someexp.common.utils.BeanUtils;
 import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.utils.ShiroUtils;
 import com.someexp.modules.user.domain.dto.TempDTO;
+import com.someexp.modules.user.domain.entity.Parking;
 import com.someexp.modules.user.domain.entity.Temp;
 import com.someexp.modules.user.domain.vo.TempVO;
 import com.someexp.modules.user.mapper.TempMapper;
@@ -34,20 +35,24 @@ public class TempServiceImpl implements TempService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer add(TempDTO tempDTO) {
-        if (!parkingService.checkParkingExists(tempDTO.getPid())) {
+    public Integer add(TempDTO tempDTO) throws NoSuchFieldException, IllegalAccessException {
+        Parking parking = parkingService.getEntity(tempDTO.getPid(), 1);
+        if (parking == null) {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
+        }
+        if (tempDTO.getState() > parking.getCapacity()) {
+            throw new BusinessException(MsgUtils.get("temp.state.out.of.max"));
         }
         Temp temp = new Temp();
         BeanUtils.copyProperties(tempDTO, temp);
         temp.setUid(ShiroUtils.getUserId());
 
-        if (tempMapper.checkTempExists30Min(temp.getUid(), temp.getPid())) {
+        if (tempMapper.checkTempExists10Min(temp.getUid(), temp.getPid())) {
             throw new BusinessException(MsgUtils.get("temp.submit.later"));
         }
         tempMapper.save(temp);
-        // 更新图表信息
-        parkingService.updateGraph(temp.getId());
+        // 更新图表信息(停车场拥挤度, 停车场空闲车位数)
+        parkingService.updateGraph(temp.getId(), parking);
         return temp.getState();
     }
 
@@ -77,13 +82,17 @@ public class TempServiceImpl implements TempService {
 
     @Override
     public Double interval(Long pid) {
+        Parking parking = parkingService.getEntity(pid, 1);
+        if (parking == null) {
+            throw new BusinessException(MsgUtils.get("parking.not.exist"));
+        }
         List<Temp> temps = tempMapper.listEntity(pid);
         if (temps.isEmpty()) {
             return -1D;
         }
         double sum = 0;
         for (Temp t : temps) {
-            sum += t.getState();
+            sum += (1 - ((double) t.getState() / (double) parking.getCapacity())) * 10;
         }
         return sum / temps.size();
     }

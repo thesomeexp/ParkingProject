@@ -103,4 +103,8 @@ public class Parking implements Serializable {
 
     private Double t23;
 
+    private Integer capacity;
+
+    private Integer free;
+
 }

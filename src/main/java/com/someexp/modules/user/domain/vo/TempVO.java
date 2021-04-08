@@ -26,6 +26,8 @@ public class TempVO implements Serializable {
 
     private Date stateUpdateDate;
 
+    private String content;
+
     private Integer myOpt;
 
     private String parkingName;

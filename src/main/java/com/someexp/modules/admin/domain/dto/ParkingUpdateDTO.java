@@ -3,6 +3,7 @@ package com.someexp.modules.admin.domain.dto;
 import com.someexp.common.validator.group.UpdateGroup;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -36,5 +37,9 @@ public class ParkingUpdateDTO {
      */
     @NotNull(message = "parking.status.cant.be.null", groups = UpdateGroup.class)
     private Integer status;
+
+    @NotNull(message = "parking.capacity.cant.be.null", groups = UpdateGroup.class)
+    @Min(value = 1, message = "parking.capacity.out.of.length", groups = UpdateGroup.class)
+    private Integer capacity;
 
 }

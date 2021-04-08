@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface TempMapper {
 
-    boolean checkTempExists30Min(Long uid, Long pid);
+    boolean checkTempExists10Min(Long uid, Long pid);
 
     boolean checkTempExists(Long id);
 

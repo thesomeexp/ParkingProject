@@ -26,4 +26,6 @@ public class Temp implements Serializable {
 
     private Date stateUpdateDate;
 
+    private String content;
+
 }

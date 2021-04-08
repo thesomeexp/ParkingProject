@@ -2,8 +2,8 @@ package com.someexp.modules.user.domain.dto;
 
 import com.someexp.common.validator.group.AddGroup;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -24,8 +24,10 @@ public class TempDTO {
      * 拥挤度
      */
     @NotNull(message = "temp.state.cant.be.null", groups = AddGroup.class)
-    @Min(value = 0, message = "temp.state.out.of.min", groups = AddGroup.class)
-    @Max(value = 10, message = "temp.state.out.of.max", groups = AddGroup.class)
+    @Min(value = 1, message = "temp.state.out.of.min", groups = AddGroup.class)
     private Integer state;
+
+    @Length(max = 100, message = "temp.content.out.of.length", groups = AddGroup.class)
+    private String content;
 
 }

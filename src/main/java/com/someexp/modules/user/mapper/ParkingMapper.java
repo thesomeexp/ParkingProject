@@ -23,10 +23,11 @@ public interface ParkingMapper {
 
     Parking getEntity(@Param("id") Long id, @Param("status") Integer status);
 
-    void updateGraph(@Param("colName") String colName, @Param("state") Integer state,
-                     @Param("pid") Long pid);
-
     boolean checkParkingExistsByStatus(@Param("id") Long id, @Param("status") Integer status);
 
     List<ParkingVO> pageByUid(@Param("uid") Long uid, @Param("offset") Integer offset, @Param("rowCount") Integer rowCount);
+
+    void updateState(@Param("id") Long id, @Param("colName") String colName, @Param("state") Double newState);
+
+    void updateFree(@Param("id") Long id, @Param("newFree") Integer newFree);
 }

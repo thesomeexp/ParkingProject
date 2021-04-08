@@ -69,4 +69,10 @@ public class ParkingController {
                 .body(Result.success(parkingService.listMyParking(pageParamQuery), MsgUtils.get("success")));
     }
 
+    @PostMapping("/parking/reduceFree/{id}")
+    public ResponseEntity<?> reduceFree(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Result.success(parkingService.reduceFree(id), MsgUtils.get("success")));
+    }
+
 }

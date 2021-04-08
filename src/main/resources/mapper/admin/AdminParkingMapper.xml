@@ -36,6 +36,7 @@
         <result column="prk_t21" property="t21"/>
         <result column="prk_t22" property="t22"/>
         <result column="prk_t23" property="t23"/>
+        <result column="prk_capacity" property="capacity"/>
     </resultMap>
 
     <select id="listByPage" resultMap="PARKING_ENTITY">
@@ -84,6 +85,9 @@
             </if>
             <if test="latitude != null and latitude != ''">
                 prk_latitude = #{latitude},
+            </if>
+            <if test="capacity != null">
+                prk_capacity = #{capacity},
             </if>
         </set>
         WHERE prk_id = #{id}

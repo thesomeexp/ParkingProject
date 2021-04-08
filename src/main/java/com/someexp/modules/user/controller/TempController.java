@@ -34,14 +34,14 @@ public class TempController {
      * @return
      */
     @PostMapping("/temp")
-    public ResponseEntity<?> add(@RequestBody TempDTO tempDTO) {
+    public ResponseEntity<?> add(@RequestBody TempDTO tempDTO) throws NoSuchFieldException, IllegalAccessException {
         ValidatorUtils.validateEntity(tempDTO, AddGroup.class);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Result.success(tempService.add(tempDTO), MsgUtils.get("temp.successful.added")));
     }
 
     /**
-     * 用户列出停车场近30分钟的状态信息, 最新5条Temp数据
+     * 用户列出停车场近10分钟的状态信息, 最新5条Temp数据
      *
      * @param tempQuery
      * @return
@@ -54,7 +54,7 @@ public class TempController {
     }
 
     /**
-     * 用户获取30分钟内的拥挤度, 如果没有结果返回-1
+     * 用户获取10分钟内的拥挤度, 如果没有结果返回-1
      *
      * @param tempQuery
      * @return

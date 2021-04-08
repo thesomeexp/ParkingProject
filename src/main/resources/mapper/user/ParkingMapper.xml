@@ -36,6 +36,8 @@
         <result column="prk_t21" property="t21"/>
         <result column="prk_t22" property="t22"/>
         <result column="prk_t23" property="t23"/>
+        <result column="prk_capacity" property="capacity"/>
+        <result column="prk_free" property="free"/>
     </resultMap>
 
     <resultMap id="PARKING_VO" type="com.someexp.modules.user.domain.vo.ParkingVO">
@@ -72,6 +74,8 @@
         <result column="prk_t21" property="t21"/>
         <result column="prk_t22" property="t22"/>
         <result column="prk_t23" property="t23"/>
+        <result column="prk_capacity" property="capacity"/>
+        <result column="prk_free" property="free"/>
     </resultMap>
 
     <select id="list" resultMap="PARKING_ENTITY">
@@ -87,8 +91,9 @@
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Parking" useGeneratedKeys="true"
             keyProperty="id" keyColumn="prk_id">
         INSERT INTO parking
-        (prk_uid, prk_name, prk_content, prk_longitude, prk_latitude, prk_geohash, prk_status, prk_update_date)
-        VALUES (#{uid}, #{name}, #{content}, #{longitude}, #{latitude}, #{geohash}, 0, now())
+        (prk_uid, prk_name, prk_content, prk_longitude, prk_latitude, prk_geohash, prk_status, prk_update_date,
+         prk_capacity, prk_free)
+        VALUES (#{uid}, #{name}, #{content}, #{longitude}, #{latitude}, #{geohash}, 0, now(), #{capacity}, 0)
     </insert>
 
     <select id="checkParkingExists" resultType="java.lang.Boolean">
@@ -123,10 +128,16 @@
           AND prk_status = #{status}
     </select>
 
-    <update id="updateGraph">
+    <update id="updateState">
         UPDATE parking
-        SET prk_${colName} = (#{state} + prk_${colName}) / 2
-        WHERE prk_id = #{pid}
+        SET prk_${colName} = #{state}
+        WHERE prk_id = #{id}
+    </update>
+
+    <update id="updateFree">
+        UPDATE parking
+        SET prk_free = #{newFree}
+        WHERE prk_id = #{id}
     </update>
 
     <select id="pageByUid" resultMap="PARKING_VO">

@@ -10,6 +10,7 @@
         <result column="tmp_useful" property="useful"/>
         <result column="tmp_unuseful" property="unuseful"/>
         <result column="tmp_update_date" property="stateUpdateDate"/>
+        <result column="tmp_content" property="content"/>
     </resultMap>
 
     <resultMap id="TEMP_VO" type="com.someexp.modules.user.domain.vo.TempVO">
@@ -20,17 +21,18 @@
         <result column="tmp_useful" property="useful"/>
         <result column="tmp_unuseful" property="unuseful"/>
         <result column="tmp_update_date" property="stateUpdateDate"/>
+        <result column="tmp_content" property="content"/>
         <result column="my_opt" property="myOpt"/>
         <result column="prk_name" property="parkingName"/>
     </resultMap>
 
-    <select id="checkTempExists30Min" resultType="java.lang.Boolean">
+    <select id="checkTempExists10Min" resultType="java.lang.Boolean">
         SELECT EXISTS(
                        SELECT 1
                        FROM temp
                        WHERE tmp_uid = #{uid}
                          AND tmp_pid = #{pid}
-                         AND tmp_update_date > date_sub(now(), INTERVAL '0 00:30:00' DAY_SECOND)
+                         AND tmp_update_date > date_sub(now(), INTERVAL '0 00:10:00' DAY_SECOND)
                    ) AS result;
     </select>
 
@@ -45,8 +47,8 @@
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Temp" useGeneratedKeys="true"
             keyProperty="id" keyColumn="tmp_id">
         INSERT INTO temp
-        (tmp_pid, tmp_uid, tmp_state, tmp_useful, tmp_unuseful, tmp_update_date)
-        VALUES (#{pid}, #{uid}, #{state}, 0, 0, now())
+        (tmp_pid, tmp_uid, tmp_state, tmp_useful, tmp_unuseful, tmp_update_date, tmp_content, tmp_status)
+        VALUES (#{pid}, #{uid}, #{state}, 0, 0, now(), #{content}, 0)
     </insert>
 
     <select id="getEntity" resultMap="TEMP_ENTITY">
@@ -61,7 +63,7 @@
                  RIGHT JOIN (SELECT *
                              FROM temp
                              WHERE tmp_pid = #{pid}
-                               AND tmp_update_date > date_sub(now(), INTERVAL '0 00:30:00' DAY_SECOND)
+                               AND tmp_update_date > date_sub(now(), INTERVAL '0 00:10:00' DAY_SECOND)
                              ORDER BY tmp_update_date DESC
                              LIMIT 5) tmp
                             ON tu.tu_uid = #{uid} AND tu.tu_tid = tmp.tmp_id
@@ -80,11 +82,11 @@
     </update>
 
     <select id="listEntity" resultMap="TEMP_ENTITY">
-        -- 统计30分钟内的拥挤度 --
+        -- 统计10分钟内的拥挤度 --
         SELECT *
         FROM temp
         WHERE tmp_pid = #{pid}
-          AND tmp_update_date > date_sub(now(), INTERVAL '0 00:30:00' DAY_SECOND)
+          AND tmp_update_date > date_sub(now(), INTERVAL '0 00:10:00' DAY_SECOND)
     </select>
 
     <select id="pageByUid" resultMap="TEMP_VO">

@@ -18,7 +18,7 @@ public interface TempService {
      * @param tempDTO 拥挤度信息
      * @return 拥挤度
      */
-    Integer add(TempDTO tempDTO);
+    Integer add(TempDTO tempDTO) throws NoSuchFieldException, IllegalAccessException;
 
     /**
      * @param id

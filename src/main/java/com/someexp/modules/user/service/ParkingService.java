@@ -37,11 +37,11 @@ public interface ParkingService {
     Parking getEntity(Long id, Integer status);
 
     /**
-     * 根据得到的temp, 更新停车场图表信息
+     * 根据得到的temp, 更新停车场拥挤度, 更新停车场空闲车位数
      *
      * @param tid
      */
-    void updateGraph(Long tid);
+    void updateGraph(Long tid, Parking parking) throws NoSuchFieldException, IllegalAccessException;
 
     /**
      * 检查停车场是否存在, 并通过审核
@@ -58,4 +58,5 @@ public interface ParkingService {
      */
     PageResultDTO<?> listMyParking(PageParamQuery pageParamQuery);
 
+    Integer reduceFree(Long id);
 }
