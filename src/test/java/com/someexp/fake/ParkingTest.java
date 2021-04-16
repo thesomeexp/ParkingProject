@@ -23,7 +23,7 @@ public class ParkingTest {
     @Test
     public void GeoHashTest() {
         for (long i = 32L; i < 50L; i++) {
-            Parking parking = parkingMapper.getEntity(i, 0);
+            Parking parking = parkingMapper.getEntityByIdAndStatus(i, 0);
             if (parking == null)
                 continue;
 //            parkingMapper.updateGeoHash(GeoHashUtils.getGeoHash(parking.getLongitude(), parking.getLatitude(), 6), parking.getId());

@@ -9,7 +9,7 @@ import java.util.Date;
  * @date 2021/1/5
  */
 @Data
-public class TempUser {
+public class Voting {
 
     private Long id;
 
@@ -20,4 +20,5 @@ public class TempUser {
     private Integer useful;
 
     private Date createDate;
+
 }

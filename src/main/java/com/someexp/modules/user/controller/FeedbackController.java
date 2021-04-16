@@ -8,7 +8,6 @@ import com.someexp.common.validator.group.AddGroup;
 import com.someexp.common.validator.group.QueryGroup;
 import com.someexp.modules.user.domain.dto.FeedbackDTO;
 import com.someexp.modules.user.service.FeedbackService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,18 +15,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 @RestController
 public class FeedbackController {
 
-    @Autowired
+    @Resource
     private FeedbackService feedbackService;
 
     @PostMapping("/feedback")
     public ResponseEntity<?> add(@RequestBody FeedbackDTO feedbackDTO) {
         ValidatorUtils.validateEntity(feedbackDTO, AddGroup.class);
-        feedbackService.add(feedbackDTO);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(null, MsgUtils.get("feedback.success")));
+                .body(Result.success(feedbackService.add(feedbackDTO), MsgUtils.get("feedback.success")));
     }
 
     @GetMapping("/feedback/my")

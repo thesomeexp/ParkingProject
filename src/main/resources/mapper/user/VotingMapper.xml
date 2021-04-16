@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.someexp.modules.user.mapper.VotingMapper">
+
+    <resultMap id="VOTING_ENTITY" type="com.someexp.modules.user.domain.entity.Voting">
+        <id column="voting_id" property="id"/>
+        <result column="voting_uid" property="uid"/>
+        <result column="voting_tid" property="tid"/>
+        <result column="voting_useful" property="useful"/>
+        <result column="voting_create_date" property="createDate"/>
+    </resultMap>
+
+    <select id="checkByUidAndTid" resultType="java.lang.Boolean">
+        SELECT EXISTS(
+                       SELECT 1
+                       FROM voting
+                       WHERE voting_uid = #{uid}
+                         AND voting_tid = #{tid}
+                   ) AS result;
+    </select>
+
+    <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Voting" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="voting_id">
+        INSERT INTO voting
+            (voting_uid, voting_tid, voting_useful, voting_create_date)
+        VALUES (#{uid}, #{tid}, #{useful}, now())
+    </insert>
+
+</mapper>

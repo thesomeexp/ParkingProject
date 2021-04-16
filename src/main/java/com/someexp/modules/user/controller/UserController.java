@@ -7,15 +7,14 @@ import com.someexp.common.validator.group.LoginGroup;
 import com.someexp.common.validator.group.RegisterGroup;
 import com.someexp.modules.user.domain.dto.UserDTO;
 import com.someexp.modules.user.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * @author someexp
@@ -24,9 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
-
-    @Autowired
+    @Resource
     private UserService userService;
 
     /**
@@ -38,13 +35,13 @@ public class UserController {
     @PostMapping("/user/register")
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
         ValidatorUtils.validateEntity(userDTO, RegisterGroup.class);
+        // 本地测试时注册仅为 +86
         if (userDTO.getAreaCode() != 86) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(Result.fail(MsgUtils.get("user.register.only.86")));
         }
-        String name = userService.register(userDTO);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(name, MsgUtils.get("user.register.success")));
+                .body(Result.success(userService.register(userDTO), MsgUtils.get("user.register.success")));
     }
 
     /**
@@ -57,9 +54,8 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
         ValidatorUtils.validateEntity(userDTO, LoginGroup.class);
 
-        String jwt = userService.login(userDTO);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(jwt, MsgUtils.get("user.login.success")));
+                .body(Result.success(userService.login(userDTO), MsgUtils.get("user.login.success")));
     }
 
     @GetMapping("/user/profile")

@@ -10,7 +10,8 @@ import com.someexp.modules.user.domain.dto.FeedbackDTO;
  */
 public interface FeedbackService {
 
-    void add(FeedbackDTO feedbackDTO);
+    Long add(FeedbackDTO feedbackDTO);
 
     PageResultDTO<?> listMyFeedback(PageParamQuery pageParamQuery);
+    
 }

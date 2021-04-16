@@ -12,11 +12,12 @@ import java.util.List;
  */
 public interface ReviewMapper {
 
+    boolean checkReviewExists(@Param("pid") Long pid, @Param("uid") Long uid);
+
     void save(Review review);
 
     List<Review> pageByPid(@Param("pid") Long pid, @Param("offset") Integer offset, @Param("rowCount") Integer rowCount);
 
-    boolean checkReviewExists(@Param("pid") Long pid, @Param("uid") Long uid);
-
     List<ReviewVO> pageByUid(@Param("uid") Long uid, @Param("offset") Integer offset, @Param("rowCount") Integer rowCount);
+
 }

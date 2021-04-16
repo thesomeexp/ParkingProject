@@ -9,13 +9,14 @@ import com.someexp.common.validator.group.QueryGroup;
 import com.someexp.modules.user.domain.dto.TempDTO;
 import com.someexp.modules.user.domain.query.TempQuery;
 import com.someexp.modules.user.service.TempService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * @author someexp
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TempController {
 
-    @Autowired
+    @Resource
     private TempService tempService;
 
     /**

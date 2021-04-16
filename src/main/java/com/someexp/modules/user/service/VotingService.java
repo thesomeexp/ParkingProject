@@ -1,19 +1,19 @@
 package com.someexp.modules.user.service;
 
-import com.someexp.modules.user.domain.dto.TempUserDTO;
+import com.someexp.modules.user.domain.dto.VotingDTO;
 
 /**
  * @author someexp
  * @date 2021/1/5
  */
-public interface TempUserService {
+public interface VotingService {
 
     /**
      * 添加 有用/无用
      *
-     * @param tempUserDTO
+     * @param votingDTO
      * @return 状态
      */
-    Integer add(TempUserDTO tempUserDTO);
+    Long add(VotingDTO votingDTO);
 
 }

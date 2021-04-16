@@ -5,6 +5,8 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
+ * UserVO 不允许出现敏感信息
+ *
  * @author someexp
  * @date 2020/12/1
  */

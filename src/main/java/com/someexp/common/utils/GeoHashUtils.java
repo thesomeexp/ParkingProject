@@ -27,17 +27,17 @@ public class GeoHashUtils {
     /**
      * 返回geohash周边8个hash加上自身
      *
-     * @param geohash
+     * @param hash
      * @return
      */
-    public static String[] getAdjacent(String geohash) {
-        GeoHash geoHash = GeoHash.fromGeohashString(geohash);
-        GeoHash[] geoHashs = geoHash.getAdjacent();
+    public static String[] getAdjacent(String hash) {
+        GeoHash geoHash = GeoHash.fromGeohashString(hash);
+        GeoHash[] geoHashes = geoHash.getAdjacent();
         String[] result = new String[9];
-        result[0] = geohash;
+        result[0] = hash;
         int i = 1;
-        for (GeoHash g : geoHashs) {
-            result[i] = g.toBase32();
+        for (GeoHash h : geoHashes) {
+            result[i] = h.toBase32();
             i++;
         }
         return result;

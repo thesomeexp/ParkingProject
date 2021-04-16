@@ -3,39 +3,41 @@
 <mapper namespace="com.someexp.modules.user.mapper.FeedbackMapper">
 
     <resultMap id="FEEDBACK_ENTITY" type="com.someexp.modules.user.domain.entity.Feedback">
-        <id column="fbk_id" property="id"/>
-        <result column="fbk_pid" property="pid"/>
-        <result column="fbk_uid" property="uid"/>
-        <result column="fbk_create_date" property="createdDate"/>
-        <result column="fbk_content" property="content"/>
-        <result column="fbk_status" property="status"/>
-        <result column="fbk_contact" property="contact"/>
+        <id column="feedback_id" property="id"/>
+        <result column="feedback_pid" property="pid"/>
+        <result column="feedback_uid" property="uid"/>
+        <result column="feedback_create_date" property="createdDate"/>
+        <result column="feedback_content" property="content"/>
+        <result column="feedback_status" property="status"/>
+        <result column="feedback_contact" property="contact"/>
     </resultMap>
 
     <resultMap id="FEEDBACK_VO" type="com.someexp.modules.user.domain.vo.FeedbackVO">
-        <id column="fbk_id" property="id"/>
-        <result column="fbk_pid" property="pid"/>
-        <result column="fbk_uid" property="uid"/>
-        <result column="fbk_create_date" property="createdDate"/>
-        <result column="fbk_content" property="content"/>
-        <result column="fbk_status" property="status"/>
-        <result column="fbk_contact" property="contact"/>
+        <id column="feedback_id" property="id"/>
+        <result column="feedback_pid" property="pid"/>
+        <result column="feedback_uid" property="uid"/>
+        <result column="feedback_create_date" property="createdDate"/>
+        <result column="feedback_content" property="content"/>
+        <result column="feedback_status" property="status"/>
+        <result column="feedback_contact" property="contact"/>
         <result column="prk_name" property="parkingName"/>
     </resultMap>
 
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Feedback" useGeneratedKeys="true"
-            keyProperty="id" keyColumn="fbk_id">
-        insert into feedback (fbk_pid, fbk_uid, fbk_create_date, fbk_content, fbk_status, fbk_contact)
+            keyProperty="id" keyColumn="feedback_id">
+        -- 新增反馈 --
+        insert into feedback (feedback_pid, feedback_uid, feedback_create_date, feedback_content, feedback_status,
+                              feedback_contact)
         values (#{pid}, #{uid}, now(), #{content}, 0, #{contact})
     </insert>
 
     <select id="pageByUid" resultMap="FEEDBACK_VO">
-        -- 根据uid分页列出反馈 --
-        SELECT fbk.*, prk.prk_name
+        -- 分页列出用户反馈 --
+        SELECT fbk.*, prk.parking_name
         FROM feedback AS fbk
-                 INNER JOIN parking AS prk ON fbk.fbk_pid = prk.prk_id
-        WHERE fbk.fbk_uid = #{uid}
-        ORDER BY fbk.fbk_id DESC
+                 INNER JOIN parking AS prk ON fbk.feedback_pid = prk.parking_id
+        WHERE fbk.feedback_uid = #{uid}
+        ORDER BY fbk.feedback_id DESC
         LIMIT #{offset}, #{rowCount}
     </select>
 

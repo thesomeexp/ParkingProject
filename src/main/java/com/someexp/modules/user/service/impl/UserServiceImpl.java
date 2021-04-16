@@ -1,10 +1,7 @@
 package com.someexp.modules.user.service.impl;
 
 import com.someexp.common.exception.BusinessException;
-import com.someexp.common.utils.JwtUtils;
-import com.someexp.common.utils.MsgUtils;
-import com.someexp.common.utils.PasswordEncoderUtils;
-import com.someexp.common.utils.ShiroUtils;
+import com.someexp.common.utils.*;
 import com.someexp.modules.user.domain.dto.UserDTO;
 import com.someexp.modules.user.domain.entity.User;
 import com.someexp.modules.user.domain.vo.UserVO;
@@ -33,8 +30,8 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public String register(UserDTO userDTO) {
-        if (userMapper.checkUserExists(userDTO.getAreaCode(), userDTO.getPhone())) {
+    public Long register(UserDTO userDTO) {
+        if (userMapper.checkByAreaCodeAndPhone(userDTO.getAreaCode(), userDTO.getPhone())) {
             throw new BusinessException(MsgUtils.get("user.phone.exist"));
         }
 
@@ -45,7 +42,7 @@ public class UserServiceImpl implements UserService {
         user.setPhone(userDTO.getPhone());
 
         userMapper.save(user);
-        return user.getName();
+        return user.getId();
     }
 
     /**
@@ -72,14 +69,15 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(MsgUtils.get("user.password.dont.match"));
         }
 
-        String token = JwtUtils.create(user.getId(), "user");
-        return token;
+        return JwtUtils.create(user.getId(), "user");
     }
 
     @Override
     public UserVO getProfile() {
-        return userMapper.getById(ShiroUtils.getUserId());
+        User user = userMapper.getEntityById(ShiroUtils.getUserId());
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        return userVO;
     }
-
 
 }

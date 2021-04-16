@@ -21,7 +21,7 @@ public class TempDTO {
     private Long pid;
 
     /**
-     * 拥挤度
+     * 空闲停车位数
      */
     @NotNull(message = "temp.state.cant.be.null", groups = AddGroup.class)
     @Min(value = 1, message = "temp.state.out.of.min", groups = AddGroup.class)

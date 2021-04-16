@@ -10,12 +10,12 @@ import com.someexp.modules.user.domain.vo.UserVO;
 public interface UserService {
 
     /**
-     * 注册成功返回用户名
+     * 注册成功返回用户id
      *
      * @param userDTO
      * @return
      */
-    String register(UserDTO userDTO);
+    Long register(UserDTO userDTO);
 
     /**
      * 登录后返回jwt
@@ -26,4 +26,5 @@ public interface UserService {
     String login(UserDTO userDTO);
 
     UserVO getProfile();
+
 }

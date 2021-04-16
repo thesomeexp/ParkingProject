@@ -11,13 +11,10 @@ import com.someexp.modules.user.domain.query.ReviewQuery;
  */
 public interface ReviewService {
 
-    /**
-     * @param reviewDTO
-     * @return 提交的评分
-     */
-    Integer add(ReviewDTO reviewDTO);
+    Long add(ReviewDTO reviewDTO);
 
     PageResultDTO<?> list(ReviewQuery reviewQuery);
 
     PageResultDTO<?> listMyReview(PageParamQuery pageParamQuery);
+
 }

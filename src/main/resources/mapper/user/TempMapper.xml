@@ -3,100 +3,109 @@
 <mapper namespace="com.someexp.modules.user.mapper.TempMapper">
 
     <resultMap id="TEMP_ENTITY" type="com.someexp.modules.user.domain.entity.Temp">
-        <id column="tmp_id" property="id"/>
-        <result column="tmp_pid" property="pid"/>
-        <result column="tmp_uid" property="uid"/>
-        <result column="tmp_state" property="state"/>
-        <result column="tmp_useful" property="useful"/>
-        <result column="tmp_unuseful" property="unuseful"/>
-        <result column="tmp_update_date" property="stateUpdateDate"/>
-        <result column="tmp_content" property="content"/>
+        <id column="temp_id" property="id"/>
+        <result column="temp_pid" property="pid"/>
+        <result column="temp_uid" property="uid"/>
+        <result column="temp_state" property="state"/>
+        <result column="temp_useful" property="useful"/>
+        <result column="temp_unuseful" property="unuseful"/>
+        <result column="temp_update_date" property="stateUpdateDate"/>
+        <result column="temp_content" property="content"/>
     </resultMap>
 
     <resultMap id="TEMP_VO" type="com.someexp.modules.user.domain.vo.TempVO">
-        <id column="tmp_id" property="id"/>
-        <result column="tmp_pid" property="pid"/>
-        <result column="tmp_uid" property="uid"/>
-        <result column="tmp_state" property="state"/>
-        <result column="tmp_useful" property="useful"/>
-        <result column="tmp_unuseful" property="unuseful"/>
-        <result column="tmp_update_date" property="stateUpdateDate"/>
-        <result column="tmp_content" property="content"/>
+        <id column="temp_id" property="id"/>
+        <result column="temp_pid" property="pid"/>
+        <result column="temp_uid" property="uid"/>
+        <result column="temp_state" property="state"/>
+        <result column="temp_useful" property="useful"/>
+        <result column="temp_unuseful" property="unuseful"/>
+        <result column="temp_update_date" property="stateUpdateDate"/>
+        <result column="temp_content" property="content"/>
         <result column="my_opt" property="myOpt"/>
         <result column="prk_name" property="parkingName"/>
     </resultMap>
 
     <select id="checkTempExists10Min" resultType="java.lang.Boolean">
+        -- 检查 10 分钟内用户是否提交过停车位状态信息 --
         SELECT EXISTS(
                        SELECT 1
                        FROM temp
-                       WHERE tmp_uid = #{uid}
-                         AND tmp_pid = #{pid}
-                         AND tmp_update_date > date_sub(now(), INTERVAL '0 00:10:00' DAY_SECOND)
-                   ) AS result;
-    </select>
-
-    <select id="checkTempExists" resultType="java.lang.Boolean">
-        SELECT EXISTS(
-                       SELECT 1
-                       FROM temp
-                       WHERE tmp_id = #{id}
+                       WHERE temp_uid = #{uid}
+                         AND temp_pid = #{pid}
+                         AND temp_update_date > date_sub(now(), INTERVAL '0 00:10:00' DAY_SECOND)
                    ) AS result;
     </select>
 
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Temp" useGeneratedKeys="true"
-            keyProperty="id" keyColumn="tmp_id">
+            keyProperty="id" keyColumn="temp_id">
+        -- 新增状态信息 --
         INSERT INTO temp
-        (tmp_pid, tmp_uid, tmp_state, tmp_useful, tmp_unuseful, tmp_update_date, tmp_content, tmp_status)
+        (temp_pid, temp_uid, temp_state, temp_useful, temp_unuseful, temp_update_date, temp_content, temp_status)
         VALUES (#{pid}, #{uid}, #{state}, 0, 0, now(), #{content}, 0)
     </insert>
 
-    <select id="getEntity" resultMap="TEMP_ENTITY">
-        SELECT *
-        FROM temp
-        WHERE tmp_id = #{id}
-    </select>
-
     <select id="list" resultMap="TEMP_VO">
-        SELECT tmp.*, coalesce(tu.tu_useful, 0) as my_opt
-        FROM tempUser tu
+        -- 列出停车场最近 10 分钟的状态信息, 以及用户的投票 --
+        SELECT tmp.*, coalesce(v.voting_useful, 0) as my_opt
+        FROM voting v
                  RIGHT JOIN (SELECT *
                              FROM temp
-                             WHERE tmp_pid = #{pid}
-                               AND tmp_update_date > date_sub(now(), INTERVAL '0 00:10:00' DAY_SECOND)
-                             ORDER BY tmp_update_date DESC
+                             WHERE temp_pid = #{pid}
+                               AND temp_update_date > date_sub(now(), INTERVAL '0 00:10:00' DAY_SECOND)
+                             ORDER BY temp_update_date DESC
                              LIMIT 5) tmp
-                            ON tu.tu_uid = #{uid} AND tu.tu_tid = tmp.tmp_id
+                            ON v.voting_uid = #{uid} AND v.voting_tid = tmp.temp_id
     </select>
 
-    <update id="increaseUseful">
-        UPDATE temp
-        SET tmp_useful = tmp_useful + 1
-        WHERE tmp_id = #{tid};
-    </update>
-
-    <update id="increaseUnuseful">
-        UPDATE temp
-        SET tmp_unuseful = tmp_unuseful + 1
-        WHERE tmp_id = #{tid};
-    </update>
-
     <select id="listEntity" resultMap="TEMP_ENTITY">
-        -- 统计10分钟内的拥挤度 --
+        -- 列出10分钟内的状态信息 --
         SELECT *
         FROM temp
-        WHERE tmp_pid = #{pid}
-          AND tmp_update_date > date_sub(now(), INTERVAL '0 00:10:00' DAY_SECOND)
+        WHERE temp_pid = #{pid}
+          AND temp_update_date > date_sub(now(), INTERVAL '0 00:10:00' DAY_SECOND)
     </select>
 
     <select id="pageByUid" resultMap="TEMP_VO">
-        -- 根据uid分页查询拥挤度状态 --
-        SELECT tt.*, tp.prk_name
+        -- 分页列出用户提交的状态信息 --
+        SELECT tt.*, tp.parking_name
         FROM temp AS tt
-                 INNER JOIN parking AS tp ON tt.tmp_pid = prk_id
-        WHERE tt.tmp_uid = #{uid}
-        ORDER BY tt.tmp_update_date DESC
+                 INNER JOIN parking AS tp ON tt.temp_pid = parking_id
+        WHERE tt.temp_uid = #{uid}
+        ORDER BY tt.temp_update_date DESC
         LIMIT #{offset}, #{rowCount}
+    </select>
+
+    <select id="getEntity" resultMap="TEMP_ENTITY">
+        -- 获取状态信息 --
+        SELECT *
+        FROM temp
+        WHERE temp_id = #{id}
+          AND temp_status = #{status}
+    </select>
+
+    <update id="increaseUseful">
+        -- 增加状态信息的有价值数量 --
+        UPDATE temp
+        SET temp_useful = temp_useful + 1
+        WHERE temp_id = #{tid};
+    </update>
+
+    <update id="increaseUnUseful">
+        -- 增加状态信息的无价值数量 --
+        UPDATE temp
+        SET temp_unuseful = temp_unuseful + 1
+        WHERE temp_id = #{tid};
+    </update>
+
+    <select id="checkByIdAndStatus" resultType="java.lang.Boolean">
+        -- 检查状态信息 --
+        SELECT EXISTS(
+                       SELECT 1
+                       FROM temp
+                       WHERE temp_id = #{id}
+                         AND temp_status = #{status}
+                   ) AS result;
     </select>
 
 </mapper>

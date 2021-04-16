@@ -3,149 +3,151 @@
 <mapper namespace="com.someexp.modules.user.mapper.ParkingMapper">
 
     <resultMap id="PARKING_ENTITY" type="com.someexp.modules.user.domain.entity.Parking">
-        <id column="prk_id" property="id"/>
-        <result column="prk_uid" property="uid"/>
-        <result column="prk_name" property="name"/>
-        <result column="prk_content" property="content"/>
-        <result column="prk_longitude" property="longitude"/>
-        <result column="prk_latitude" property="latitude"/>
-        <result column="prk_geohash" property="geohash"/>
-        <result column="prk_status" property="status"/>
-        <result column="prk_update_date" property="stateUpdateDate"/>
-        <result column="prk_t0" property="t0"/>
-        <result column="prk_t1" property="t1"/>
-        <result column="prk_t2" property="t2"/>
-        <result column="prk_t3" property="t3"/>
-        <result column="prk_t4" property="t4"/>
-        <result column="prk_t5" property="t5"/>
-        <result column="prk_t6" property="t6"/>
-        <result column="prk_t7" property="t7"/>
-        <result column="prk_t8" property="t8"/>
-        <result column="prk_t9" property="t9"/>
-        <result column="prk_t10" property="t10"/>
-        <result column="prk_t11" property="t11"/>
-        <result column="prk_t12" property="t12"/>
-        <result column="prk_t13" property="t13"/>
-        <result column="prk_t14" property="t14"/>
-        <result column="prk_t15" property="t15"/>
-        <result column="prk_t16" property="t16"/>
-        <result column="prk_t19" property="t19"/>
-        <result column="prk_t18" property="t18"/>
-        <result column="prk_t17" property="t17"/>
-        <result column="prk_t20" property="t20"/>
-        <result column="prk_t21" property="t21"/>
-        <result column="prk_t22" property="t22"/>
-        <result column="prk_t23" property="t23"/>
-        <result column="prk_capacity" property="capacity"/>
-        <result column="prk_free" property="free"/>
+        <id column="parking_id" property="id"/>
+        <result column="parking_uid" property="uid"/>
+        <result column="parking_name" property="name"/>
+        <result column="parking_content" property="content"/>
+        <result column="parking_longitude" property="longitude"/>
+        <result column="parking_latitude" property="latitude"/>
+        <result column="parking_geohash" property="geohash"/>
+        <result column="parking_status" property="status"/>
+        <result column="parking_update_date" property="stateUpdateDate"/>
+        <result column="parking_t0" property="t0"/>
+        <result column="parking_t1" property="t1"/>
+        <result column="parking_t2" property="t2"/>
+        <result column="parking_t3" property="t3"/>
+        <result column="parking_t4" property="t4"/>
+        <result column="parking_t5" property="t5"/>
+        <result column="parking_t6" property="t6"/>
+        <result column="parking_t7" property="t7"/>
+        <result column="parking_t8" property="t8"/>
+        <result column="parking_t9" property="t9"/>
+        <result column="parking_t10" property="t10"/>
+        <result column="parking_t11" property="t11"/>
+        <result column="parking_t12" property="t12"/>
+        <result column="parking_t13" property="t13"/>
+        <result column="parking_t14" property="t14"/>
+        <result column="parking_t15" property="t15"/>
+        <result column="parking_t16" property="t16"/>
+        <result column="parking_t19" property="t19"/>
+        <result column="parking_t18" property="t18"/>
+        <result column="parking_t17" property="t17"/>
+        <result column="parking_t20" property="t20"/>
+        <result column="parking_t21" property="t21"/>
+        <result column="parking_t22" property="t22"/>
+        <result column="parking_t23" property="t23"/>
+        <result column="parking_capacity" property="capacity"/>
+        <result column="parking_free" property="free"/>
     </resultMap>
 
     <resultMap id="PARKING_VO" type="com.someexp.modules.user.domain.vo.ParkingVO">
-        <id column="prk_id" property="id"/>
-        <result column="prk_uid" property="uid"/>
-        <result column="prk_name" property="name"/>
-        <result column="prk_content" property="content"/>
-        <result column="prk_longitude" property="longitude"/>
-        <result column="prk_latitude" property="latitude"/>
+        <id column="parking_id" property="id"/>
+        <result column="parking_uid" property="uid"/>
+        <result column="parking_name" property="name"/>
+        <result column="parking_content" property="content"/>
+        <result column="parking_longitude" property="longitude"/>
+        <result column="parking_latitude" property="latitude"/>
         <result column="location" property="location"/>
-        <result column="prk_status" property="status"/>
-        <result column="prk_update_date" property="stateUpdateDate"/>
-        <result column="prk_t0" property="t0"/>
-        <result column="prk_t1" property="t1"/>
-        <result column="prk_t2" property="t2"/>
-        <result column="prk_t3" property="t3"/>
-        <result column="prk_t4" property="t4"/>
-        <result column="prk_t5" property="t5"/>
-        <result column="prk_t6" property="t6"/>
-        <result column="prk_t7" property="t7"/>
-        <result column="prk_t8" property="t8"/>
-        <result column="prk_t9" property="t9"/>
-        <result column="prk_t10" property="t10"/>
-        <result column="prk_t11" property="t11"/>
-        <result column="prk_t12" property="t12"/>
-        <result column="prk_t13" property="t13"/>
-        <result column="prk_t14" property="t14"/>
-        <result column="prk_t15" property="t15"/>
-        <result column="prk_t16" property="t16"/>
-        <result column="prk_t19" property="t19"/>
-        <result column="prk_t18" property="t18"/>
-        <result column="prk_t17" property="t17"/>
-        <result column="prk_t20" property="t20"/>
-        <result column="prk_t21" property="t21"/>
-        <result column="prk_t22" property="t22"/>
-        <result column="prk_t23" property="t23"/>
-        <result column="prk_capacity" property="capacity"/>
-        <result column="prk_free" property="free"/>
+        <result column="parking_status" property="status"/>
+        <result column="parking_update_date" property="stateUpdateDate"/>
+        <result column="parking_t0" property="t0"/>
+        <result column="parking_t1" property="t1"/>
+        <result column="parking_t2" property="t2"/>
+        <result column="parking_t3" property="t3"/>
+        <result column="parking_t4" property="t4"/>
+        <result column="parking_t5" property="t5"/>
+        <result column="parking_t6" property="t6"/>
+        <result column="parking_t7" property="t7"/>
+        <result column="parking_t8" property="t8"/>
+        <result column="parking_t9" property="t9"/>
+        <result column="parking_t10" property="t10"/>
+        <result column="parking_t11" property="t11"/>
+        <result column="parking_t12" property="t12"/>
+        <result column="parking_t13" property="t13"/>
+        <result column="parking_t14" property="t14"/>
+        <result column="parking_t15" property="t15"/>
+        <result column="parking_t16" property="t16"/>
+        <result column="parking_t19" property="t19"/>
+        <result column="parking_t18" property="t18"/>
+        <result column="parking_t17" property="t17"/>
+        <result column="parking_t20" property="t20"/>
+        <result column="parking_t21" property="t21"/>
+        <result column="parking_t22" property="t22"/>
+        <result column="parking_t23" property="t23"/>
+        <result column="parking_capacity" property="capacity"/>
+        <result column="parking_free" property="free"/>
     </resultMap>
 
+    <select id="checkByLongitudeAndLatitude" resultType="java.lang.Boolean">
+        -- 检查停车场坐标是否重复 --
+        SELECT EXISTS(
+                       SELECT 1
+                       FROM parking
+                       WHERE parking_longitude = #{longitude}
+                         AND parking_latitude = #{latitude}
+                   ) AS result;
+    </select>
+
+    <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Parking" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="parking_id">
+        -- 新增停车场 --
+        INSERT INTO parking
+        (parking_uid, parking_name, parking_content, parking_longitude, parking_latitude, parking_geohash,
+         parking_status, parking_update_date,
+         parking_capacity, parking_free)
+        VALUES (#{uid}, #{name}, #{content}, #{longitude}, #{latitude}, #{geohash}, 0, now(), #{capacity}, 0)
+    </insert>
+
     <select id="list" resultMap="PARKING_ENTITY">
+        -- 根据 GeoHash 列出停车场 --
         SELECT *
         FROM parking
-        WHERE prk_status = 1
-        AND prk_geohash IN
+        WHERE parking_status = 1
+        AND parking_geohash IN
         <foreach collection="array" item="str" index="index" open="(" close=")" separator=",">
             #{str}
         </foreach>
     </select>
 
-    <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Parking" useGeneratedKeys="true"
-            keyProperty="id" keyColumn="prk_id">
-        INSERT INTO parking
-        (prk_uid, prk_name, prk_content, prk_longitude, prk_latitude, prk_geohash, prk_status, prk_update_date,
-         prk_capacity, prk_free)
-        VALUES (#{uid}, #{name}, #{content}, #{longitude}, #{latitude}, #{geohash}, 0, now(), #{capacity}, 0)
-    </insert>
-
-    <select id="checkParkingExists" resultType="java.lang.Boolean">
-        SELECT EXISTS(
-                       SELECT 1
-                       FROM parking
-                       WHERE prk_longitude = #{longitude}
-                         AND prk_latitude = #{latitude}
-                   ) AS result;
-    </select>
-
-    <select id="checkParkingExistsByStatus" resultType="java.lang.Boolean">
-        SELECT EXISTS(
-                       SELECT 1
-                       FROM parking
-                       WHERE prk_id = #{id}
-                         AND prk_status = #{status}
-                   ) AS result;
-    </select>
-
-    <select id="get" resultMap="PARKING_VO">
-        SELECT *, concat(prk_longitude, concat(',', prk_latitude)) as location
-        FROM parking
-        WHERE prk_id = #{id}
-          AND prk_status = 1
-    </select>
-
-    <select id="getEntity" resultMap="PARKING_ENTITY">
+    <select id="getEntityByIdAndStatus" resultMap="PARKING_ENTITY">
+        -- 获取停车场信息 --
         SELECT *
         FROM parking
-        WHERE prk_id = #{id}
-          AND prk_status = #{status}
+        WHERE parking_id = #{id}
+          AND parking_status = #{status}
+    </select>
+
+    <select id="pageVOByUid" resultMap="PARKING_VO">
+        -- 分页列出用户提交的停车场 --
+        SELECT *, concat(parking_longitude, concat(',', parking_latitude)) AS location
+        FROM parking
+        WHERE parking_uid = #{uid}
+        ORDER BY parking_id DESC
+        LIMIT #{offset}, #{rowCount}
+    </select>
+
+    <update id="updateFree">
+        -- 更新停车场空闲数量 --
+        UPDATE parking
+        SET parking_free = #{newFree}
+        WHERE parking_id = #{id}
+    </update>
+
+    <select id="checkByIdAndStatus" resultType="java.lang.Boolean">
+        -- 检查停车场是否存在 --
+        SELECT EXISTS(
+                       SELECT 1
+                       FROM parking
+                       WHERE parking_id = #{id}
+                         AND parking_status = #{status}
+                   ) AS result;
     </select>
 
     <update id="updateState">
+        -- 更新停车场拥挤度 --
         UPDATE parking
-        SET prk_${colName} = #{state}
-        WHERE prk_id = #{id}
+        SET parking_${colName} = #{state}
+        WHERE parking_id = #{id}
     </update>
-
-    <update id="updateFree">
-        UPDATE parking
-        SET prk_free = #{newFree}
-        WHERE prk_id = #{id}
-    </update>
-
-    <select id="pageByUid" resultMap="PARKING_VO">
-        SELECT *, concat(prk_longitude, concat(',', prk_latitude)) AS location
-        FROM parking
-        WHERE prk_uid = #{uid}
-        ORDER BY prk_id DESC
-        LIMIT #{offset}, #{rowCount}
-    </select>
 
 </mapper>

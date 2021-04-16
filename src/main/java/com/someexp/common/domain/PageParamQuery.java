@@ -8,6 +8,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
+ * 用户的分页结果, 多取一行判断是否有下一页
+ *
  * @author someexp
  * @date 2020/9/22
  */

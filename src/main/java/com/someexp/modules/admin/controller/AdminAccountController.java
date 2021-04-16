@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * 管理员管理管理员相关
+ *
  * @Author someexp
  * @Date 2021/4/1
  */

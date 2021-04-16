@@ -18,18 +18,30 @@ public interface TempService {
      * @param tempDTO 拥挤度信息
      * @return 拥挤度
      */
-    Integer add(TempDTO tempDTO) throws NoSuchFieldException, IllegalAccessException;
-
-    /**
-     * @param id
-     * @return
-     */
-    Temp getEntity(Long id);
+    Long add(TempDTO tempDTO);
 
     /**
      * @return 最新5条Temp数据
      */
     List<TempVO> list(Long pid);
+
+    /**
+     * 获取10分钟内的拥挤度, 如果没有结果返回-1
+     *
+     * @param pid
+     * @return
+     */
+    Double interval(Long pid);
+
+    PageResultDTO<?> listMyTemp(PageParamQuery pageParamQuery);
+
+    // 下面是供其它服务调用的
+
+    /**
+     * @param id
+     * @return
+     */
+    Temp getEntity(Long id, Integer status);
 
     /**
      * 给对应的temp添加数量
@@ -39,15 +51,6 @@ public interface TempService {
      */
     void increase(Long tid, Integer useful);
 
-    /**
-     * 获取30分钟内的拥挤度, 如果没有结果返回-1
-     *
-     * @param pid
-     * @return
-     */
-    Double interval(Long pid);
+    boolean checkTempExists(Long id, Integer status);
 
-    boolean checkTempExists(Long id);
-
-    PageResultDTO<?> listMyTemp(PageParamQuery pageParamQuery);
 }

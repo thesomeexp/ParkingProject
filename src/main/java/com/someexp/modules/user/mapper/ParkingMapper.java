@@ -12,22 +12,20 @@ import java.util.List;
  */
 public interface ParkingMapper {
 
-    List<Parking> list(String[] geohashs);
+    boolean checkByLongitudeAndLatitude(@Param("longitude") Double longitude, @Param("latitude") Double latitude);
 
     void save(Parking parking);
 
-    boolean checkParkingExists(@Param("longitude") Double longitude,
-                               @Param("latitude") Double latitude);
+    List<Parking> list(String[] hashes);
 
-    ParkingVO get(Long id);
+    Parking getEntityByIdAndStatus(@Param("id") Long id, @Param("status") Integer status);
 
-    Parking getEntity(@Param("id") Long id, @Param("status") Integer status);
+    List<ParkingVO> pageVOByUid(@Param("uid") Long uid, @Param("offset") Integer offset, @Param("rowCount") Integer rowCount);
 
-    boolean checkParkingExistsByStatus(@Param("id") Long id, @Param("status") Integer status);
+    void updateFree(@Param("id") Long id, @Param("newFree") Integer newFree);
 
-    List<ParkingVO> pageByUid(@Param("uid") Long uid, @Param("offset") Integer offset, @Param("rowCount") Integer rowCount);
+    boolean checkByIdAndStatus(@Param("id") Long id, @Param("status") Integer status);
 
     void updateState(@Param("id") Long id, @Param("colName") String colName, @Param("state") Double newState);
 
-    void updateFree(@Param("id") Long id, @Param("newFree") Integer newFree);
 }

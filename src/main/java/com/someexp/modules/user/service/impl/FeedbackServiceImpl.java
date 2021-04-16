@@ -30,15 +30,15 @@ public class FeedbackServiceImpl implements FeedbackService {
     private ParkingService parkingService;
 
     @Override
-    public void add(FeedbackDTO feedbackDTO) {
+    public Long add(FeedbackDTO feedbackDTO) {
         if (!parkingService.checkParkingExists(feedbackDTO.getPid())) {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
         }
-        Long userId = ShiroUtils.getUserId();
         Feedback feedback = new Feedback();
         BeanUtils.copyProperties(feedbackDTO, feedback);
-        feedback.setUid(userId);
+        feedback.setUid(ShiroUtils.getUserId());
         feedbackMapper.save(feedback);
+        return feedback.getId();
     }
 
     @Override

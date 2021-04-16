@@ -14,19 +14,20 @@ public interface TempMapper {
 
     boolean checkTempExists10Min(Long uid, Long pid);
 
-    boolean checkTempExists(Long id);
-
     void save(Temp temp);
 
-    Temp getEntity(Long id);
-
     List<TempVO> list(@Param("pid") Long pid, @Param("uid") Long uid);
-
-    void increaseUseful(Long tid);
-
-    void increaseUnuseful(Long tid);
 
     List<Temp> listEntity(Long pid);
 
     List<TempVO> pageByUid(@Param("uid") Long uid, @Param("offset") Integer offset, @Param("rowCount") Integer rowCount);
+
+    Temp getEntity(Long id, Integer status);
+
+    void increaseUseful(Long tid);
+
+    void increaseUnUseful(Long tid);
+
+    boolean checkByIdAndStatus(Long id, Integer status);
+
 }

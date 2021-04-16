@@ -52,7 +52,7 @@ public class ParkingServiceImpl implements ParkingService {
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public String add(ParkingDTO parkingDTO) {
+    public Long add(ParkingDTO parkingDTO) {
         Parking parking = new Parking();
         parking.setName(parkingDTO.getName().trim());
         parking.setContent(parkingDTO.getContent().trim());
@@ -64,7 +64,7 @@ public class ParkingServiceImpl implements ParkingService {
         parking.setLatitude(location.getLatitude());
         parking.setGeohash(GeoHashUtils.getGeoHash(location));
 
-        if (parkingMapper.checkParkingExists(parking.getLongitude(), parking.getLatitude())) {
+        if (parkingMapper.checkByLongitudeAndLatitude(parking.getLongitude(), parking.getLatitude())) {
             throw new BusinessException(MsgUtils.get("parking.location.exist"));
         }
         parkingMapper.save(parking);
@@ -73,41 +73,60 @@ public class ParkingServiceImpl implements ParkingService {
         try {
             parkingDTO.getImage().transferTo(new File(filePath));
         } catch (IOException e) {
-            log.error("上传文件错误", e);
+            log.error("上传文件异常", e);
             throw new BusinessException(MsgUtils.get("parking.image.error"));
         }
-        return parking.getName();
+        return parking.getId();
     }
 
     @Override
     public List<Parking> list(ParkingQuery parkingQuery) {
         Location location = LocationUtils.parseLocation(parkingQuery.getLocation());
 
-        String geohash = GeoHashUtils.getGeoHash(location);
-        String[] geohashs = GeoHashUtils.getAdjacent(geohash);
+        String geoHash = GeoHashUtils.getGeoHash(location);
+        String[] geoHashes = GeoHashUtils.getAdjacent(geoHash);
 
-        List<Parking> list = parkingMapper.list(geohashs);
-        return list;
+        return parkingMapper.list(geoHashes);
     }
 
     @Override
     public ParkingVO get(Long id) {
-        ParkingVO parkingVO = parkingMapper.get(id);
-        if (parkingVO == null) {
+        Parking parking = parkingMapper.getEntityByIdAndStatus(id, 1);
+        if (parking == null) {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
         }
+        ParkingVO parkingVO = new ParkingVO();
+        BeanUtils.copyProperties(parking, parkingVO);
+        parkingVO.setLocation(parkingVO.getLongitude() + "," + parkingVO.getLatitude());
         return parkingVO;
     }
 
     @Override
+    public PageResultDTO<?> listMyParking(PageParamQuery pageParamQuery) {
+        return new UserPageResultDTO<>(pageParamQuery,
+                parkingMapper.pageVOByUid(ShiroUtils.getUserId(), pageParamQuery.getOffset(), pageParamQuery.getRowCount()));
+    }
+
+    @Override
+    public Integer reduceFree(Long id) {
+        Parking parking = parkingMapper.getEntityByIdAndStatus(id, 1);
+        if (parking == null) {
+            throw new BusinessException(MsgUtils.get("parking.not.exist"));
+        }
+        Integer newFree = Math.max((parking.getFree() - 1), 0);
+        parkingMapper.updateFree(id, newFree);
+        return 1;
+    }
+
+    @Override
     public Parking getEntity(Long id, Integer status) {
-        return parkingMapper.getEntity(id, status);
+        return parkingMapper.getEntityByIdAndStatus(id, status);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateGraph(Long tid, Parking parking) throws NoSuchFieldException, IllegalAccessException {
-        Temp temp = tempService.getEntity(tid);
+        Temp temp = tempService.getEntity(tid, 0);
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setGregorianChange(temp.getStateUpdateDate());
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
@@ -118,7 +137,7 @@ public class ParkingServiceImpl implements ParkingService {
         Double oldState = Double.parseDouble(tField.get(parking).toString());
         Double newState = getParkingState(oldState, temp.getState(), parking.getCapacity());
         parkingMapper.updateState(parking.getId(), colName, newState);
-        // 更新停车场空闲数
+        // 更新停车场空闲数 (不能超过上限)
         int newFree = (parking.getFree() + temp.getState()) >= parking.getCapacity() ? parking.getCapacity() : (parking.getFree() + temp.getState());
         parkingMapper.updateFree(parking.getId(), newFree);
     }
@@ -131,32 +150,15 @@ public class ParkingServiceImpl implements ParkingService {
      * @param capacity 停车场总容量
      * @return 新的拥挤度
      */
-    private Double getParkingState(Double oldState, Integer state, Integer capacity) {
-        Double currState = 1 - (double) state / (double) capacity;
+    private double getParkingState(Double oldState, Integer state, Integer capacity) {
+        double currState = 1 - (double) state / (double) capacity;
         return ((currState * 10) + oldState) / 2;
     }
 
 
     @Override
     public boolean checkParkingExists(Long id) {
-        return parkingMapper.checkParkingExistsByStatus(id, 1);
-    }
-
-    @Override
-    public PageResultDTO<?> listMyParking(PageParamQuery pageParamQuery) {
-        return new UserPageResultDTO<>(pageParamQuery,
-                parkingMapper.pageByUid(ShiroUtils.getUserId(), pageParamQuery.getOffset(), pageParamQuery.getRowCount()));
-    }
-
-    @Override
-    public Integer reduceFree(Long id) {
-        Parking parking = parkingMapper.getEntity(id, 1);
-        if (parking == null) {
-            throw new BusinessException(MsgUtils.get("parking.not.exist"));
-        }
-        Integer newFree = Math.max((parking.getFree() - 1), 0);
-        parkingMapper.updateFree(id, newFree);
-        return 1;
+        return parkingMapper.checkByIdAndStatus(id, 1);
     }
 
 }

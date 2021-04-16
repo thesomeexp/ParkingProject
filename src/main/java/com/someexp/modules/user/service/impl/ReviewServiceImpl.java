@@ -31,7 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
     private ParkingService parkingService;
 
     @Override
-    public Integer add(ReviewDTO reviewDTO) {
+    public Long add(ReviewDTO reviewDTO) {
         if (!parkingService.checkParkingExists(reviewDTO.getPid())) {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
         }
@@ -44,7 +44,7 @@ public class ReviewServiceImpl implements ReviewService {
         review.setUid(userId);
 
         reviewMapper.save(review);
-        return review.getScore();
+        return review.getId();
     }
 
     @Override

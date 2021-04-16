@@ -15,7 +15,13 @@ import java.util.List;
  */
 public interface ParkingService {
 
-    String add(ParkingDTO parkingDTO);
+    /**
+     * 返回新增停车场id
+     *
+     * @param parkingDTO
+     * @return
+     */
+    Long add(ParkingDTO parkingDTO);
 
     List<Parking> list(ParkingQuery parkingQuery);
 
@@ -27,6 +33,23 @@ public interface ParkingService {
      */
     ParkingVO get(Long id);
 
+    /**
+     * 列出用户自己提交的停车场
+     *
+     * @return
+     */
+    PageResultDTO<?> listMyParking(PageParamQuery pageParamQuery);
+
+    /**
+     * 减少当前空闲停车位数量
+     *
+     * @param id
+     * @return
+     */
+    Integer reduceFree(Long id);
+
+    // (以下的供其它服务调用)
+    
     /**
      * 查询实体
      *
@@ -51,12 +74,4 @@ public interface ParkingService {
      */
     boolean checkParkingExists(Long id);
 
-    /**
-     * 列出用户自己提交的停车场
-     *
-     * @return
-     */
-    PageResultDTO<?> listMyParking(PageParamQuery pageParamQuery);
-
-    Integer reduceFree(Long id);
 }

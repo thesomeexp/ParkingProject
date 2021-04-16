@@ -3,54 +3,57 @@
 <mapper namespace="com.someexp.modules.user.mapper.ReviewMapper">
 
     <resultMap id="REVIEW_ENTITY" type="com.someexp.modules.user.domain.entity.Review">
-        <id column="rew_id" property="id"/>
-        <result column="rew_pid" property="pid"/>
-        <result column="rew_uid" property="uid"/>
-        <result column="rew_score" property="score"/>
-        <result column="rew_content" property="content"/>
-        <result column="rew_create_date" property="createdDate"/>
+        <id column="review_id" property="id"/>
+        <result column="review_pid" property="pid"/>
+        <result column="review_uid" property="uid"/>
+        <result column="review_score" property="score"/>
+        <result column="review_content" property="content"/>
+        <result column="review_create_date" property="createdDate"/>
     </resultMap>
 
     <resultMap id="REVIEW_VO" type="com.someexp.modules.user.domain.vo.ReviewVO">
-        <id column="rew_id" property="id"/>
-        <result column="rew_pid" property="pid"/>
-        <result column="rew_uid" property="uid"/>
-        <result column="rew_score" property="score"/>
-        <result column="rew_content" property="content"/>
-        <result column="rew_create_date" property="createdDate"/>
+        <id column="review_id" property="id"/>
+        <result column="review_pid" property="pid"/>
+        <result column="review_uid" property="uid"/>
+        <result column="review_score" property="score"/>
+        <result column="review_content" property="content"/>
+        <result column="review_create_date" property="createdDate"/>
         <result column="prk_name" property="parkingName"/>
     </resultMap>
 
-    <select id="pageByPid" resultMap="REVIEW_ENTITY">
-        SELECT *
-        FROM review
-        WHERE rew_pid = #{pid}
-        ORDER BY rew_id desc
-        LIMIT #{offset}, #{rowCount}
-    </select>
-
-    <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Review" useGeneratedKeys="true"
-            keyProperty="id" keyColumn="rew_id">
-        insert into review (rew_pid, rew_uid, rew_score, rew_content, rew_create_date)
-        values (#{pid}, #{uid}, #{score}, #{content}, now())
-    </insert>
-
     <select id="checkReviewExists" resultType="java.lang.Boolean">
+        -- 查询评论是否存在 --
         SELECT EXISTS(
                        SELECT 1
                        FROM review
-                       WHERE rew_uid = #{uid}
-                         AND rew_pid = #{pid}
+                       WHERE review_uid = #{uid}
+                         AND review_pid = #{pid}
                    ) AS result;
     </select>
 
+    <insert id="save" parameterType="com.someexp.modules.user.domain.entity.Review" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="review_id">
+        -- 添加评论 --
+        insert into review (review_pid, review_uid, review_score, review_content, review_create_date)
+        values (#{pid}, #{uid}, #{score}, #{content}, now())
+    </insert>
+
+    <select id="pageByPid" resultMap="REVIEW_ENTITY">
+        -- 分页列出停车场的评论 --
+        SELECT *
+        FROM review
+        WHERE review_pid = #{pid}
+        ORDER BY review_id desc
+        LIMIT #{offset}, #{rowCount}
+    </select>
+
     <select id="pageByUid" resultMap="REVIEW_VO">
-        -- 根据uid分页列出评论 --
-        SELECT rew.*, prk.prk_name
-        FROM review AS rew FORCE INDEX (review_rew_uid_index)
-                 INNER JOIN parking AS prk ON rew.rew_pid = prk.prk_id
-        WHERE rew.rew_uid = #{uid}
-        ORDER BY rew.rew_id DESC
+        -- 分页列出用户的评论 --
+        SELECT rew.*, prk.parking_name
+        FROM review AS rew
+                 INNER JOIN parking AS prk ON rew.review_pid = prk.parking_id
+        WHERE rew.review_uid = #{uid}
+        ORDER BY rew.review_id DESC
         LIMIT #{offset}, #{rowCount}
     </select>
 

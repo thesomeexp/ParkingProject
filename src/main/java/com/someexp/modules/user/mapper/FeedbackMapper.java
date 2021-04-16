@@ -15,4 +15,5 @@ public interface FeedbackMapper {
     void save(Feedback feedback);
 
     List<FeedbackVO> pageByUid(@Param("uid") Long uid, @Param("offset") Integer offset, @Param("rowCount") Integer rowCount);
+
 }

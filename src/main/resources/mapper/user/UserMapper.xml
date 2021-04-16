@@ -3,49 +3,45 @@
 <mapper namespace="com.someexp.modules.user.mapper.UserMapper">
 
     <resultMap id="USER_ENTITY" type="com.someexp.modules.user.domain.entity.User">
-        <id column="usr_id" property="id"/>
-        <result column="usr_name" property="name"/>
-        <result column="usr_password" property="password"/>
-        <result column="usr_area_code" property="areaCode"/>
-        <result column="usr_phone" property="phone"/>
-        <result column="usr_status" property="status"/>
+        <id column="user_id" property="id"/>
+        <result column="user_name" property="name"/>
+        <result column="user_password" property="password"/>
+        <result column="user_area_code" property="areaCode"/>
+        <result column="user_phone" property="phone"/>
+        <result column="user_status" property="status"/>
     </resultMap>
 
-    <resultMap id="USER_VO" type="com.someexp.modules.user.domain.vo.UserVO">
-        <id column="usr_id" property="id"/>
-        <result column="usr_name" property="name"/>
-        <result column="usr_area_code" property="areaCode"/>
-        <result column="usr_phone" property="phone"/>
-        <result column="usr_status" property="status"/>
-    </resultMap>
-
-    <select id="checkUserExists" resultType="java.lang.Boolean">
+    <select id="checkByAreaCodeAndPhone" resultType="java.lang.Boolean">
+        -- 检查用户是否存在 --
         SELECT EXISTS(
                        SELECT 1
                        FROM user
-                       WHERE usr_area_code = #{areaCode}
-                         AND usr_phone = #{phone}
+                       WHERE user_area_code = #{areaCode}
+                         AND user_phone = #{phone}
                    ) AS result;
     </select>
 
-    <select id="getEntityByPhone" resultMap="USER_ENTITY">
-        SELECT *
-        FROM user
-        WHERE usr_area_code = #{areaCode}
-          AND usr_phone = #{phone};
-    </select>
-
     <insert id="save" parameterType="com.someexp.modules.user.domain.entity.User" useGeneratedKeys="true"
-            keyProperty="id" keyColumn="usr_id">
+            keyProperty="id" keyColumn="user_id">
+        -- 新增用户 --
         INSERT INTO user
-            (usr_name, usr_password, usr_area_code, usr_phone, usr_status)
+            (user_name, user_password, user_area_code, user_phone, user_status)
         VALUES (#{name}, #{password}, #{areaCode}, #{phone}, 1);
     </insert>
 
-    <select id="getById" resultMap="USER_VO">
+    <select id="getEntityByPhone" resultMap="USER_ENTITY">
+        -- 获取用户信息 --
         SELECT *
         FROM user
-        WHERE usr_id = #{uid}
+        WHERE user_area_code = #{areaCode}
+          AND user_phone = #{phone};
+    </select>
+
+    <select id="getEntityById" resultMap="USER_ENTITY">
+        -- 获取用户信息 --
+        SELECT *
+        FROM user
+        WHERE user_id = #{uid}
     </select>
 
 </mapper>

@@ -35,7 +35,7 @@ public class TempServiceImpl implements TempService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer add(TempDTO tempDTO) throws NoSuchFieldException, IllegalAccessException {
+    public Long add(TempDTO tempDTO) {
         Parking parking = parkingService.getEntity(tempDTO.getPid(), 1);
         if (parking == null) {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
@@ -43,22 +43,20 @@ public class TempServiceImpl implements TempService {
         if (tempDTO.getState() > parking.getCapacity()) {
             throw new BusinessException(MsgUtils.get("temp.state.out.of.max"));
         }
+        if (tempMapper.checkTempExists10Min(ShiroUtils.getUserId(), tempDTO.getPid())) {
+            throw new BusinessException(MsgUtils.get("temp.submit.later"));
+        }
         Temp temp = new Temp();
         BeanUtils.copyProperties(tempDTO, temp);
         temp.setUid(ShiroUtils.getUserId());
-
-        if (tempMapper.checkTempExists10Min(temp.getUid(), temp.getPid())) {
-            throw new BusinessException(MsgUtils.get("temp.submit.later"));
-        }
         tempMapper.save(temp);
         // 更新图表信息(停车场拥挤度, 停车场空闲车位数)
-        parkingService.updateGraph(temp.getId(), parking);
-        return temp.getState();
-    }
-
-    @Override
-    public Temp getEntity(Long id) {
-        return tempMapper.getEntity(id);
+        try {
+            parkingService.updateGraph(temp.getId(), parking);
+        } catch (Exception e) {
+            throw new BusinessException(MsgUtils.get("parking.temp.update.exception"));
+        }
+        return temp.getId();
     }
 
     @Override
@@ -67,17 +65,6 @@ public class TempServiceImpl implements TempService {
             throw new BusinessException(MsgUtils.get("parking.not.exist"));
         }
         return tempMapper.list(pid, ShiroUtils.getUserId());
-    }
-
-    @Override
-    public void increase(Long tid, Integer useful) {
-        if (useful == 1) {
-            tempMapper.increaseUseful(tid);
-        } else if (useful == -1) {
-            tempMapper.increaseUnuseful(tid);
-        } else {
-            throw new BusinessException(MsgUtils.get("parameter.illegal", new String[]{"useful", String.valueOf(useful)}));
-        }
     }
 
     @Override
@@ -98,14 +85,30 @@ public class TempServiceImpl implements TempService {
     }
 
     @Override
-    public boolean checkTempExists(Long id) {
-        return tempMapper.checkTempExists(id);
-    }
-
-    @Override
     public PageResultDTO<?> listMyTemp(PageParamQuery pageParamQuery) {
         return new UserPageResultDTO<>(pageParamQuery,
                 tempMapper.pageByUid(ShiroUtils.getUserId(), pageParamQuery.getOffset(), pageParamQuery.getRowCount()));
+    }
+
+    @Override
+    public Temp getEntity(Long id, Integer status) {
+        return tempMapper.getEntity(id, status);
+    }
+
+    @Override
+    public void increase(Long tid, Integer useful) {
+        if (useful == 1) {
+            tempMapper.increaseUseful(tid);
+        } else if (useful == -1) {
+            tempMapper.increaseUnUseful(tid);
+        } else {
+            throw new BusinessException(MsgUtils.get("parameter.illegal", new String[]{"useful", String.valueOf(useful)}));
+        }
+    }
+
+    @Override
+    public boolean checkTempExists(Long id, Integer status) {
+        return tempMapper.checkByIdAndStatus(id, status);
     }
 
 }
