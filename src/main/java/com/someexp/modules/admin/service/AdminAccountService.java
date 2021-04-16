@@ -12,11 +12,13 @@ import java.util.List;
  * @Date 2021/4/1
  */
 public interface AdminAccountService {
-    Long add(AdminDTO adminDTO);
 
-    List<AdminVO> getParent(Long id);
+    Long add(AdminDTO adminDTO);
 
     PageResultDTO<?> list(PageParamQuery pageParamQuery);
 
+    List<AdminVO> getParent(Long id);
+
     Boolean ban(AdminDTO adminDTO);
+
 }

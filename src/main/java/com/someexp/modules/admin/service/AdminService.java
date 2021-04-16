@@ -9,7 +9,19 @@ import com.someexp.modules.admin.domain.vo.HomeVO;
  */
 public interface AdminService {
 
+    /**
+     * 管理员登录, 返回 JWT
+     *
+     * @param adminDTO
+     * @return
+     */
     String login(AdminDTO adminDTO);
 
+    /**
+     * 获取首页信息
+     *
+     * @return
+     */
     HomeVO home();
+
 }

@@ -8,10 +8,11 @@ import com.someexp.common.validator.group.UpdateGroup;
 import com.someexp.modules.admin.domain.dto.FeedbackDTO;
 import com.someexp.modules.admin.domain.query.FeedbackQuery;
 import com.someexp.modules.admin.service.AdminFeedbackService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * @Author someexp
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AdminFeedbackController {
 
-    @Autowired
+    @Resource
     private AdminFeedbackService adminFeedbackService;
 
     @GetMapping("/admin/feedback")
@@ -36,4 +37,5 @@ public class AdminFeedbackController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Result.success(adminFeedbackService.update(id, feedbackDTO), MsgUtils.get("success")));
     }
+
 }

@@ -24,16 +24,6 @@ public class AdminReviewServiceImpl implements AdminReviewService {
 
     @Override
     public PageResultDTO<?> list(ReviewQuery reviewQuery) {
-        // 手动选择索引, 避免filesort
-        if (reviewQuery.getUid() != null && reviewQuery.getPid() != null) {
-            reviewQuery.setIndexName("review_rew_uid_rew_pid_uindex");
-        } else if (reviewQuery.getUid() != null) {
-            reviewQuery.setIndexName("review_rew_uid_index");
-        } else if (reviewQuery.getPid() != null) {
-            reviewQuery.setIndexName("review_rew_pid_index");
-        } else {
-            reviewQuery.setIndexName("PRIMARY");
-        }
         return new AdminPageResultDTO<>(reviewQuery,
                 adminReviewMapper.listByPage(reviewQuery),
                 adminReviewMapper.countByPage(reviewQuery));

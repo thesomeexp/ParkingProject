@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface AdminMapper {
 
-    Admin findByPhone(String phone);
+    Admin getByPhone(String phone);
 
     List<StatusCount> countParkingByStatus();
 

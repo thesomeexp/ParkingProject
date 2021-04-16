@@ -10,9 +10,11 @@ import java.util.List;
  * @Date 2021/3/31
  */
 public interface AdminReviewMapper {
+
     List<Review> listByPage(ReviewQuery reviewQuery);
 
     int countByPage(ReviewQuery reviewQuery);
 
     Review get(Long id);
+
 }

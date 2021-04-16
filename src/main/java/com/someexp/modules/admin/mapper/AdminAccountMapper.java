@@ -12,15 +12,15 @@ import java.util.List;
  */
 public interface AdminAccountMapper {
 
+    boolean checkByPhone(String phone);
+
     void save(Admin adminDTO);
-
-    Admin getByPhone(String phone);
-
-    Admin get(Long id);
 
     List<AdminVO> listByPage(PageParamQuery pageParamQuery);
 
     int countByPage(PageParamQuery pageParamQuery);
+
+    Admin get(Long id);
 
     void update(Admin admin);
 

@@ -9,7 +9,9 @@ import com.someexp.modules.admin.domain.entity.Review;
  * @Date 2021/3/31
  */
 public interface AdminReviewService {
+
     PageResultDTO<?> list(ReviewQuery reviewQuery);
 
     Review get(Long id);
+
 }

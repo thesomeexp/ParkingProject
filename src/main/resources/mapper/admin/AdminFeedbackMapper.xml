@@ -3,43 +3,43 @@
 <mapper namespace="com.someexp.modules.admin.mapper.AdminFeedbackMapper">
 
     <resultMap id="FEEDBACK_ENTITY" type="com.someexp.modules.admin.domain.entity.Feedback">
-        <id column="fbk_id" property="id"/>
-        <result column="fbk_pid" property="pid"/>
-        <result column="fbk_uid" property="uid"/>
-        <result column="fbk_create_date" property="createdDate"/>
-        <result column="fbk_content" property="content"/>
-        <result column="fbk_status" property="status"/>
-        <result column="fbk_contact" property="contact"/>
+        <id column="feedback_id" property="id"/>
+        <result column="feedback_pid" property="pid"/>
+        <result column="feedback_uid" property="uid"/>
+        <result column="feedback_create_date" property="createdDate"/>
+        <result column="feedback_content" property="content"/>
+        <result column="feedback_status" property="status"/>
+        <result column="feedback_contact" property="contact"/>
     </resultMap>
 
     <select id="listByPage" resultMap="FEEDBACK_ENTITY">
         SELECT *
         FROM feedback
-        WHERE fbk_status = #{status}
-        ORDER BY fbk_id
+        WHERE feedback_status = #{status}
+        ORDER BY feedback_id
         LIMIT #{offset}, #{rowCount}
     </select>
 
     <select id="countByPage" resultType="int">
         SELECT COUNT(*)
         FROM feedback
-        WHERE fbk_status = #{status}
+        WHERE feedback_status = #{status}
     </select>
 
     <select id="get" resultMap="FEEDBACK_ENTITY">
         SELECT *
         FROM feedback
-        WHERE fbk_id = #{id}
+        WHERE feedback_id = #{id}
     </select>
 
     <update id="update" parameterType="com.someexp.modules.admin.domain.entity.Feedback">
         UPDATE feedback
         <set>
             <if test="status != null">
-                fbk_status = #{status}
+                feedback_status = #{status}
             </if>
         </set>
-        WHERE fbk_id = #{id}
+        WHERE feedback_id = #{id}
     </update>
 
 </mapper>

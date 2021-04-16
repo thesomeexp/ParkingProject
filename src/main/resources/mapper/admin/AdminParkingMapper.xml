@@ -3,94 +3,98 @@
 <mapper namespace="com.someexp.modules.admin.mapper.AdminParkingMapper">
 
     <resultMap id="PARKING_ENTITY" type="com.someexp.modules.admin.domain.entity.Parking">
-        <id column="prk_id" property="id"/>
-        <result column="prk_uid" property="uid"/>
-        <result column="prk_name" property="name"/>
-        <result column="prk_content" property="content"/>
-        <result column="prk_longitude" property="longitude"/>
-        <result column="prk_latitude" property="latitude"/>
-        <result column="prk_geohash" property="geohash"/>
-        <result column="prk_status" property="status"/>
-        <result column="prk_update_date" property="stateUpdateDate"/>
-        <result column="prk_t0" property="t0"/>
-        <result column="prk_t1" property="t1"/>
-        <result column="prk_t2" property="t2"/>
-        <result column="prk_t3" property="t3"/>
-        <result column="prk_t4" property="t4"/>
-        <result column="prk_t5" property="t5"/>
-        <result column="prk_t6" property="t6"/>
-        <result column="prk_t7" property="t7"/>
-        <result column="prk_t8" property="t8"/>
-        <result column="prk_t9" property="t9"/>
-        <result column="prk_t10" property="t10"/>
-        <result column="prk_t11" property="t11"/>
-        <result column="prk_t12" property="t12"/>
-        <result column="prk_t13" property="t13"/>
-        <result column="prk_t14" property="t14"/>
-        <result column="prk_t15" property="t15"/>
-        <result column="prk_t16" property="t16"/>
-        <result column="prk_t19" property="t19"/>
-        <result column="prk_t18" property="t18"/>
-        <result column="prk_t17" property="t17"/>
-        <result column="prk_t20" property="t20"/>
-        <result column="prk_t21" property="t21"/>
-        <result column="prk_t22" property="t22"/>
-        <result column="prk_t23" property="t23"/>
-        <result column="prk_capacity" property="capacity"/>
+        <id column="parking_id" property="id"/>
+        <result column="parking_uid" property="uid"/>
+        <result column="parking_name" property="name"/>
+        <result column="parking_content" property="content"/>
+        <result column="parking_longitude" property="longitude"/>
+        <result column="parking_latitude" property="latitude"/>
+        <result column="parking_geohash" property="geohash"/>
+        <result column="parking_status" property="status"/>
+        <result column="parking_update_date" property="stateUpdateDate"/>
+        <result column="parking_t0" property="t0"/>
+        <result column="parking_t1" property="t1"/>
+        <result column="parking_t2" property="t2"/>
+        <result column="parking_t3" property="t3"/>
+        <result column="parking_t4" property="t4"/>
+        <result column="parking_t5" property="t5"/>
+        <result column="parking_t6" property="t6"/>
+        <result column="parking_t7" property="t7"/>
+        <result column="parking_t8" property="t8"/>
+        <result column="parking_t9" property="t9"/>
+        <result column="parking_t10" property="t10"/>
+        <result column="parking_t11" property="t11"/>
+        <result column="parking_t12" property="t12"/>
+        <result column="parking_t13" property="t13"/>
+        <result column="parking_t14" property="t14"/>
+        <result column="parking_t15" property="t15"/>
+        <result column="parking_t16" property="t16"/>
+        <result column="parking_t19" property="t19"/>
+        <result column="parking_t18" property="t18"/>
+        <result column="parking_t17" property="t17"/>
+        <result column="parking_t20" property="t20"/>
+        <result column="parking_t21" property="t21"/>
+        <result column="parking_t22" property="t22"/>
+        <result column="parking_t23" property="t23"/>
+        <result column="parking_capacity" property="capacity"/>
     </resultMap>
 
     <select id="listByPage" resultMap="PARKING_ENTITY">
+        -- 管理员分页列出停车场 --
         SELECT * FROM parking
         <where>
-            prk_status = #{status}
+            parking_status = #{status}
             <if test="name != null and name != ''">
-                AND prk_name LIKE concat(#{name}, '%')
+                AND parking_name LIKE concat(#{name}, '%')
             </if>
         </where>
-        ORDER BY prk_id
+        ORDER BY parking_id
         LIMIT #{offset}, #{rowCount}
     </select>
 
     <select id="countByPage" resultType="int">
+        -- 管理员分页统计停车场总数 --
         SELECT COUNT(*) FROM parking
         <where>
-            prk_status = #{status}
+            parking_status = #{status}
             <if test="name != null and name != ''">
-                AND prk_name LIKE concat(#{name}, '%')
+                AND parking_name LIKE concat(#{name}, '%')
             </if>
         </where>
     </select>
 
     <select id="get" resultMap="PARKING_ENTITY">
+        -- 管理员获取停车场信息 --
         SELECT *
         FROM parking
-        WHERE prk_id = #{id}
+        WHERE parking_id = #{id}
     </select>
 
     <update id="update" parameterType="com.someexp.modules.admin.domain.entity.Parking">
+        -- 管理员更新停车场信息 --
         UPDATE parking
         <set>
-            prk_update_date = now(),
+            parking_update_date = now(),
             <if test="name != null and name != ''">
-                prk_name = #{name},
+                parking_name = #{name},
             </if>
             <if test="content != null and content != ''">
-                prk_content = #{content},
+                parking_content = #{content},
             </if>
-            <if test="status != null">
-                prk_status = #{status},
+            <if test="status != null and status != ''">
+                parking_status = #{status},
             </if>
             <if test="longitude != null and longitude != ''">
-                prk_longitude = #{longitude},
+                parking_longitude = #{longitude},
             </if>
             <if test="latitude != null and latitude != ''">
-                prk_latitude = #{latitude},
+                parking_latitude = #{latitude},
             </if>
-            <if test="capacity != null">
-                prk_capacity = #{capacity},
+            <if test="capacity != null and capacity != ''">
+                parking_capacity = #{capacity},
             </if>
         </set>
-        WHERE prk_id = #{id}
+        WHERE parking_id = #{id}
     </update>
 
 </mapper>

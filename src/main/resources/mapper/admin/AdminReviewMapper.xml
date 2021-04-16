@@ -3,46 +3,49 @@
 <mapper namespace="com.someexp.modules.admin.mapper.AdminReviewMapper">
 
     <resultMap id="REVIEW_ENTITY" type="com.someexp.modules.admin.domain.entity.Review">
-        <id column="rew_id" property="id"/>
-        <result column="rew_pid" property="pid"/>
-        <result column="rew_uid" property="uid"/>
-        <result column="rew_score" property="score"/>
-        <result column="rew_content" property="content"/>
-        <result column="rew_create_date" property="createDate"/>
+        <id column="review_id" property="id"/>
+        <result column="review_pid" property="pid"/>
+        <result column="review_uid" property="uid"/>
+        <result column="review_score" property="score"/>
+        <result column="review_content" property="content"/>
+        <result column="review_create_date" property="createDate"/>
     </resultMap>
 
     <select id="listByPage" resultMap="REVIEW_ENTITY">
+        -- 管理员分页列出用户评论 --
         SELECT *
-        FROM review FORCE INDEX (${indexName})
+        FROM review
         <where>
             <if test="uid != null">
-                AND rew_uid = #{uid}
+                AND review_uid = #{uid}
             </if>
             <if test="pid != null">
-                AND rew_pid = #{pid}
+                AND review_pid = #{pid}
             </if>
         </where>
-        ORDER BY rew_id DESC
+        ORDER BY review_id DESC
         LIMIT #{offset}, #{rowCount}
     </select>
 
     <select id="countByPage" resultType="int">
+        -- 管理员统计评论数 --
         SELECT COUNT(*)
-        FROM review FORCE INDEX (${indexName})
+        FROM review
         <where>
             <if test="uid != null">
-                AND rew_uid = #{uid}
+                AND review_uid = #{uid}
             </if>
             <if test="pid != null">
-                AND rew_pid = #{pid}
+                AND review_pid = #{pid}
             </if>
         </where>
     </select>
 
     <select id="get" resultMap="REVIEW_ENTITY">
+        -- 管理员获取评论 --
         SELECT *
         FROM review
-        WHERE rew_id = #{id}
+        WHERE review_id = #{id}
     </select>
 
 </mapper>

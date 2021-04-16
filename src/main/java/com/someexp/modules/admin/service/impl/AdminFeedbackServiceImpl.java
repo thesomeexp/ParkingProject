@@ -36,9 +36,7 @@ public class AdminFeedbackServiceImpl implements AdminFeedbackService {
         if (feedback == null) {
             throw new ParamsException(MsgUtils.get("feedback.not.exist"));
         }
-
         feedback.setStatus(feedbackDTO.getStatus());
-
         adminFeedbackMapper.update(feedback);
         return id;
     }

@@ -6,12 +6,13 @@ import com.someexp.common.validator.ValidatorUtils;
 import com.someexp.common.validator.group.QueryGroup;
 import com.someexp.modules.admin.domain.query.ReviewQuery;
 import com.someexp.modules.admin.service.AdminReviewService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * @Author someexp
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AdminReviewController {
 
-    @Autowired
+    @Resource
     private AdminReviewService adminReviewService;
 
     @GetMapping("/admin/review")

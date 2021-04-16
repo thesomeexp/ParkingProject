@@ -12,6 +12,6 @@ public interface AdminFeedbackService {
 
     PageResultDTO<?> list(FeedbackQuery feedbackQuery);
 
-
     Long update(Long id, FeedbackDTO feedbackDTO);
+
 }

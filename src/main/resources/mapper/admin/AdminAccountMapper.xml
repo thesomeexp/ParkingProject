@@ -3,65 +3,74 @@
 <mapper namespace="com.someexp.modules.admin.mapper.AdminAccountMapper">
 
     <resultMap id="ADMIN_ENTITY" type="com.someexp.modules.admin.domain.entity.Admin">
-        <id column="adm_id" property="id"/>
-        <result column="adm_parent" property="parent"/>
-        <result column="adm_name" property="name"/>
-        <result column="adm_password" property="password"/>
-        <result column="adm_phone" property="phone"/>
-        <result column="adm_status" property="status"/>
+        <id column="admin_id" property="id"/>
+        <result column="admin_parent" property="parent"/>
+        <result column="admin_name" property="name"/>
+        <result column="admin_password" property="password"/>
+        <result column="admin_phone" property="phone"/>
+        <result column="admin_status" property="status"/>
     </resultMap>
 
     <resultMap id="ADMIN_VO" type="com.someexp.modules.admin.domain.vo.AdminVO">
-        <id column="adm_id" property="id"/>
-        <result column="adm_parent" property="parent"/>
-        <result column="adm_name" property="name"/>
-        <result column="adm_phone" property="phone"/>
-        <result column="adm_status" property="status"/>
+        <id column="admin_id" property="id"/>
+        <result column="admin_parent" property="parent"/>
+        <result column="admin_name" property="name"/>
+        <result column="admin_phone" property="phone"/>
+        <result column="admin_status" property="status"/>
     </resultMap>
 
+    <select id="checkByPhone" resultType="java.lang.Boolean">
+        -- 管理员检查管理员是否存在 --
+        SELECT EXISTS(
+                       SELECT 1
+                       FROM admin
+                       WHERE admin_phone = #{phone}
+                   ) AS result;
+    </select>
+
     <insert id="save" parameterType="com.someexp.modules.admin.domain.entity.Admin" useGeneratedKeys="true"
-            keyProperty="id" keyColumn="adm_id">
-        INSERT INTO admin (adm_parent, adm_name, adm_password, adm_phone, adm_status)
+            keyProperty="id" keyColumn="admin_id">
+        -- 管理员新增管理员 --
+        INSERT INTO admin (admin_parent, admin_name, admin_password, admin_phone, admin_status)
         VALUES (#{parent}, #{name}, #{password}, #{phone}, 1);
     </insert>
 
-    <select id="getByPhone" resultMap="ADMIN_ENTITY">
-        SELECT *
-        FROM admin
-        WHERE adm_phone = #{phone}
-    </select>
-
-    <select id="get" resultMap="ADMIN_ENTITY">
-        SELECT *
-        FROM admin
-        WHERE adm_id = #{id}
-    </select>
-
     <select id="listByPage" resultMap="ADMIN_VO">
+        -- 管理员分页列出管理员信息 --
         SELECT *
         FROM admin
         LIMIT #{offset}, #{rowCount}
     </select>
 
     <select id="countByPage" resultType="int">
+        -- 管理员统计管理员数量 --
         SELECT COUNT(*)
         FROM admin
     </select>
 
+    <select id="get" resultMap="ADMIN_ENTITY">
+        -- 管理员获取管理员 --
+        SELECT *
+        FROM admin
+        WHERE admin_id = #{id}
+    </select>
+
     <update id="update" parameterType="com.someexp.modules.admin.domain.entity.Admin">
+        -- 管理员更新管理员信息 --
         UPDATE admin
         <set>
             <if test="status != null">
-                adm_status = #{status}
+                admin_status = #{status}
             </if>
         </set>
-        WHERE adm_id = #{id}
+        WHERE admin_id = #{id}
     </update>
 
     <select id="listByParent" resultMap="ADMIN_ENTITY">
+        -- 管理员根据父类 id 列出子类管理员 --
         SELECT *
         FROM admin
-        WHERE adm_parent = #{parentId}
+        WHERE admin_parent = #{parentId}
     </select>
 
 </mapper>

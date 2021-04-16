@@ -8,10 +8,11 @@ import com.someexp.common.validator.group.UpdateGroup;
 import com.someexp.modules.admin.domain.dto.ParkingUpdateDTO;
 import com.someexp.modules.admin.domain.query.ParkingQuery;
 import com.someexp.modules.admin.service.AdminParkingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * @author someexp
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AdminParkingController {
 
-    @Autowired
+    @Resource
     private AdminParkingService adminParkingService;
 
     @GetMapping("/admin/parking")

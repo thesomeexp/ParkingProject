@@ -34,8 +34,7 @@ public class AdminAccountServiceImpl implements AdminAccountService {
 
     @Override
     public Long add(AdminDTO adminDTO) {
-        Admin admin = adminAccountMapper.getByPhone(adminDTO.getPhone());
-        if (admin != null) {
+        if (adminAccountMapper.checkByPhone(adminDTO.getPhone())) {
             throw new BusinessException(MsgUtils.get("admin.account.exist"));
         }
         Admin newAdmin = new Admin();
@@ -44,6 +43,13 @@ public class AdminAccountServiceImpl implements AdminAccountService {
         newAdmin.setPassword(PasswordEncoderUtils.encode(adminDTO.getPassword()));
         adminAccountMapper.save(newAdmin);
         return newAdmin.getId();
+    }
+
+    @Override
+    public PageResultDTO<?> list(PageParamQuery pageParamQuery) {
+        return new AdminPageResultDTO<>(pageParamQuery,
+                adminAccountMapper.listByPage(pageParamQuery),
+                adminAccountMapper.countByPage(pageParamQuery));
     }
 
     @Override
@@ -58,19 +64,11 @@ public class AdminAccountServiceImpl implements AdminAccountService {
                 curr = adminAccountMapper.get(curr.getParent());
             } catch (Exception e) {
                 log.error("获取管理员父类异常", e);
-                curr = null;
                 throw new BusinessException("获取管理员父类异常");
             }
         }
         Collections.reverse(result);
         return result;
-    }
-
-    @Override
-    public PageResultDTO<?> list(PageParamQuery pageParamQuery) {
-        return new AdminPageResultDTO<>(pageParamQuery,
-                adminAccountMapper.listByPage(pageParamQuery),
-                adminAccountMapper.countByPage(pageParamQuery));
     }
 
     @Override

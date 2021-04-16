@@ -27,15 +27,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String login(AdminDTO adminDTO) {
-        Admin admin = adminMapper.findByPhone(adminDTO.getPhone());
+        Admin admin = adminMapper.getByPhone(adminDTO.getPhone());
         if (admin == null) {
             throw new BusinessException(MsgUtils.get("admin.not.found"));
         }
-
         if (!PasswordEncoderUtils.matches(adminDTO.getPassword(), admin.getPassword())) {
             throw new BusinessException(MsgUtils.get("admin.password.dont.match"));
         }
-
         if (admin.getStatus() != 1) {
             throw new BusinessException(MsgUtils.get("admin.account.exception"));
         }

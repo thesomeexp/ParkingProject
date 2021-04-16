@@ -12,8 +12,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class ReviewQuery extends PageParamQuery {
 
-    private String indexName;
-
     private Long uid;
 
     private Long pid;

@@ -10,6 +10,7 @@ import java.util.List;
  * @Date 2021/4/1
  */
 public interface AdminFeedbackMapper {
+
     List<Feedback> listByPage(FeedbackQuery feedbackQuery);
 
     int countByPage(FeedbackQuery feedbackQuery);
@@ -17,4 +18,5 @@ public interface AdminFeedbackMapper {
     Feedback get(Long id);
 
     void update(Feedback feedback);
+
 }

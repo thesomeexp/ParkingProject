@@ -42,7 +42,7 @@ public class AdminParkingServiceImpl implements AdminParkingService {
     }
 
     @Override
-    public String update(Long id, ParkingUpdateDTO parkingUpdateDTO) {
+    public Long update(Long id, ParkingUpdateDTO parkingUpdateDTO) {
         Location location = LocationUtils.parseLocation(parkingUpdateDTO.getLocation());
 
         Parking parking = adminParkingMapper.get(id);
@@ -58,6 +58,6 @@ public class AdminParkingServiceImpl implements AdminParkingService {
         parking.setCapacity(parkingUpdateDTO.getCapacity());
 
         adminParkingMapper.update(parking);
-        return parking.getName();
+        return id;
     }
 }

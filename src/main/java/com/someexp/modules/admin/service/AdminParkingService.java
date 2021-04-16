@@ -10,9 +10,11 @@ import com.someexp.modules.admin.domain.query.ParkingQuery;
  * @date 2020/12/7
  */
 public interface AdminParkingService {
+
     PageResultDTO<?> list(ParkingQuery parkingQuery);
 
     Parking get(Long id);
 
-    String update(Long id, ParkingUpdateDTO parkingUpdateDTO);
+    Long update(Long id, ParkingUpdateDTO parkingUpdateDTO);
+
 }

@@ -9,10 +9,11 @@ import com.someexp.common.validator.group.Ban;
 import com.someexp.common.validator.group.QueryGroup;
 import com.someexp.modules.admin.domain.dto.AdminDTO;
 import com.someexp.modules.admin.service.AdminAccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * 管理员管理管理员相关
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AdminAccountController {
 
-    @Autowired
+    @Resource
     private AdminAccountService adminAccountService;
 
     /**
@@ -76,4 +77,5 @@ public class AdminAccountController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Result.success(adminAccountService.ban(adminDTO), MsgUtils.get("success")));
     }
+
 }
