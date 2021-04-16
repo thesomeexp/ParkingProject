@@ -18,6 +18,8 @@ public interface ParkingMapper {
 
     List<Parking> list(String[] hashes);
 
+    Parking getEntityById(@Param("id") Long id);
+
     Parking getEntityByIdAndStatus(@Param("id") Long id, @Param("status") Integer status);
 
     List<ParkingVO> pageVOByUid(@Param("uid") Long uid, @Param("offset") Integer offset, @Param("rowCount") Integer rowCount);

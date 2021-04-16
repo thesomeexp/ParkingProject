@@ -108,4 +108,20 @@
                    ) AS result;
     </select>
 
+    <select id="getByStatus10Min" resultMap="TEMP_ENTITY">
+        -- 获取一条状态信息 --
+        SELECT *
+        FROM temp
+        WHERE temp_status = #{status}
+          AND temp_update_date &lt; date_sub(now(), INTERVAL '0 00:10:00' DAY_SECOND)
+        LIMIT 1
+    </select>
+
+    <update id="updateStatus">
+        -- 更新状态信息 --
+        UPDATE temp
+        SET temp_status = #{status}
+        WHERE temp_id = #{id}
+    </update>
+
 </mapper>

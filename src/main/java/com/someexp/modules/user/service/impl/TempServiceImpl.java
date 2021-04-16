@@ -15,6 +15,7 @@ import com.someexp.modules.user.mapper.TempMapper;
 import com.someexp.modules.user.service.ParkingService;
 import com.someexp.modules.user.service.TempService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -34,7 +35,7 @@ public class TempServiceImpl implements TempService {
     private ParkingService parkingService;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Long add(TempDTO tempDTO) {
         Parking parking = parkingService.getEntity(tempDTO.getPid(), 1);
         if (parking == null) {
@@ -109,6 +110,21 @@ public class TempServiceImpl implements TempService {
     @Override
     public boolean checkTempExists(Long id, Integer status) {
         return tempMapper.checkByIdAndStatus(id, status);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void resetTempTask() {
+        Temp temp = tempMapper.getByStatus10Min(0);
+        if (temp == null) {
+            return;
+        }
+        Parking parking = parkingService.getEntity(temp.getPid());
+        if (parking == null) {
+            return;
+        }
+        parkingService.updateFree(parking.getId(), Math.max(parking.getFree() - temp.getState(), 0));
+        tempMapper.updateStatus(temp.getId(), 1);
     }
 
 }

@@ -33,7 +33,7 @@ public class ParkingJwtFilter extends AccessControlFilter {
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-        // OPTIONS 预请求不带token
+        // 跨域配置, OPTIONS 预请求不带token
         if (StringUtils.equals(((HttpServletRequest) request).getMethod(), RequestMethod.OPTIONS.name())) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             HttpServletResponse httpResponse = (HttpServletResponse) response;

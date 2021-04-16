@@ -119,6 +119,11 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
+    public Parking getEntity(Long id) {
+        return parkingMapper.getEntityById(id);
+    }
+
+    @Override
     public Parking getEntity(Long id, Integer status) {
         return parkingMapper.getEntityByIdAndStatus(id, status);
     }
@@ -159,6 +164,11 @@ public class ParkingServiceImpl implements ParkingService {
     @Override
     public boolean checkParkingExists(Long id) {
         return parkingMapper.checkByIdAndStatus(id, 1);
+    }
+
+    @Override
+    public void updateFree(Long id, Integer free) {
+        parkingMapper.updateFree(id, free);
     }
 
 }

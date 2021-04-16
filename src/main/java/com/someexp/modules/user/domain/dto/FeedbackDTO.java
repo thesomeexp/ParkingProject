@@ -18,7 +18,7 @@ public class FeedbackDTO {
     private Long pid;
 
     @NotBlank(message = "feedback.content.cant.be.null", groups = AddGroup.class)
-    @Length(min = 1, max = 100, message = "feedback.content.out.of.length", groups = AddGroup.class)
+    @Length(min = 1, max = 255, message = "feedback.content.out.of.length", groups = AddGroup.class)
     private String content;
 
     @NotBlank(message = "feedback.contact.cant.be.null", groups = AddGroup.class)

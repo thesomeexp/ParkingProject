@@ -49,7 +49,9 @@ public interface ParkingService {
     Integer reduceFree(Long id);
 
     // (以下的供其它服务调用)
-    
+
+    Parking getEntity(Long id);
+
     /**
      * 查询实体
      *
@@ -73,5 +75,7 @@ public interface ParkingService {
      * @return
      */
     boolean checkParkingExists(Long id);
+
+    void updateFree(Long id, Integer free);
 
 }

@@ -53,4 +53,6 @@ public interface TempService {
 
     boolean checkTempExists(Long id, Integer status);
 
+    void resetTempTask();
+    
 }

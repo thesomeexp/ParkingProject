@@ -2,10 +2,7 @@ package com.someexp.config.shiro;
 
 import com.someexp.common.utils.JwtUtils;
 import com.someexp.common.utils.MsgUtils;
-import com.someexp.modules.admin.domain.entity.Admin;
 import com.someexp.modules.sys.domain.entity.ShiroUser;
-import com.someexp.modules.sys.mapper.ShiroMapper;
-import com.someexp.modules.user.domain.entity.User;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -15,11 +12,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * @author someexp
@@ -27,11 +20,6 @@ import javax.annotation.Resource;
  */
 @Component
 public class ProjectRealm extends AuthorizingRealm {
-
-    private static transient final Logger log = LoggerFactory.getLogger(ProjectRealm.class);
-
-    @Resource
-    private ShiroMapper shiroMapper;
 
     @Override
     public boolean supports(AuthenticationToken token) {
@@ -46,13 +34,7 @@ public class ProjectRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-//        ShiroUser shiroUser = ShiroUtils.getShiroUser();
-//        Set<String> permsSet = new HashSet<>();
-//        // 用角色做权限, 懒得区分了, 这个role在登陆时设定了
-//        permsSet.add(shiroUser.getRole());
-
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-//        info.setStringPermissions(permsSet);
         return info;
     }
 
@@ -90,31 +72,6 @@ public class ProjectRealm extends AuthorizingRealm {
         shiroUser.setRole(role);
 
         return new SimpleAuthenticationInfo(shiroUser, userId, getName());
-    }
-
-    private User getUser(Long userId) {
-        User user = shiroMapper.getUserById(userId);
-        if (user == null) {
-            throw new AuthenticationException(MsgUtils.get("user.information.expired"));
-        }
-
-        // 锁定的状态为2
-        if (user.getStatus() == 2) {
-            throw new AuthenticationException(MsgUtils.get("user.account.locked"));
-        }
-        return user;
-    }
-
-    private Admin getAdmin(Long userId) {
-        Admin admin = shiroMapper.getAdminById(userId);
-        if (admin == null) {
-            throw new AuthenticationException(MsgUtils.get("user.information.expired"));
-        }
-
-        if (admin.getStatus() == 2) {
-            throw new AuthenticationException(MsgUtils.get("user.account.locked"));
-        }
-        return admin;
     }
 
     /**

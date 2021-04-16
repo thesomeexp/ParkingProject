@@ -30,4 +30,8 @@ public interface TempMapper {
 
     boolean checkByIdAndStatus(Long id, Integer status);
 
+    Temp getByStatus10Min(Integer status);
+
+    void updateStatus(Long id, Integer status);
+
 }

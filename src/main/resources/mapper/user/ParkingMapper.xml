@@ -109,6 +109,13 @@
         </foreach>
     </select>
 
+    <select id="getEntityById" resultMap="PARKING_ENTITY">
+        -- 获取停车场信息 --
+        SELECT *
+        FROM parking
+        WHERE parking_id = #{id}
+    </select>
+
     <select id="getEntityByIdAndStatus" resultMap="PARKING_ENTITY">
         -- 获取停车场信息 --
         SELECT *
