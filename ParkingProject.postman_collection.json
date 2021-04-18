@@ -1,0 +1,1158 @@
+{
+	"info": {
+		"_postman_id": "cd8267ef-bbc3-4dad-aaf8-b50f75615023",
+		"name": "ParkingProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/user/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"2223\",\r\n    \"areaCode\":\"86\",\r\n    \"phone\": \"2223\", \r\n    \"password\": \"2223\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/user/register",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/user/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"areaCode\":\"86\",\r\n    \"phone\": \"1\", \r\n    \"password\": \"111\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/user/login",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/user/profile",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/user/profile",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"user",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/parking",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "总体测试",
+							"type": "text"
+						},
+						{
+							"key": "location",
+							"value": "110.354936,21.271941",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/ChihJung/Pictures/2021-02-21_21-27-37.png"
+						},
+						{
+							"key": "content",
+							"value": "总体测试111",
+							"type": "text"
+						},
+						{
+							"key": "capacity",
+							"value": "21",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{local8080}}/parking",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"parking"
+					],
+					"query": [
+						{
+							"key": "location",
+							"value": "110.348673,21.271319",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/parking",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/parking?location=110.348673,21.271319",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"parking"
+					],
+					"query": [
+						{
+							"key": "location",
+							"value": "110.348673,21.271319"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/parking/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/parking/32",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"parking",
+						"32"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/parking/my",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/parking/my?pageNum=2&pageSize=5",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"parking",
+						"my"
+					],
+					"query": [
+						{
+							"key": "pageNum",
+							"value": "2"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/parking/reduceFree/{id}",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{local8080}}/parking/reduceFree/36",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"parking",
+						"reduceFree",
+						"36"
+					],
+					"query": [
+						{
+							"key": "location",
+							"value": "110.348673,21.271319",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/temp",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pid\": \"120074\",\r\n    \"state\": \"1\",\r\n    \"content\": \"总体测试\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/temp",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"temp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/temp",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/temp?pid=32",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"temp"
+					],
+					"query": [
+						{
+							"key": "pid",
+							"value": "32"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/temp/my",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/temp/my?pageNum=1&pageSize=5",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"temp",
+						"my"
+					],
+					"query": [
+						{
+							"key": "pageNum",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/temp/interval",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/temp/interval?pid=32",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"temp",
+						"interval"
+					],
+					"query": [
+						{
+							"key": "pid",
+							"value": "32"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/voting",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tid\": 43, \r\n    \"useful\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/voting",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"voting"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/review",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pid\": 120074, \r\n    \"score\": 5,\r\n    \"content\": \"不错\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/review",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/review",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/review?pageNum=1&pageSize=5&pid=32",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"review"
+					],
+					"query": [
+						{
+							"key": "pageNum",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						},
+						{
+							"key": "pid",
+							"value": "32"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/review/my",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/review/my?pageNum=1&pageSize=5",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"review",
+						"my"
+					],
+					"query": [
+						{
+							"key": "pageNum",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/feedback",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pid\": 120074, \r\n    \"content\": \"我要反馈2\",\r\n    \"contact\": \"17450856@qq.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/feedback",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"feedback"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/feedback/my",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/feedback/my?pageNum=1&pageSize=5",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"feedback",
+						"my"
+					],
+					"query": [
+						{
+							"key": "pageNum",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"phone\": 1,\r\n    \"password\": \"111\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/admin/login",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/home",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/admin/home",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"home"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/admin/user?pageNum=1&pageSize=5&status=0",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"user"
+					],
+					"query": [
+						{
+							"key": "pageNum",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						},
+						{
+							"key": "status",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/user/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/admin/user/19",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"user",
+						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/user/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"111\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/admin/user/8",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"user",
+						"8"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "综B地下停车场3",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/parking",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/admin/parking?pageNum=1&pageSize=10&name=&status=1",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"parking"
+					],
+					"query": [
+						{
+							"key": "pageNum",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "name",
+							"value": ""
+						},
+						{
+							"key": "status",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/parking/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/admin/parking/120074",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"parking",
+						"120074"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/parking/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"总体测试22222\",\r\n    \"content\": \"总体测试的飞洒范德萨分的发生\",\r\n    \"location\": \"110.354936,21.271941\",\r\n    \"status\": 0,\r\n    \"capacity\":21\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/admin/parking/120074",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"parking",
+						"120074"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "综B地下停车场3",
+							"disabled": true
+						},
+						{
+							"key": "content",
+							"value": "多路分解爱上了附件里是空军副司令大姐夫房间都是垃圾焚烧炉啊的撒开了房间收到两份简历上的",
+							"disabled": true
+						},
+						{
+							"key": "location",
+							"value": "110.347665,21.269604",
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": "0",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/review",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/admin/review?uid=8&pageNum=1&pageSize=5",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"review"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "8"
+						},
+						{
+							"key": "pid",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "pageNum",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/review/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/admin/review/100038",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"review",
+						"100038"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/feedback",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/admin/feedback?pageNum=1&pageSize=5&status=1",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"feedback"
+					],
+					"query": [
+						{
+							"key": "pageNum",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						},
+						{
+							"key": "status",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/feedback/{id}",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/admin/feedback/10",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"feedback",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"最终测试而已\",\r\n    \"phone\": \"67676767\",\r\n    \"password\": \"67676767\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/admin/account",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/account",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/admin/account?pageNum=1&pageSize=5",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"account"
+					],
+					"query": [
+						{
+							"key": "pageNum",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/account/parent/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local8080}}/admin/account/parent/4",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"account",
+						"parent",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/account/ban",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ppjwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2,\r\n    \"isRelated\": true,\r\n    \"status\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local8080}}/admin/account/ban",
+					"host": [
+						"{{local8080}}"
+					],
+					"path": [
+						"admin",
+						"account",
+						"ban"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
