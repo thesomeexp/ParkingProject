@@ -10,8 +10,6 @@ import com.someexp.common.validator.group.QueryGroup;
 import com.someexp.modules.user.domain.dto.ParkingDTO;
 import com.someexp.modules.user.domain.query.ParkingQuery;
 import com.someexp.modules.user.service.ParkingService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +28,7 @@ public class ParkingController {
     private ParkingService parkingService;
 
     @PostMapping("/parking")
-    public ResponseEntity<?> add(ParkingDTO parkingDTO) {
+    public Result add(ParkingDTO parkingDTO) {
         ValidatorUtils.validateEntity(parkingDTO, AddGroup.class);
         if (parkingDTO.getImage() == null || parkingDTO.getImage().isEmpty()) {
             throw new ParamsException(MsgUtils.get("parking.image.cant.be.null"));
@@ -40,34 +38,29 @@ public class ParkingController {
         if (filename == null || (!filename.endsWith(".png") && !filename.endsWith(".jpg"))) {
             throw new ParamsException(MsgUtils.get("parking.image.not.a.image"));
         }
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(parkingService.add(parkingDTO), MsgUtils.get("parking.successful.application")));
+        return Result.success(parkingService.add(parkingDTO), MsgUtils.get("parking.successful.application"));
     }
 
     @GetMapping("/parking")
-    public ResponseEntity<?> list(ParkingQuery parkingQuery) {
+    public Result list(ParkingQuery parkingQuery) {
         ValidatorUtils.validateEntity(parkingQuery, QueryGroup.class);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(parkingService.list(parkingQuery), MsgUtils.get("success")));
+        return Result.success(parkingService.list(parkingQuery));
     }
 
     @GetMapping("/parking/{id}")
-    public ResponseEntity<?> get(@PathVariable("id") Long id) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(parkingService.get(id), MsgUtils.get("success")));
+    public Result get(@PathVariable("id") Long id) {
+        return Result.success(parkingService.get(id));
     }
 
     @GetMapping("/parking/my")
-    public ResponseEntity<?> listMyParking(PageParamQuery pageParamQuery) {
+    public Result listMyParking(PageParamQuery pageParamQuery) {
         ValidatorUtils.validateEntity(pageParamQuery, QueryGroup.class);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(parkingService.listMyParking(pageParamQuery), MsgUtils.get("success")));
+        return Result.success(parkingService.listMyParking(pageParamQuery));
     }
 
     @PostMapping("/parking/reduceFree/{id}")
-    public ResponseEntity<?> reduceFree(@PathVariable("id") Long id) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(parkingService.reduceFree(id), MsgUtils.get("success")));
+    public Result reduceFree(@PathVariable("id") Long id) {
+        return Result.success(parkingService.reduceFree(id));
     }
 
 }

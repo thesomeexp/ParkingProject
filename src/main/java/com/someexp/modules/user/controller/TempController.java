@@ -9,8 +9,6 @@ import com.someexp.common.validator.group.QueryGroup;
 import com.someexp.modules.user.domain.dto.TempDTO;
 import com.someexp.modules.user.domain.query.TempQuery;
 import com.someexp.modules.user.service.TempService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,10 +33,9 @@ public class TempController {
      * @return
      */
     @PostMapping("/temp")
-    public ResponseEntity<?> add(@RequestBody TempDTO tempDTO) throws NoSuchFieldException, IllegalAccessException {
+    public Result add(@RequestBody TempDTO tempDTO) throws NoSuchFieldException, IllegalAccessException {
         ValidatorUtils.validateEntity(tempDTO, AddGroup.class);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(tempService.add(tempDTO), MsgUtils.get("temp.successful.added")));
+        return Result.success(tempService.add(tempDTO), MsgUtils.get("temp.successful.added"));
     }
 
     /**
@@ -48,10 +45,9 @@ public class TempController {
      * @return
      */
     @GetMapping("/temp")
-    public ResponseEntity<?> list(TempQuery tempQuery) {
+    public Result list(TempQuery tempQuery) {
         ValidatorUtils.validateEntity(tempQuery, QueryGroup.class);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(tempService.list(tempQuery.getPid()), MsgUtils.get("success")));
+        return Result.success(tempService.list(tempQuery.getPid()));
     }
 
     /**
@@ -61,17 +57,15 @@ public class TempController {
      * @return
      */
     @GetMapping("/temp/interval")
-    public ResponseEntity<?> tempInterval(TempQuery tempQuery) {
+    public Result tempInterval(TempQuery tempQuery) {
         ValidatorUtils.validateEntity(tempQuery, QueryGroup.class);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(tempService.interval(tempQuery.getPid()), MsgUtils.get("success")));
+        return Result.success(tempService.interval(tempQuery.getPid()));
     }
 
     @GetMapping("/temp/my")
-    public ResponseEntity<?> listMyTemp(PageParamQuery pageParamQuery) {
+    public Result listMyTemp(PageParamQuery pageParamQuery) {
         ValidatorUtils.validateEntity(pageParamQuery, QueryGroup.class);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(tempService.listMyTemp(pageParamQuery), MsgUtils.get("success")));
+        return Result.success(tempService.listMyTemp(pageParamQuery));
     }
 
 }

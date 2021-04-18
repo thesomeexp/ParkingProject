@@ -2,15 +2,12 @@ package com.someexp.modules.user.controller;
 
 import com.someexp.common.domain.PageParamQuery;
 import com.someexp.common.domain.Result;
-import com.someexp.common.utils.MsgUtils;
 import com.someexp.common.validator.ValidatorUtils;
 import com.someexp.common.validator.group.AddGroup;
 import com.someexp.common.validator.group.QueryGroup;
 import com.someexp.modules.user.domain.dto.ReviewDTO;
 import com.someexp.modules.user.domain.query.ReviewQuery;
 import com.someexp.modules.user.service.ReviewService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,24 +26,21 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @PostMapping("/review")
-    public ResponseEntity<?> add(@RequestBody ReviewDTO reviewDTO) {
+    public Result add(@RequestBody ReviewDTO reviewDTO) {
         ValidatorUtils.validateEntity(reviewDTO, AddGroup.class);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(reviewService.add(reviewDTO), MsgUtils.get("success")));
+        return Result.success(reviewService.add(reviewDTO));
     }
 
     @GetMapping("/review")
-    public ResponseEntity<?> list(ReviewQuery reviewQuery) {
+    public Result list(ReviewQuery reviewQuery) {
         ValidatorUtils.validateEntity(reviewQuery, QueryGroup.class);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(reviewService.list(reviewQuery), MsgUtils.get("success")));
+        return Result.success(reviewService.list(reviewQuery));
     }
 
     @GetMapping("/review/my")
-    public ResponseEntity<?> listMyReview(PageParamQuery pageParamQuery) {
+    public Result listMyReview(PageParamQuery pageParamQuery) {
         ValidatorUtils.validateEntity(pageParamQuery, QueryGroup.class);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(reviewService.listMyReview(pageParamQuery), MsgUtils.get("success")));
+        return Result.success(reviewService.listMyReview(pageParamQuery));
     }
 
 }

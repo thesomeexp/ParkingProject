@@ -8,8 +8,6 @@ import com.someexp.common.validator.group.AddGroup;
 import com.someexp.common.validator.group.QueryGroup;
 import com.someexp.modules.user.domain.dto.FeedbackDTO;
 import com.someexp.modules.user.service.FeedbackService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,17 +22,15 @@ public class FeedbackController {
     private FeedbackService feedbackService;
 
     @PostMapping("/feedback")
-    public ResponseEntity<?> add(@RequestBody FeedbackDTO feedbackDTO) {
+    public Result add(@RequestBody FeedbackDTO feedbackDTO) {
         ValidatorUtils.validateEntity(feedbackDTO, AddGroup.class);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(feedbackService.add(feedbackDTO), MsgUtils.get("feedback.success")));
+        return Result.success(feedbackService.add(feedbackDTO), MsgUtils.get("feedback.success"));
     }
 
     @GetMapping("/feedback/my")
-    public ResponseEntity<?> listMyReview(PageParamQuery pageParamQuery) {
+    public Result listMyReview(PageParamQuery pageParamQuery) {
         ValidatorUtils.validateEntity(pageParamQuery, QueryGroup.class);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Result.success(feedbackService.listMyFeedback(pageParamQuery), MsgUtils.get("success")));
+        return Result.success(feedbackService.listMyFeedback(pageParamQuery));
     }
 
 }
