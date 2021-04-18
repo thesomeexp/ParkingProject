@@ -60,4 +60,5 @@ public class AdminParkingServiceImpl implements AdminParkingService {
         adminParkingMapper.update(parking);
         return id;
     }
+
 }

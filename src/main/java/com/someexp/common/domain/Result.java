@@ -1,6 +1,7 @@
 package com.someexp.common.domain;
 
 import com.someexp.common.enums.ErrorCode;
+import com.someexp.common.utils.MsgUtils;
 import lombok.Data;
 
 /**
@@ -31,6 +32,10 @@ public class Result {
         this.code = code.value();
         this.msg = msg;
         this.data = data;
+    }
+
+    public static Result success(Object data) {
+        return new Result(ErrorCode.SUCCESS, MsgUtils.get("success"), data);
     }
 
     public static Result success(Object data, String msg) {

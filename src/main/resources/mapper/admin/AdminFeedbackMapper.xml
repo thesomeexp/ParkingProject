@@ -13,6 +13,7 @@
     </resultMap>
 
     <select id="listByPage" resultMap="FEEDBACK_ENTITY">
+        -- 管理员分页列出反馈 --
         SELECT *
         FROM feedback
         WHERE feedback_status = #{status}
@@ -21,18 +22,21 @@
     </select>
 
     <select id="countByPage" resultType="int">
+        -- 管理员分页统计反馈总数 --
         SELECT COUNT(*)
         FROM feedback
         WHERE feedback_status = #{status}
     </select>
 
     <select id="get" resultMap="FEEDBACK_ENTITY">
+        -- 管理员获取反馈信息 --
         SELECT *
         FROM feedback
         WHERE feedback_id = #{id}
     </select>
 
     <update id="update" parameterType="com.someexp.modules.admin.domain.entity.Feedback">
+        -- 管理员更新反馈信息 --
         UPDATE feedback
         <set>
             <if test="status != null">

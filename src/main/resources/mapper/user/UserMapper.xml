@@ -26,7 +26,7 @@
         -- 新增用户 --
         INSERT INTO user
             (user_name, user_password, user_area_code, user_phone, user_status)
-        VALUES (#{name}, #{password}, #{areaCode}, #{phone}, 1);
+        VALUES (#{name}, #{password}, #{areaCode}, #{phone}, 0);
     </insert>
 
     <select id="getEntityByPhone" resultMap="USER_ENTITY">

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.someexp.modules.admin.mapper.AdminUserMapper">
+
+    <resultMap id="USER_ENTITY" type="com.someexp.modules.admin.domain.entity.User">
+        <id column="user_id" property="id"/>
+        <result column="user_name" property="name"/>
+        <result column="user_password" property="password"/>
+        <result column="user_area_code" property="areaCode"/>
+        <result column="user_phone" property="phone"/>
+        <result column="user_status" property="status"/>
+    </resultMap>
+
+    <resultMap id="USER_VO" type="com.someexp.modules.admin.domain.vo.UserVO">
+        <id column="user_id" property="id"/>
+        <result column="user_name" property="name"/>
+        <result column="user_area_code" property="areaCode"/>
+        <result column="user_phone" property="phone"/>
+        <result column="user_status" property="status"/>
+    </resultMap>
+
+    <select id="listByPage" resultMap="USER_VO">
+        -- 管理员分页列出用户 --
+        SELECT *
+        FROM user
+        WHERE user_status = #{status}
+        ORDER BY user_id
+        LIMIT #{offset}, #{rowCount}
+    </select>
+
+    <select id="countByPage" resultType="int">
+        -- 管理员分页统计用户总数 --
+        SELECT COUNT(*)
+        FROM user
+        WHERE user_status = #{status}
+    </select>
+
+    <select id="getVO" resultMap="USER_VO">
+        -- 管理员获取停车场VO信息 --
+        SELECT *
+        FROM user
+        WHERE user_id = #{id}
+    </select>
+
+    <select id="get" resultMap="USER_ENTITY">
+        -- 管理员获取停车场信息 --
+        SELECT *
+        FROM user
+        WHERE user_id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.someexp.modules.admin.domain.entity.User">
+        -- 管理员更新用户信息 --
+        UPDATE user
+        <set>
+            <if test="name != null and name != ''">
+                user_name = #{name},
+            </if>
+            <if test="status != null and status != ''">
+                user_status = #{status},
+            </if>
+        </set>
+        WHERE user_id = #{id}
+    </update>
+
+</mapper>
