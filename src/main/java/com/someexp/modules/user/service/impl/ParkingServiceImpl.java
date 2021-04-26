@@ -14,8 +14,7 @@ import com.someexp.modules.user.domain.vo.ParkingVO;
 import com.someexp.modules.user.mapper.ParkingMapper;
 import com.someexp.modules.user.service.ParkingService;
 import com.someexp.modules.user.service.TempService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +31,9 @@ import java.util.List;
  * @author someexp
  * @date 2020/12/3
  */
+@Slf4j
 @Service
 public class ParkingServiceImpl implements ParkingService {
-
-    private static final Logger log = LoggerFactory.getLogger(ParkingServiceImpl.class);
 
     @Resource
     private ParkingMapper parkingMapper;

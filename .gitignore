@@ -29,4 +29,4 @@ target/
 
 testdb.*
 
-ceb-ss-card-admin-server
+UI/*/node_modules

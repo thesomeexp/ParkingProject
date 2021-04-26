@@ -2,10 +2,9 @@ package com.someexp.config.shiro;
 
 import com.someexp.common.utils.JwtUtils;
 import com.someexp.common.utils.MsgUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -16,9 +15,8 @@ import javax.servlet.ServletResponse;
  * @author someexp
  * @date 2020/10/28
  */
+@Slf4j
 public class AdminFilter extends ParkingJwtFilter {
-
-    private static transient final Logger log = LoggerFactory.getLogger(AdminFilter.class);
 
     @Override
     protected boolean checkAuthzHeader(ServletRequest request, ServletResponse response) {

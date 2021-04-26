@@ -2,6 +2,8 @@ server:
   port: 8080
   servlet:
     context-path: /
+    session:
+      tracking-modes: # JWT 的项目就禁用 Cookie
 
 spring:
   datasource:

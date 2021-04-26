@@ -13,8 +13,7 @@ import com.someexp.modules.admin.domain.entity.Admin;
 import com.someexp.modules.admin.domain.vo.AdminVO;
 import com.someexp.modules.admin.mapper.AdminAccountMapper;
 import com.someexp.modules.admin.service.AdminAccountService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,13 +23,12 @@ import java.util.*;
  * @Author someexp
  * @Date 2021/4/1
  */
+@Slf4j
 @Service
 public class AdminAccountServiceImpl implements AdminAccountService {
 
     @Resource
     private AdminAccountMapper adminAccountMapper;
-
-    private static final Logger log = LoggerFactory.getLogger(AdminAccountServiceImpl.class);
 
     @Override
     public Long add(AdminDTO adminDTO) {

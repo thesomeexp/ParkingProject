@@ -5,12 +5,11 @@ import com.someexp.common.domain.Result;
 import com.someexp.common.exception.BusinessException;
 import com.someexp.common.utils.JwtUtils;
 import com.someexp.common.utils.MsgUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,13 +22,12 @@ import java.io.IOException;
 /**
  * 认证JWT是否合法, 是否过期
  */
+@Slf4j
 public class ParkingJwtFilter extends AccessControlFilter {
 
     protected static final String AUTHORIZATION_HEADER = "Authorization";
 
     protected static final String JWT_PREFIX = "Bearer";
-
-    private static final Logger log = LoggerFactory.getLogger(ParkingJwtFilter.class);
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
