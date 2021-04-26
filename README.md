@@ -145,9 +145,9 @@ admin: 管理员表
 
 #### 后端运行示例图
 
-![](picture/back-home.png)
+![管理员首页](picture/back-home.png)
 
-![](picture/back-list.png)
+![管理员列出停车位](picture/back-list.png)
 
 ## 3. 其它
 
